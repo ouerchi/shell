@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:26 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/18 16:20:34 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/19 21:37:05 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_her
 	char	*temp;
 	char	*check;
 	char	*rl_her;
+	char	*name;
 }	t_her;
 
 typedef struct s_dec
@@ -124,6 +125,12 @@ typedef struct s_q
 	int	double_q;
 }	t_q;
 
+typedef struct s_name
+{
+	int				name;
+	struct s_name	*next;
+}	t_name;
+
 typedef struct s_token
 {
 	t_token_type	type;
@@ -134,7 +141,6 @@ typedef struct s_token
 
 typedef struct s_files
 {
-	int				fd_her;
 	char			*name;
 	char			*type;
 	struct s_files	*next;
@@ -159,18 +165,12 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-typedef struct s_process
-{
-	int		saved_fd;
-	int		pipe[2];
-	int		cmd_idx;
-	char	*path;
-}	t_process;
-
 typedef struct s_config
 {
 	t_parse	*cmd;
 	t_env	*env_lst;
+	t_name	*her_name;
+	char	*exp;
 	int		flag_2;
 	char	**env;
 	bool	fail;
@@ -180,7 +180,6 @@ typedef struct s_config
 	int		cmd_idx;
 	char	*path;
 	int		amb;
-	int		fd_her;
 	int		std_in;
 	int		std_out;
 }	t_config;
@@ -196,7 +195,7 @@ void			ft_free_token_list(t_token *lst);
 int				count_words_before_pipe(t_token *token);
 char			*ft_strjoin_char(char *s1, char c);
 void			ft_lstadd_back_files(t_parse **lst, t_files *new);
-t_files			*ft_files_new(char *name, char *type, int fd_her);
+t_files			*ft_files_new(char *name, char *type);
 int				ft_strcmp(char *str1, char *str2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 t_token			*ft_token_new(t_token_type type, void *content, void *content_2);
@@ -223,7 +222,7 @@ int				validate_pipes(t_token *token, t_config *config);
 char			*ft_strchr(char *s, int c);
 char			*ft_strcpy(char *dest, char *src);
 char			*ft_substr(char *s, unsigned int start, size_t len);
-void			handle_redirection(t_token **check, t_parse **p, t_config *config);
+void			handle_redirection(t_token **check, t_parse **p);
 void			process_char(char *rl, int *i, t_token **lst, t_config *config);
 void			ft_putchar_fd(char c, int fd);
 void			ft_putstr_fd(char *s, int fd);
@@ -255,12 +254,13 @@ char			*merge_temp(char *buff, int *i, char *temp, t_q *quotes);
 char			**ft_split(char *s, char *delims);
 size_t			ft_strlcpy(char *dst, char *src, size_t dstsize);
 void			execute_cmd(t_config *config, t_parse *cmd);
-int				hna_her(t_config *config, t_token *token, int *flag);
+int				ft_herdoc(t_config *config, t_token *token, int *flag);
 int				handle_char(t_dec *dec, char *rl, int *i);
 int				execution(t_config *config);
 void			execute_cmd(t_config *config, t_parse *cmd);
 int				spawn_child_process(t_config *config, t_parse *cmd);
 int				run_builtins(t_config *config, t_parse *cmd);
+int				run_builtins_rest(t_config *config, t_parse *cmd);
 void			check_env(t_config *config);
 void			update_env_array(t_config *config);
 void			free_array(char **arr);
@@ -289,7 +289,6 @@ int				redir_in(t_parse *cmd, char *file_name);
 int				redir_out(t_parse *cmd, char *file_name);
 int				redir_append(t_parse *cmd, char *file_name);
 char			*array_join(char **str);
-int				run_builtins_rest(t_config *config, t_parse *cmd);
 void			parent(t_config *config);
 void			init_process(t_config *config);
 int				ft_cmd_nmbr(t_parse *cmd_lst);
@@ -308,7 +307,13 @@ int				is_path(char *str);
 char			*find_path_2(char *cmd_name);
 char			*find_path(char *cmd_name, char **env);
 int				ft_export(t_config *config, char **args);
-
-void			sig_int_handle(int sig);
+t_name			*ft_name_new(int name);
+void			ft_lstadd_back_name(t_name **config, t_name *new);
+int				has_q_in_doll(char *buff);
+char			*ft_gen_name_file(void);
+void			ft_print_list_3(t_name *name);
+void			ft_free_name_list(t_name *name);
+int				ft_herdoc_3(t_token *token, t_config *config, t_her *her, t_name **name);
+int				ft_check_exp(t_config *config);
 
 #endif

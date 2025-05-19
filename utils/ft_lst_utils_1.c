@@ -6,7 +6,7 @@
 /*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 01:18:57 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/17 15:28:36 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/17 19:59:35 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_token	*ft_token_new(t_token_type type, void *content, void *content_2)
 	return (new);
 }
 
-t_files	*ft_files_new(char *name, char *type, int fd_her)
+t_files	*ft_files_new(char *name, char *type)
 {
 	t_files	*file;
 
@@ -41,7 +41,6 @@ t_files	*ft_files_new(char *name, char *type, int fd_her)
 		return (NULL);
 	file->name = ft_strdup(name);
 	file->type = ft_strdup(type);
-	file->fd_her = fd_her;
 	file->next = NULL;
 	return (file);
 }

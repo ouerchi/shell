@@ -6,7 +6,7 @@
 /*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 23:23:31 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/15 21:45:21 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/18 22:21:21 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ char	*ft_handle_buff(char *rl, int *i)
 	char	quote;
 
 	buff = NULL;
-	while (rl[*i] && !ft_strchr(" >|<", rl[*i]))
+	while (rl[*i] && !ft_strchr(" >|<", rl[(*i)]))
 	{
-		if (rl[*i] == '\'' || rl[*i] == '"')
+		if (rl[(*i)] == '\'' || rl[(*i)] == '"')
 		{
-			quote = rl[*i];
+			quote = rl[(*i)];
 			buff = ft_strjoin_char(buff, quote);
-			(*i)++;
-			while (rl[*i] && rl[*i] != quote)
-				buff = ft_strjoin_char(buff, rl[(*i)++]);
-			if (rl[*i] == quote)
+			((*i))++;
+			while (rl[(*i)] && rl[(*i)] != quote)
+				buff = ft_strjoin_char(buff, rl[((*i))++]);
+			if (rl[(*i)] == quote)
 			{
 				buff = ft_strjoin_char(buff, quote);
 				(*i)++;
@@ -74,4 +74,43 @@ char	*ft_handle_words(char *rl, int i)
 			break ;
 	}
 	return (dec.buff);
+}
+
+t_quotes_state	ft_handle_quotes(char *rl)
+{
+	int				i;
+	t_quotes_state	state;
+
+	i = 0;
+	state = NONE;
+	while (rl[i])
+	{
+		if (rl[i] == '\\' && state != S_QUOTES)
+		{
+			i++;
+			continue ;
+		}
+		if (state == NONE)
+		{
+			if (rl[i] == '\'')
+				state = S_QUOTES;
+			else if (rl[i] == '"')
+				state = D_QUOTES;
+		}
+		else if ((state == S_QUOTES && rl[i] == '\'')
+			|| (state == D_QUOTES && rl[i] == '"'))
+			state = NONE;
+		i++;
+	}
+	return (state);
+}
+
+t_error_type	ft_handle_error(char *rl)
+{
+	t_quotes_state	state_quotes;
+
+	state_quotes = ft_handle_quotes(rl);
+	if (state_quotes != NONE)
+		return (ERR_UNCLOSED_QUOTES);
+	return (ERR_NONE);
 }

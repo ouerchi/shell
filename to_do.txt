@@ -1,12 +1,3 @@
--> fd of herdoc
--> trim of export
--> signals
--> pustr_fd instead of printf
--> exit status
--> leaks
--> norm
--> tests
-
 
 # CTRL + C = SIGINT
 # CTRL + \ = SIGQUIT
@@ -24,19 +15,10 @@ ll-$ ✗ cat
 ^C
 minishell-$ ✗ minishell-$ ✗ 
 
-minishell-$ ✗ 
-Permission denied
-minishell-$ ✗ 
 
 
 
 export q="                   "
-mouerchi@e1r4p12:~/Desktop/shell$ echo an"$q"aa
-an                   aa
-mouerchi@e1r4p12:~/Desktop/shell$ echo an$q"aa"
-
-
-
 
 	pid = fork();
 	if (pid == -1)
@@ -45,3 +27,18 @@ mouerchi@e1r4p12:~/Desktop/shell$ echo an$q"aa"
 	}
 
 
+minishell-$ ✗ /
+/ -- / -- 0
+Node 1: / -- / -- 0
+/: command not found
+
+42->46
+
+-> fd of herdoc
+-> trim of export
+-> signals
+-> pustr_fd instead of printf
+-> exit status
+-> leaks
+-> norm
+-> tests

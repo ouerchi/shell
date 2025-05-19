@@ -6,7 +6,7 @@
 /*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 16:12:15 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/17 15:34:12 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/19 16:21:01 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,11 @@ char	**ft_check_parse(t_token **check, t_config **config, int *i)
 	{
 		if ((*check)->type == T_REDIR_IN || (*check)->type == T_REDIR_OUT
 			|| (*check)->type == T_APPEND || (*check)->type == T_HERDOC)
-			handle_redirection(check, &(*config)->cmd, (*config));
+			handle_redirection(check, &(*config)->cmd);
 		else if ((*check)->type == T_WORD)
 		{
-			arg[(*i)++] = ft_strdup((*check)->value);
+			if ((*check)->value[0] != '\0')
+				arg[(*i)++] = ft_strdup((*check)->value);
 			(*check) = (*check)->next;
 		}
 		else
@@ -110,18 +111,20 @@ int	ft_ambi(t_token *token, t_config *config, int count, int count_2)
 		if (token->next
 			&& (token->type == T_REDIR_IN || token->type == T_REDIR_OUT
 				|| token->type == T_APPEND)
-			&& token->next->type == T_WORD
-			&& (config->amb > 1 || config->flag_2 == 1))
+			&& token->next->type == T_WORD)
 		{
-			tok = token->next;
-			count = 1;
+			if (config->amb > 1 || config->flag_2 == 1)
+			{
+				tok = token->next;
+				count = 1;
+			}
 		}
 		while (token && token->next && token->type != T_PIPE)
 			token = token->next;
 		print_amb(tok, &count, &count_2);
 		token = token->next;
 	}
-	config->flag_2 = 0;
 	config->amb = 0;
+	config->flag_2 = 0;
 	return (count_2);
 }

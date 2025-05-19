@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:20 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/18 16:57:35 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:26:28 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ int	ft_break(t_token *token, t_config *config)
 		if (val == -1)
 			return (0);
 	}
+	else
+	{
+		config->flag_2 = 0;
+		config->amb = 0;
+	}
 	return (1);
 }
 
@@ -55,24 +60,12 @@ int	ft_continue(char *rl)
 	return (1);
 }
 
-// void handler(int signum)
-// {
-// 	(void)signum;
-// 	write(1, "\n", 1);
-// 	// rl_replace_line("", 1);
-// 	rl_on_new_line();
-// 	rl_redisplay();
-// }
-
 void	minishell_loop(char **env)
 {
 	char		*rl;
 	t_config	config;
 	t_token		*token;
 
-	signal(SIGINT, sig_int_handle);
-	signal(SIGQUIT, SIG_IGN);
-	// signal(SIGQUIT, SIG_DFL);
 	init_env(&config, env);
 	while (1)
 	{
@@ -93,8 +86,6 @@ void	minishell_loop(char **env)
 		free(rl);
 	}
 }
-
-
 
 int	main(int argc, char **argv, char **env)
 {

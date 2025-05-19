@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 20:05:13 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/18 18:09:06 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/19 21:45:18 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	run_child_process(t_config *config, t_parse *cmd)
 {
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
+	if (!cmd->cmd_name)
+		exit(0);
 	redirect_io(config, cmd);
 	if (cmd->builtins == 1)
 	{
@@ -54,7 +56,7 @@ void	run_child_process(t_config *config, t_parse *cmd)
 	execute_cmd(config, cmd);
 }
 
-int	open_files_utils(t_parse *cmd, t_files *file)
+int	open_files_utils(t_name *her_name, t_parse *cmd, t_files *file)
 {
 	while (file)
 	{
@@ -73,12 +75,18 @@ int	open_files_utils(t_parse *cmd, t_files *file)
 			if (redir_append(cmd, file->name) == -1)
 				return (-1);
 		}
+		else if (her_name && f_strcmp(file->type, "HERDOC") == 0)
+		{
+			safe_close(&cmd->outfile);
+			cmd->infile = her_name->name;
+			her_name = her_name->next;
+		}
 		file = file->next;
 	}
 	return (0);
 }
 
-static int	open_files(t_parse *head_cmd)
+static int	open_files(t_name *her_name, t_parse *head_cmd)
 {
 	t_parse	*cmd;
 	t_files	*file;
@@ -89,7 +97,7 @@ static int	open_files(t_parse *head_cmd)
 		cmd->infile = -1;
 		cmd->outfile = -1;
 		file = cmd->file;
-		if (open_files_utils(cmd, file) == -1)
+		if (open_files_utils(her_name, cmd, file) == -1)
 			return (-1);
 		cmd = cmd->next;
 	}
@@ -105,6 +113,7 @@ int	run_builtins(t_config *config, t_parse *cmd)
 		status = ft_exit(cmd->args);
 	else if (!ft_strncmp(cmd->args[0], "echo", ft_strlen(cmd->args[0])))
 	{
+		printf("arg = %s\n", cmd->args[1]);
 		tmp = array_join(&cmd->args[1]);
 		status = ft_echo(tmp);
 		free(tmp);
@@ -148,6 +157,8 @@ int	run_single_cmd(t_config *config)
 	t_parse	*cmd;
 
 	cmd = config->cmd;
+	if (!cmd->cmd_name)
+		return (0);
 	if (cmd->builtins)
 	{
 		config->std_in = dup(STDIN_FILENO);
@@ -169,7 +180,7 @@ int	execution(t_config *config)
 
 	init_process(config);
 	cmd_nmbr = ft_cmd_nmbr(config->cmd);
-	if (open_files(config->cmd) == -1)
+	if (open_files(config->her_name, config->cmd) == -1)
 		return (1);
 	if (cmd_nmbr == 1)
 		return (run_single_cmd(config));

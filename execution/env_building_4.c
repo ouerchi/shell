@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:23:26 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/18 16:35:58 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/19 14:59:39 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static int	update_env_value(t_env **env, char *name, char *value)
 				return (1);
 			free((*env)->value);
 			free((*env)->variable);
-			value = trim_free(value);
+			// value = trim_free(value);
 			(*env)->value = ft_strdup(value);
 			variable = ft_strdup(name);
 			variable = ft_strjoin(variable, "=");
@@ -117,6 +117,7 @@ void	append_var_value(t_config *config, char *name_var, char *value)
 void	ft_setenv(t_config *config, char *name, char *value)
 {
 	char	*variable;
+	char	*tmp;
 
 	if (!name)
 		return ;
@@ -125,11 +126,15 @@ void	ft_setenv(t_config *config, char *name, char *value)
 	if (update_env_value(&(config->env_lst), name, value) == 1)
 		return ;
 	variable = ft_strdup(name);
-	value = trim_free(value);
+	// value = trim_free(value);
 	if (value)
 	{
+		tmp = variable;
 		variable = ft_strjoin(variable, "=");
+		free(tmp);
+		tmp = variable;
 		variable = ft_strjoin(variable, value);
+		free(tmp);
 		free(value);
 	}
 	append_env_lst(&(config->env_lst), variable);

@@ -6,7 +6,7 @@
 /*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 18:44:00 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/17 02:48:19 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/17 20:14:16 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,16 @@ int	ft_strcmp_her(const char *s1, const char *s2)
 		i++;
 	}
 	return (0);
+}
+
+int	ft_if(t_token *token)
+{
+	t_token	*next_token;
+
+	next_token = token->next;
+	if (!next_token || next_token->type == T_PIPE
+		|| next_token->type == T_REDIR_IN || next_token->type == T_REDIR_OUT
+		|| next_token->type == T_APPEND || next_token->type == T_HERDOC)
+		return (0);
+	return (1);
 }

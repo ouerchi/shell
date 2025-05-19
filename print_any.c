@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   print_any.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 15:46:03 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/16 22:29:18 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/19 21:39:10 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_print_list_3(t_name *name)
+{
+	t_name *tmp;
+	
+	tmp = name;
+	while (tmp)
+    {
+        if (tmp->name)
+            printf("%d\n", tmp->name);
+        else
+            printf("(null)\n");
+        tmp = tmp->next;
+    }
+}
 
 void	ft_print_list_2(t_token *token)
 {

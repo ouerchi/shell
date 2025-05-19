@@ -6,7 +6,7 @@
 /*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 21:43:49 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/17 00:58:28 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/19 17:20:07 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_handle_word_2(t_token **lst, t_config *config, t_h_w *h_w)
 {
-	if (h_w->temp[0] != '\0')
+	if (h_w->temp[0] != '\0' && ft_check_exp(config) == 0)
 	{
 		h_w->temp_2 = ft_split(h_w->temp, " ");
 		while (h_w->temp_2[h_w->j])
@@ -24,8 +24,8 @@ void	ft_handle_word_2(t_token **lst, t_config *config, t_h_w *h_w)
 	}
 	else
 	{
-		config->flag_2 = 1;
 		ft_lstadd_back_token(lst, ft_token_new(T_WORD, h_w->temp, h_w->buff));
+		config->flag_2 = 1;
 	}
 }
 
@@ -36,7 +36,9 @@ void	ft_handle_word(char *rl, int *i, t_token **lst, t_config *config)
 	h_w.j = 0;
 	h_w.flag = 0;
 	h_w.buff = ft_handle_buff(rl, i);
-	h_w.q = has_q(h_w.buff);
+	if (ft_strcmp(h_w.buff, "export"))
+		config->exp = ft_strdup(h_w.buff);
+	h_w.q = has_q_in_doll(h_w.buff);
 	h_w.temp = ft_word(h_w.buff, config, &h_w.flag);
 	if (h_w.temp)
 	{
