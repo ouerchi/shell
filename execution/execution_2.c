@@ -6,18 +6,11 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:34:33 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/19 21:25:59 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/20 23:03:51 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	parent(t_config *config)
-{
-	close(config->saved_fd);
-	while (waitpid(-1, NULL, 0) != -1)
-		;
-}
 
 void	init_process(t_config *config)
 {
@@ -25,11 +18,21 @@ void	init_process(t_config *config)
 	config->saved_fd = -1;
 }
 
+int	handel_her(t_parse *cmd, int fd)
+{
+	safe_close(&cmd->infile);
+	cmd->infile = dup(fd);
+	if (cmd->infile == -1)
+		perror("dup");
+	ft_close(fd);
+	return (0);
+}
+
 void	safe_close(int	*fd)
 {
 	if ((*fd) >= 0)
 	{
-		close(*fd);
+		ft_close(*fd);
 		*fd = -1;
 	}
 }

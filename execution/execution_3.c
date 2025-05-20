@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:34:07 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/17 20:21:52 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/20 21:37:15 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,50 +44,6 @@ char	*array_join(char **str)
 	return (rtrn);
 }
 
-int	check_option(char **args)
-{
-	if (!args[1])
-		return (0);
-	if (args[1][0] != '-')
-		return (0);
-	return (1);
-}
-
-int	run_builtins_rest(t_config *config, t_parse *cmd)
-{
-	int		status;
-	// char	*cwd;
-
-	// cwd = NULL;
-	status = 0;
-	if (!ft_strncmp(cmd->args[0], "unset", ft_strlen(cmd->args[0])))
-	{
-		status = ft_unset(config, cmd->args);
-		update_env_array(config);
-	}
-	else if (!ft_strncmp(cmd->args[0], "pwd", ft_strlen(cmd->args[0])))
-	{
-		if (check_option(cmd->args))
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(cmd->args[0], 2);
-			ft_putstr_fd(": ", 2);
-			ft_putstr_fd(cmd->args[1], 2);
-			ft_putstr_fd(": ", 2);
-			ft_putstr_fd("invalid option\n", 2);
-			return (2);
-		}
-		status = ft_pwd(config);
-	}
-	else if (!ft_strncmp(cmd->args[0], "env", ft_strlen(cmd->args[0])))
-		status = ft_env(config->env_lst);
-	else if (!ft_strncmp(cmd->args[0], "cd", ft_strlen(cmd->args[0])))
-	{
-		status = ft_cd(cmd->args[1], (config)->env);
-	}
-	return (status);
-}
-
 int	spawn_child_process(t_config *config, t_parse *cmd)
 {
 	pid_t	pid;
@@ -95,13 +51,11 @@ int	spawn_child_process(t_config *config, t_parse *cmd)
 	if (cmd->next)
 	{
 		if (pipe(config->pipe) == -1)
-		perror("pipe cmd");
+			perror("pipe cmd");
 	}
 	pid = fork();
 	if (pid == -1)
-	{
-		perror("fork");
-	}
+		return (perror("fork"), 2);
 	if (pid == 0)
 		run_child_process(config, cmd);
 	if (cmd->outfile != -1)

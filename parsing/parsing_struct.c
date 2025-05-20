@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_struct.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 16:12:15 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/19 16:21:01 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/20 15:08:29 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,9 @@ t_parse	*ft_parsing(t_token **token, t_config *config)
 
 char	**ft_check_parse(t_token **check, t_config **config, int *i)
 {
-	int		size;
 	char	**arg;
 
-	size = count_words_before_pipe(*check) + 1;
-	arg = (char **)malloc(sizeof(char *) * size);
+	arg = (char **)malloc(sizeof(char *) * count_words_before_pipe(*check) + 1);
 	if (!arg)
 		return (NULL);
 	*i = 0;
@@ -72,7 +70,7 @@ char	**ft_check_parse(t_token **check, t_config **config, int *i)
 			handle_redirection(check, &(*config)->cmd);
 		else if ((*check)->type == T_WORD)
 		{
-			if ((*check)->value[0] != '\0')
+			if ((*check)->value[0] != '\0' )
 				arg[(*i)++] = ft_strdup((*check)->value);
 			(*check) = (*check)->next;
 		}

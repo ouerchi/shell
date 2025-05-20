@@ -3,40 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc_3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 19:26:19 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/19 21:39:30 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/19 22:26:00 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_name	*ft_name_new(int name)
+t_name	*ft_name_new(int fd)
 {
 	t_name	*her_name;
 
 	her_name = (t_name *)malloc(sizeof(t_name));
 	if (!her_name)
 		return (NULL);
-	her_name->name = name;
+	her_name->name = fd;
 	her_name->next = NULL;
 	return (her_name);
 }
 
-void	ft_lstadd_back_name(t_name **lst, t_name *new)
+void	ft_lstadd_back_name(t_name **name, t_name *new)
 {
 	t_name	*tmp;
 
-	if (!lst || !new)
+	if (!name || !new)
 		return ;
-	if (!(*lst))
+	if (!(*name))
 	{
-		*lst = new;
+		*name = new;
 		return ;
 	}
-	tmp = *lst;
-	while (tmp)
+	tmp = *name;
+	while (tmp && tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
 }
@@ -75,7 +75,6 @@ void	ft_free_name_list(t_name *name)
 	{
 		tmp = name;
 		name = name->next;
-		// free(tmp->name);
 		free(tmp);
 	}
 }

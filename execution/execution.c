@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 20:05:13 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/19 21:45:18 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/20 23:23:32 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,106 +50,31 @@ void	run_child_process(t_config *config, t_parse *cmd)
 	redirect_io(config, cmd);
 	if (cmd->builtins == 1)
 	{
-		run_builtins(config, cmd);
+		exit_status(run_builtins(config, cmd), 0);
 		exit(0) ;
 	}
 	execute_cmd(config, cmd);
 }
 
-int	open_files_utils(t_name *her_name, t_parse *cmd, t_files *file)
-{
-	while (file)
-	{
-		if (file->name && f_strcmp(file->type, "REDIR_IN") == 0)
-		{
-			if (redir_in(cmd, file->name) == -1)
-				return (-1);
-		}
-		else if (file->name && f_strcmp(file->type, "REDIR_OUT") == 0)
-		{
-			if (redir_out(cmd, file->name) == -1)
-				return (-1);
-		}
-		else if (file->name && f_strcmp(file->type, "APPEND") == 0)
-		{
-			if (redir_append(cmd, file->name) == -1)
-				return (-1);
-		}
-		else if (her_name && f_strcmp(file->type, "HERDOC") == 0)
-		{
-			safe_close(&cmd->outfile);
-			cmd->infile = her_name->name;
-			her_name = her_name->next;
-		}
-		file = file->next;
-	}
-	return (0);
-}
 
-static int	open_files(t_name *her_name, t_parse *head_cmd)
-{
-	t_parse	*cmd;
-	t_files	*file;
 
-	cmd = head_cmd;
-	while (cmd)
-	{
-		cmd->infile = -1;
-		cmd->outfile = -1;
-		file = cmd->file;
-		if (open_files_utils(her_name, cmd, file) == -1)
-			return (-1);
-		cmd = cmd->next;
-	}
-	return (0);
-}
+// static int	open_files(t_name *her_name, t_parse *head_cmd)
+// {
+// 	t_parse	*cmd;
+// 	t_files	*file;
 
-int	run_builtins(t_config *config, t_parse *cmd)
-{
-	char	*tmp;
-	int		status;
-
-	if (!ft_strncmp(cmd->args[0], "exit", ft_strlen(cmd->args[0])))
-		status = ft_exit(cmd->args);
-	else if (!ft_strncmp(cmd->args[0], "echo", ft_strlen(cmd->args[0])))
-	{
-		printf("arg = %s\n", cmd->args[1]);
-		tmp = array_join(&cmd->args[1]);
-		status = ft_echo(tmp);
-		free(tmp);
-	}
-	else if (!ft_strncmp(cmd->args[0], "export", ft_strlen(cmd->args[0])))
-	{
-		status = ft_export(config, cmd->args);
-		update_env_array(config);
-	}
-	else
-		status = run_builtins_rest(config, cmd);
-	return (status);
-}
-
-void	apply_redir(t_parse *cmd)
-{
-	if (cmd->outfile != -1)
-	{
-		if (dup2(cmd->outfile, STDOUT_FILENO) == -1)
-			perror("dup2");
-		close(cmd->outfile);
-	}
-	if (cmd->infile != -1)
-	{
-		if (dup2(cmd->infile, STDOUT_FILENO) == -1)
-			perror("dup2");
-		close(cmd->infile);
-	}
-}
-void	restore_redir(t_config *config)
-{
-	dup2(config->std_in, STDIN_FILENO);
-	dup2(config->std_out, STDOUT_FILENO);
-	close(config->std_in);
-	close(config->std_out);
-}
+// 	cmd = head_cmd;
+// 	while (cmd)
+// 	{
+// 		cmd->infile = -1;
+// 		cmd->outfile = -1;
+// 		file = cmd->file;
+// 		if (open_files_utils(&her_name, cmd, file) == -1)
+// 			return (-1);
+// 		cmd = cmd->next;
+// 	}
+// 	return (0);
+// }
 
 int	run_single_cmd(t_config *config)
 {
@@ -166,11 +91,34 @@ int	run_single_cmd(t_config *config)
 		apply_redir(cmd);
 		status = run_builtins(config, cmd);
 		restore_redir(config);
-		return (status);
+		return (exit_status(status, 0), status);
 	}
 	status = spawn_child_process(config, cmd);
 	parent(config);
 	return (status);
+}
+
+int	exit_status(int status, int flag)
+{
+	static int	exit_status;
+
+	if (flag != 1)
+		exit_status = status;
+	return (exit_status);
+}
+
+void	parent(t_config *config)
+{
+	int	status;
+
+	close(config->saved_fd);
+	while (waitpid(-1, &status, 0) != -1)
+	{
+		if (WIFEXITED(status))
+			exit_status(WEXITSTATUS(status), 0);
+		if (WIFSIGNALED(status))
+			exit_status(WTERMSIG(status) + 128, 0);
+	}
 }
 
 int	execution(t_config *config)
@@ -181,7 +129,7 @@ int	execution(t_config *config)
 	init_process(config);
 	cmd_nmbr = ft_cmd_nmbr(config->cmd);
 	if (open_files(config->her_name, config->cmd) == -1)
-		return (1);
+		return (exit_status(1, 0), 1);
 	if (cmd_nmbr == 1)
 		return (run_single_cmd(config));
 	current_cmd = config->cmd;

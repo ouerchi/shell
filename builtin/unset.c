@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:58:51 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/18 16:41:53 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/13 19:59:35 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,11 @@ static void	ft_remove_env_node(t_env **head, char *var)
 
 int	ft_unset(t_config *config, char **args)
 {
+	t_env	*env_lst;
 	int		i;
 
-	if (!args || !config->env_lst)
+	env_lst = config->env_lst;
+	if (!args || !env_lst)
 		return (1);
 	if (!args[1])
 		return (0);
@@ -60,7 +62,7 @@ int	ft_unset(t_config *config, char **args)
 		i = 1;
 		while (args[i])
 		{
-			ft_remove_env_node(&config->env_lst, args[i]);
+			ft_remove_env_node(&env_lst, args[i]);
 			i++;
 		}
 	}

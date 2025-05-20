@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:47:03 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/19 21:47:24 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/19 22:58:54 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,21 +92,13 @@ int	ft_herdoc(t_config *config, t_token *token, int *flag)
 	if (extra_her(token, &her) == 0)
 		return (0);
 	(*flag) = 1;
-	while (token)
+	while (token && token->next)
 	{
-		while (token && token->type != T_PIPE)
-		{
-			if (ft_herdoc_3(token, config, &her, &name) == -1)
-				return (-1);
-			token = token->next;
-		}
-		if (token)
-			token = token->next;
-		else
-			break ;
+		if (ft_herdoc_3(token, config, &her, &name) == -1)
+			return (-1);
+		token = token->next;
 	}
-	config->her_name = name;
-	return (1);
+	return ((config->her_name = name), 1);
 }
 
 int	ft_herdoc_3(t_token *token, t_config *config, t_her *her, t_name **name)

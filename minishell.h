@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:26 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/19 21:37:05 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/20 23:05:16 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ typedef struct s_config
 	t_parse	*cmd;
 	t_env	*env_lst;
 	t_name	*her_name;
-	char	*exp;
+	int		exp;
 	int		flag_2;
 	char	**env;
 	bool	fail;
@@ -188,7 +188,8 @@ int				is_numeric(char *str);
 char			*ft_handle_words(char *rl, int i);
 void			ft_handle_redir_out(char *rl, int *i, t_token **lst);
 void			ft_handle_redir_in(char *rl, int *i, t_token **lst);
-void			ft_handle_word(char *rl, int *i, t_token **lst, t_config *config);
+void			ft_handle_word(char *rl, int *i, t_token **lst, \
+	t_config *config);
 char			*ft_strjoin(char *s1, char *s2);
 void			free_parse(t_parse *cmd);
 void			ft_free_token_list(t_token *lst);
@@ -198,7 +199,8 @@ void			ft_lstadd_back_files(t_parse **lst, t_files *new);
 t_files			*ft_files_new(char *name, char *type);
 int				ft_strcmp(char *str1, char *str2);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
-t_token			*ft_token_new(t_token_type type, void *content, void *content_2);
+t_token			*ft_token_new(t_token_type type, \
+	void *content, void *content_2);
 void			ft_lstadd_back_token(t_token **lst, t_token *new);
 t_token			*ft_lstlast_token(t_token *lst);
 void			sig_ign_handler(void);
@@ -218,7 +220,6 @@ void			ft_print_list(t_parse *cmd);
 size_t			ft_strlen(char *str);
 char			*ft_strtrim(char *s1, char *set);
 void			ft_print_list_2(t_token *cmd);
-int				validate_pipes(t_token *token, t_config *config);
 char			*ft_strchr(char *s, int c);
 char			*ft_strcpy(char *dest, char *src);
 char			*ft_substr(char *s, unsigned int start, size_t len);
@@ -296,7 +297,8 @@ void			run_child_process(t_config *config, t_parse *cmd);
 int				check_toprint(char *str, int *i);
 void			safe_close(int *fd);
 int				extra_her(t_token *token, t_her *her);
-int				ft_ambi(t_token *token, t_config *config, int count, int count_2);
+int				ft_ambi(t_token *token, t_config *config, \
+	int count, int count_2);
 void			ft_handle_word_2(t_token **lst, t_config *config, t_h_w *h_w);
 void			print_amb(t_token *tok, int *count, int *count_2);
 int				ft_strcmp_her(const char *s1, const char *s2);
@@ -304,16 +306,38 @@ void			msg_error(char *msg1, char *full, char *msg2);
 int				is_directory(char *str);
 int				is_file(char *str);
 int				is_path(char *str);
-char			*find_path_2(char *cmd_name);
 char			*find_path(char *cmd_name, char **env);
 int				ft_export(t_config *config, char **args);
 t_name			*ft_name_new(int name);
-void			ft_lstadd_back_name(t_name **config, t_name *new);
+void			ft_lstadd_back_name(t_name **name, t_name *new);
 int				has_q_in_doll(char *buff);
 char			*ft_gen_name_file(void);
 void			ft_print_list_3(t_name *name);
 void			ft_free_name_list(t_name *name);
-int				ft_herdoc_3(t_token *token, t_config *config, t_her *her, t_name **name);
-int				ft_check_exp(t_config *config);
+int				ft_herdoc_3(t_token *token, t_config *config, \
+	t_her *her, t_name **name);
+int				validate_pipes(t_token *token, t_config *config, \
+	int flag, int expect_command);
+int				func_1(t_token *token, t_config *config, int *flag);
+int				func_2(t_token *token);
+int				func_3(t_token *token, int *expect_command);
+int				func_4(t_token *token, int *flag);
+int				func_5(t_token *token);
+
+
+
+int				exit_status(int status, int rtrn);
+void			error_handling(int flag, char *cmd, char *msg, int i);
+int				valid_var_name(char *name, char *full);
+int				is_valid_char(char c);
+int				split_var(char *arg, char **name, char **value);
+int				check_cmd_name(char *name);
+void			ft_dup(int fd, int redir);
+void			ft_close(int fd);
+void			restore_redir(t_config *config);
+int				open_files(t_name *her_name, t_parse *head_cmd);
+int				open_files_utils(t_name **her_name, t_parse *cmd, t_files *file);
+void			apply_redir(t_parse *cmd);
+int				handel_her(t_parse *cmd, int fd);
 
 #endif

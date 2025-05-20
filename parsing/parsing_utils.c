@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 02:45:36 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/19 16:57:43 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/20 22:19:29 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,26 @@ void	ft_builtins_check(t_parse *par)
 {
 	if (!par || !par->cmd_name)
 		return ;
-	if ((par->cmd_name && (ft_strncmp(par->cmd_name, \
-		"echo", ft_strlen(par->cmd_name)) == 0))
-		|| ft_strncmp(par->cmd_name, "cd", ft_strlen(par->cmd_name)) == 0
-		|| ft_strncmp(par->cmd_name, "pwd", ft_strlen(par->cmd_name)) == 0
-		|| ft_strncmp(par->cmd_name, "export", ft_strlen(par->cmd_name)) == 0
-		|| ft_strncmp(par->cmd_name, "unset", ft_strlen(par->cmd_name)) == 0
-		|| ft_strncmp(par->cmd_name, "exit", ft_strlen(par->cmd_name)) == 0
-		|| ft_strncmp(par->cmd_name, "env", ft_strlen(par->cmd_name)) == 0)
+	if ((ft_strlen(par->cmd_name) == ft_strlen("exit")) \
+		&& (!ft_strncmp(par->cmd_name, "exit", ft_strlen(par->cmd_name))))
+		par->builtins = 1;
+	else if ((ft_strlen(par->cmd_name) == ft_strlen("echo")) \
+		&& (!ft_strncmp(par->cmd_name, "echo", ft_strlen(par->cmd_name))))
+		par->builtins = 1;
+	else if ((ft_strlen(par->cmd_name) == ft_strlen("export")) \
+		&& (!ft_strncmp(par->cmd_name, "export", ft_strlen(par->cmd_name))))
+		par->builtins = 1;
+	else if ((ft_strlen(par->cmd_name) == ft_strlen("cd")) \
+		&& (!ft_strncmp(par->cmd_name, "unset", ft_strlen(par->cmd_name))))
+		par->builtins = 1;
+	else if ((ft_strlen(par->cmd_name) == ft_strlen("env")) \
+		&& (!ft_strncmp(par->cmd_name, "pwd", ft_strlen(par->cmd_name))))
+		par->builtins = 1;
+	else if ((ft_strlen(par->cmd_name) == ft_strlen("pwd")) \
+		&& (!ft_strncmp(par->cmd_name, "cd", ft_strlen(par->cmd_name))))
+		par->builtins = 1;
+	else if ((ft_strlen(par->cmd_name) == ft_strlen("unset")) \
+		&& (!ft_strncmp(par->cmd_name, "env", ft_strlen(par->cmd_name))))
 		par->builtins = 1;
 	else
 		par->builtins = 0;

@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:30:37 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/19 18:20:23 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:55:39 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	error_handling(int flag, char *cmd, char *msg, int i)
 int	check_cmd(t_config *config, char *cmd)
 {
 	if (access(cmd, F_OK) != 0)
-		error_handling(1, cmd, ": No such file or directory", 127);
+		return(exit_status(127, 0), error_handling(1, cmd, ": No such file or directory", 127), 1);
 	if (access(cmd, X_OK) != 0)
-		error_handling(1, cmd, ": Permission denied", 126);
+		return(exit_status(127, 0), error_handling(1, cmd, ": Permission denied", 126), 1);
 	config->path = ft_strdup(cmd);
 	return (0);
 }
@@ -37,9 +37,9 @@ void	get_path(t_config *config, t_parse *cmd)
 	if (is_path(cmd->cmd_name))
 	{
 		if (!ft_strncmp(cmd->cmd_name, ".", ft_strlen(cmd->cmd_name)))
-			return (error_handling(1, cmd->cmd_name, ": filename argument required", 2));
+			return ;
 		if (is_directory(cmd->cmd_name) && f_strcmp(cmd->cmd_name, ".."))
-			return (error_handling(1, cmd->cmd_name, ": Is a directory", 126));
+			return (exit_status(126, 0), error_handling(1, cmd->cmd_name, ": Is a directory", 126));
 		if (ft_strncmp(cmd->cmd_name, "...", ft_strlen("...")) && !check_cmd(config, cmd->cmd_name))
 			return ;
 	}
@@ -50,6 +50,8 @@ void	get_path(t_config *config, t_parse *cmd)
 		return ;
 	if (is_directory(cmd->cmd_name))
 		return (error_handling(1, cmd->cmd_name, ": Is a directory", 126));
+	if (!check_cmd(config, cmd->cmd_name))
+		return ;
 }
 
 void	execute_cmd(t_config *config, t_parse *cmd)
@@ -57,5 +59,6 @@ void	execute_cmd(t_config *config, t_parse *cmd)
 	get_path(config, cmd);
 	if (execve(config->path, cmd->args, config->env) == -1)
 		error_handling(0, cmd->cmd_name, ": command not found", 127);
+	exit_status(127, 0);
 	exit(1);
 }

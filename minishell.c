@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:20 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/19 17:26:28 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/20 21:28:12 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_break(t_token *token, t_config *config)
 {
 	int	val;
 
-	val = validate_pipes(token, config);
+	val = validate_pipes(token, config, 0, 1);
 	if (val == 1 || val == -1)
 	{
 		if (ft_ambi(token, config, 0, 0) == 1)

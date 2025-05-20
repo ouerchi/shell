@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:10:12 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/19 18:13:49 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:00:38 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	is_path(char *str)
 {
 	if (!str)
 		return (0);
-	return (str[0] == '/' || (str[0] == '.' && (str[1] == '/' || str[1] == '.')) || str[0] == '.');
+	return (str[0] == '/' || (str[0] == '.' && (str[1] == '/' || str[1] == '.')) || (str[0] == '.' && str[1] == '\0'));
 }
 
 int	is_directory(char *str)

@@ -26,13 +26,9 @@ export q="                   "
 		perror("fork");
 	}
 
-
-minishell-$ ✗ /
-/ -- / -- 0
-Node 1: / -- / -- 0
-/: command not found
-
 42->46
+
+istty
 
 -> fd of herdoc
 -> trim of export

@@ -8,7 +8,8 @@ SRC = execution/env_building.c parsing/expanding_utils.c parsing/expanding_utils
 	utils/ft_strdup.c utils/ft_strtrim.c minishell.c print_any.c execution/exec.c execution/execution.c utils/ft_split.c \
 	builtin/cd.c builtin/echo.c builtin/env.c builtin/exit.c builtin/pwd.c builtin/unset.c parsing/herdoc.c parsing/expanding_utils_3.c \
 	parsing/herdoc_2.c execution/execution_2.c execution/execution_3.c execution/env_building_2.c execution/env_building_3.c \
-	execution/env_building_4.c free.c parsing/parsing_utils_2.c execution/path_utils.c builtin/export.c parsing/herdoc_3.c
+	execution/env_building_4.c free.c parsing/parsing_utils_2.c execution/path_utils.c builtin/export.c parsing/herdoc_3.c \
+	parsing/parsing_utils_3.c builtin/export_utils.c execution/exec_builtin.c execution/file_redir.c execution/file_open.c
 
 OBJ = $(SRC:.c=.o)
 
