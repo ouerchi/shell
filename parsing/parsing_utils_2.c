@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:11:21 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/20 22:32:37 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/21 23:23:46 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	init_her(t_exp *exp)
+{
+	exp->j = 0;
+	exp->res = NULL;
+}
+
+int	func_6_her(char *buff, t_exp *exp)
+{
+	if (buff[exp->j] == '$'
+		&& (ft_isalnum(buff[exp->j + 1]) || buff[exp->j + 1] == '_'
+			|| buff[exp->j + 1] == '$'))
+		return (1);
+	return (0);
+}
 
 int	has_single(char *buff)
 {

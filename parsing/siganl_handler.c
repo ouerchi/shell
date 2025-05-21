@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 00:26:42 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/21 16:50:26 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/21 23:34:05 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,11 @@
 
 void	sig_int_handle(int sig)
 {
-	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 1);
-		rl_redisplay();
-	}
+	(void)sig;
+	write(1, "\n", 1);
+	rl_replace_line("", 1);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
 // void	sig_ign_handler(void)

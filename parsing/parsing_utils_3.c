@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils_3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:23:34 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/20 23:58:32 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/21 20:43:26 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	func_2(t_token *token)
 	next_token = token->next;
 	if (!next_token)
 		return (ft_putstr_fd("minishell: syntax error near unexpected token 'new\
-line'\n", 2), 0);
+line'\n", 2), exit_status(2, 0), 0);
 	else if (next_token->type == T_PIPE)
 		return (ft_putstr_fd("minishell: syntax error \
 near unexpected token `|'\n", 2), exit_status(2, 0), 0);

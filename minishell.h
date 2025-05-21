@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:26 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/21 19:13:02 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/21 23:24:11 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -342,8 +342,11 @@ void			ft_dup(int fd, int redir);
 void			ft_close(int fd);
 void			restore_redir(t_config *config);
 int				open_files(t_name *her_name, t_parse *head_cmd);
-int				open_files_utils(t_name **her_name, t_parse *cmd, t_files *file);
+int				open_files_utils(t_name **her_name, t_parse *cmd, \
+	t_files *file);
 void			apply_redir(t_parse *cmd);
 int				handel_her(t_parse *cmd, int fd);
+int				func_6_her(char *buff, t_exp *exp);
+void			init_her(t_exp *exp);
 
 #endif

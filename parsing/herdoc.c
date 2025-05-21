@@ -3,39 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:47:03 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/19 22:58:54 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/21 23:23:32 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char	*ft_expanding_her(char *rl_her, t_config *config, int *flag)
+static char	*ft_expanding_her(t_her *her, t_config *config, t_exp exp)
 {
-	int			j;
-	t_exp		exp;
-
-	j = 0;
-	exp.res = NULL;
-	while (rl_her[j])
+	exp.count = ft_calc_dol(her->rl_her, 0) % 2;
+	if (has_q(her->rl_her) == 1 && exp.count == 1 && !has_doll_2(her->rl_her))
+		return (ft_strdup("$"));
+	while (her->rl_her[exp.j])
 	{
-		if (rl_her[j] == '$' && is_numeric_char(rl_her, j + 1) && (*flag) == 0)
-			j += 1;
-		else if (rl_her[j] == '$' && ((*flag) == 0))
+		if (her->rl_her[exp.j] == '$'
+			&& is_numeric_char(her->rl_her, exp.j + 1) && (her->flag == 0))
+			exp.j += 2;
+		else if (her->rl_her[(exp.j)] == '$' && her->rl_her[exp.j + 1] == '?'
+			&& (her->flag == 0))
 		{
-			exp.temp_var = ft_handle_name_her(rl_her, &j);
-			exp.temp_val = ft_search_lst(config, exp.temp_var);
-			exp.res = ft_strjoin_free(exp.res, exp.temp_val);
-			free(exp.temp_var);
+			exp.j += 2;
+			exp.res = ft_strjoin_free(exp.res, ft_itoa(exit_status(-1, 1)));
 		}
+		else if (her->rl_her[exp.j] == '$' && her->rl_her[exp.j + 1] == '\0'
+			&& (her->flag == 0))
+			exp.res = ft_strjoin_char(exp.res, her->rl_her[exp.j++]);
+		else if (func_6_her(her->rl_her, &exp) && (her->flag == 0))
+			exp.res = third(her->rl_her, config, exp, &exp.j);
 		else
-			exp.res = ft_strjoin_char(exp.res, rl_her[j]);
-		j++;
+			exp.res = ft_strjoin_char(exp.res, her->rl_her[exp.j++]);
 	}
-	exp.res = ft_strjoin_char(exp.res, '\n');
-	return (exp.res);
+	return (ft_strjoin_char(exp.res, '\n'));
 }
 
 static char	*ft_handle_words_her(char *rl)
@@ -56,6 +57,9 @@ static char	*ft_handle_words_her(char *rl)
 
 int	ft_herdoc_2(t_token *token, t_her *her, t_config *config)
 {
+	t_exp	exp;
+
+	init_her(&exp);
 	her->name = ft_gen_name_file();
 	if (!her->name)
 		return (-1);
@@ -71,7 +75,7 @@ int	ft_herdoc_2(t_token *token, t_her *her, t_config *config)
 		if (ft_strcmp_her(her->rl_her, her->temp) == INT_MIN
 			|| !ft_strcmp_her(her->rl_her, her->temp))
 			break ;
-		her->check = ft_expanding_her(her->rl_her, config, &her->flag);
+		her->check = ft_expanding_her(her, config, exp);
 		write(her->fd, her->check, ft_strlen(her->check));
 		her->rl_her = readline("> ");
 	}

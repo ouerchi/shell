@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:20 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/21 16:49:01 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/21 23:32:55 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ int	ft_break(t_token *token, t_config *config)
 	{
 		if (ft_ambi(token, config, 0, 0) == 1)
 			return (1);
-		if (ft_state_loop(token, config) == BREAK)
-			return (0);
+		ft_state_loop(token, config);
 		if (val == -1)
 			return (0);
 	}
@@ -67,11 +66,11 @@ void	minishell_loop(char **env)
 	t_config	config;
 	t_token		*token;
 
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, sig_int_handle);
 	init_env(&config, env);
 	while (1)
 	{	
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, sig_int_handle);
 		rl = readline("minishell-$ ✗ ");
 		if (!rl)
 		{
@@ -95,5 +94,5 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	if (argc == 1)
 		minishell_loop(env);
-	return (0);
+	return (exit_status(1, 1));
 }
