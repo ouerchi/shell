@@ -6,7 +6,7 @@
 /*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 16:46:04 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/17 00:59:43 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/21 00:21:30 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,16 @@ char	*ft_queen(char *buff, t_config *config, t_exp exp, t_q q)
 		else if (q.single_q == 0 && buff[exp.j] == '$'
 			&& is_numeric_char(buff, exp.j + 1))
 			exp.j += 2;
-		else if (buff[exp.j] == '$' && (buff[exp.j + 1] == '\''
-				|| buff[exp.j + 1] == '"') && q.single_q == 0
-			&& q.double_q == 0)
+		else if (buff[(exp.j)] == '$' && buff[exp.j + 1] == '?')
+		{
+			exp.j += 2;
+			exp.res = ft_strjoin_free(exp.res, ft_itoa(exit_status(-1, 1)));
+		}
+		else if (func_7(buff, &q, &exp))
 			exp.j++;
 		else if (buff[exp.j] == '$' && buff[exp.j + 1] == '\0')
 			exp.res = ft_strjoin_char(exp.res, buff[exp.j++]);
-		else if (buff[exp.j] == '$' && buff[exp.j + 1] != '\''
-			&& buff[exp.j + 1] != '"' && q.single_q == 0
-			&& (ft_isalnum(buff[exp.j + 1]) || buff[exp.j + 1] == '_'
-				|| buff[exp.j + 1] == '$'))
+		else if (func_6(buff, &q, &exp))
 			exp.res = third(buff, config, exp, &exp.j);
 		else
 			exp.res = ft_strjoin_char(exp.res, buff[exp.j++]);

@@ -1,5 +1,5 @@
 /-------------------------------------------------\
-
+          =====================
 -> Ctlr-C	$> ^C
 $>	
 	$> holaCtlr-C	$> hola^C
@@ -37,8 +37,8 @@ $>
           =====================
 -> minishell-$ ✗ export HOLA=' hola et $HOLA'
 minishell: export: `$HOLA' : not a valid identifier
-          =====================
--> 340 --> 380 | unset mafihach parsing al9lawi zido
+-> export tt="ls -al"
+export ttt=$tt
           =====================
 -> 400 --> 458 | cd mt9oba zaml boha makhdama fiha ta 9lwa (tankteb hadchi w tandhek bohdi ki chi 7m9 jonon l minishell)
           =====================

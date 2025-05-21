@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:22:52 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/20 22:34:54 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/21 19:21:48 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,11 @@ void	ft_dup(int fd, int redir)
 
 void	ft_close(int fd)
 {
-	if (close(fd) == -1)
-		perror("close");
+	if (fd > 0)
+	{
+		if (close(fd) == -1)
+			perror("close");
+	}
 	return ;
 }
 

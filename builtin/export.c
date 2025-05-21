@@ -6,32 +6,90 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 18:34:50 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/20 23:08:34 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:53:25 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+void	sort_env_2(char **sorted_env, int count)
+{
+	int	i;
+	int	j;
+	char	*tmp;
+
+	i = 0;
+	while (i < count)
+	{
+		j = i + 1;
+		while (j < count)
+		{
+			if (ft_strcmp(sorted_env[i], sorted_env[j]) > 0)
+			{
+				tmp = sorted_env[i];
+				sorted_env[i] = sorted_env[j];
+				sorted_env[j] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+void	sort_env(char ***env, char ***sorted_env)
+{
+	int count;
+	int	i;
+
+	*sorted_env = NULL;
+	count = 0;
+	while ((*env)[count])
+		count++;
+	*sorted_env = (char **)malloc(sizeof(char *) * (count + 1));
+	if (!(*sorted_env))
+		return ;
+	i = 0;
+	while (i < count)
+	{
+		(*sorted_env)[i] = ft_strdup((*env)[i]);
+		i++;
+	}
+	(*sorted_env)[count] = NULL;
+	sort_env_2(*sorted_env, count);
+}
+
+void	do_split_var(char ***var_array, char *env)
+{
+	*var_array = NULL;
+	*var_array = ft_split_var(env);
+	if (!(*var_array)[1])
+		(*var_array)[1] = ft_strdup("");
+}
+
 int	if_no_args(char **args, char **env)
 {
 	int	i;
 	char	**var_array;
+	char	**sorted_env;
 
 	if (!args || !env)
 		return (1);
+	sort_env(&env, &sorted_env);
 	i = 0;
-	while (env[i])
+	while (sorted_env[i])
 	{
-		
-		if (ft_strchr(env[i], '='))
+		if (ft_strchr(sorted_env[i], '='))
 		{
-			var_array = ft_split(env[i], "=");
-			if (!var_array[1])
-				var_array[1] = ft_strdup("");
+			do_split_var(&var_array, sorted_env[i]);
+			if (var_array[0][0] == '_')
+			{
+				i++;
+				continue;
+			}
 			printf("declare -x %s=\"%s\"\n", var_array[0], var_array[1]);
 		}
 		else
-			printf("declare -x %s\n", env[i]);
+			printf("declare -x %s\n", sorted_env[i]);
 		i++;
 	}		
 	return (0);
@@ -81,8 +139,8 @@ int	ft_export(t_config *config, char **args)
 	i = 1;
 	while (args[i])
 	{
-		if (export_args(config, ft_strdup(args[i]), name))
-			return (1);
+		export_args(config, ft_strdup(args[i]), name);
+			// return (1);
 		i++;
 	}
 	return (0);

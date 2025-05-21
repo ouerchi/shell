@@ -6,7 +6,7 @@
 /*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 21:43:49 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/19 20:29:02 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/20 22:37:06 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,14 @@ void	ft_handle_word(char *rl, int *i, t_token **lst, t_config *config)
 
 	h_w.j = 0;
 	h_w.flag = 0;
+	h_w.flag_2 = 0;
 	h_w.buff = ft_handle_buff(rl, i);
 	h_w.q = has_q_in_doll(h_w.buff);
+	h_w.s = has_single(h_w.buff);
 	h_w.temp = ft_word(h_w.buff, config, &h_w.flag);
 	if (h_w.temp)
 	{
-		if (h_w.flag == 1 && h_w.q == 1)
+		if (h_w.flag == 1 && h_w.q == 1 && h_w.s == 1)
 			ft_handle_word_2(lst, config, &h_w);
 		else
 		{

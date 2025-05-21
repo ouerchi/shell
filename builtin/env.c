@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:59:02 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/10 16:11:37 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/21 17:52:31 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	ft_env(t_env *env_lst)
 	tmp = env_lst;
 	while (tmp)
 	{
-		printf("%s\n", tmp->variable);
+		if (ft_strchr(tmp->variable, '='))
+			printf("%s\n", tmp->variable);
 		tmp = tmp->next;
 	}
 	return (0);

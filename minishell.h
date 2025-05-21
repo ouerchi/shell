@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:26 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/20 23:05:16 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/21 19:13:02 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,9 @@ typedef struct s_h_w
 {
 	int		j;
 	int		q;
+	int		s;
 	int		flag;
+	int		flag_2;
 	char	*buff;
 	char	*temp;
 	char	**temp_2;
@@ -182,6 +184,7 @@ typedef struct s_config
 	int		amb;
 	int		std_in;
 	int		std_out;
+	int		child_flag;
 }	t_config;
 
 int				is_numeric(char *str);
@@ -204,7 +207,7 @@ t_token			*ft_token_new(t_token_type type, \
 void			ft_lstadd_back_token(t_token **lst, t_token *new);
 t_token			*ft_lstlast_token(t_token *lst);
 void			sig_ign_handler(void);
-void			sig_int_handler(void);
+void			sig_int_handle(int sig);
 t_parse			*ft_parsing(t_token **token, t_config *config);
 t_parse			*ft_parse_new(void);
 char			*ft_strdup(char *s);
@@ -266,8 +269,8 @@ void			check_env(t_config *config);
 void			update_env_array(t_config *config);
 void			free_array(char **arr);
 char			**lst_to_array(t_env *env_lst);
-int				ft_cd(char *path, char **env);
-int				ft_exit(char **arg);
+int				ft_cd(char *path, char **env, int *cd_broken);
+int				ft_exit(char **arg, int child_flag);
 int				ft_unset(t_config *config, char **args);
 int				ft_pwd(t_config *config);
 int				ft_env(t_env *env_lst);
@@ -323,9 +326,12 @@ int				func_2(t_token *token);
 int				func_3(t_token *token, int *expect_command);
 int				func_4(t_token *token, int *flag);
 int				func_5(t_token *token);
-
-
-
+int				func_6(char *buff, t_q *q, t_exp *exp);
+int				func_7(char *buff, t_q *q, t_exp *exp);
+int				has_single(char *buff);
+int				is_valid_char(char c);
+int				valid_var_name(char *name, char *full);
+int				split_var(char *arg, char **name, char **value);
 int				exit_status(int status, int rtrn);
 void			error_handling(int flag, char *cmd, char *msg, int i);
 int				valid_var_name(char *name, char *full);

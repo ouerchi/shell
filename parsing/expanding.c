@@ -6,11 +6,31 @@
 /*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 23:48:41 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/16 20:49:17 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/21 00:21:34 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	func_6(char *buff, t_q *q, t_exp *exp)
+{
+	if (buff[exp->j] == '$' && buff[exp->j + 1] != '\''
+		&& buff[exp->j + 1] != '"' && q->single_q == 0
+		&& (ft_isalnum(buff[exp->j + 1]) || buff[exp->j + 1] == '_'
+			|| buff[exp->j + 1] == '$'))
+			return (1);
+		return (0);
+}
+
+int	func_7(char *buff, t_q *q, t_exp *exp)
+{
+	if (buff[exp->j] == '$' && (buff[exp->j + 1] == '\''
+		|| buff[exp->j + 1] == '"') && q->single_q == 0
+	&& q->double_q == 0)
+		return (1);
+	return (0);
+}
+
 
 char	*ft_word(char *buff, t_config *config, int *flag)
 {

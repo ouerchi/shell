@@ -6,11 +6,25 @@
 /*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:11:21 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/19 20:29:06 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/20 22:32:37 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	has_single(char *buff)
+{
+	int	i;
+
+	i = 0;
+	while (buff[i])
+	{
+		if (buff[i] == '\'')
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 int	has_q_in_doll(char *buff)
 {

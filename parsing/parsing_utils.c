@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 02:45:36 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/20 22:19:29 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:42:18 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,16 @@ void	ft_builtins_check(t_parse *par)
 		&& (!ft_strncmp(par->cmd_name, "export", ft_strlen(par->cmd_name))))
 		par->builtins = 1;
 	else if ((ft_strlen(par->cmd_name) == ft_strlen("cd")) \
-		&& (!ft_strncmp(par->cmd_name, "unset", ft_strlen(par->cmd_name))))
-		par->builtins = 1;
-	else if ((ft_strlen(par->cmd_name) == ft_strlen("env")) \
-		&& (!ft_strncmp(par->cmd_name, "pwd", ft_strlen(par->cmd_name))))
-		par->builtins = 1;
-	else if ((ft_strlen(par->cmd_name) == ft_strlen("pwd")) \
 		&& (!ft_strncmp(par->cmd_name, "cd", ft_strlen(par->cmd_name))))
 		par->builtins = 1;
-	else if ((ft_strlen(par->cmd_name) == ft_strlen("unset")) \
+	else if ((ft_strlen(par->cmd_name) == ft_strlen("env")) \
 		&& (!ft_strncmp(par->cmd_name, "env", ft_strlen(par->cmd_name))))
+		par->builtins = 1;
+	else if ((ft_strlen(par->cmd_name) == ft_strlen("pwd")) \
+		&& (!ft_strncmp(par->cmd_name, "pwd", ft_strlen(par->cmd_name))))
+		par->builtins = 1;
+	else if ((ft_strlen(par->cmd_name) == ft_strlen("unset")) \
+		&& (!ft_strncmp(par->cmd_name, "unset", ft_strlen(par->cmd_name))))
 		par->builtins = 1;
 	else
 		par->builtins = 0;
@@ -95,6 +95,7 @@ void	print_amb(t_token *tok, int *count, int *count_2)
 	if ((*count) == 1)
 	{
 		printf("minishell: %s: ambiguous redirect\n", tok->exp);
+		exit_status(1, 0);
 		(*count) = 0;
 		(*count_2) = 1;
 	}

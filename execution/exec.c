@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:30:37 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/20 19:55:39 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/21 19:38:34 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,43 @@ void	execute_cmd(t_config *config, t_parse *cmd)
 	if (execve(config->path, cmd->args, config->env) == -1)
 		error_handling(0, cmd->cmd_name, ": command not found", 127);
 	exit_status(127, 0);
-	exit(1);
+	exit(errno);
 }
+
+// int	ft_split_path(char ***split_path, char **path, char **tmp, int *i)
+// {
+// 	*split_path = NULL;
+// 	*tmp = NULL;
+// 	*i = 0;
+// }
+
+// char	*ft_find_path(char *cmd, char *path)
+// {
+// 	char	**split_path;
+
+// 	if (!cmd || !cmd_path)
+// 		return (NULL);
+// 	if (!ft_strlen(cmd) || ft_strchr("./", cmd[0]))
+// 		return (ft_strdup(cmd));
+// 	if (!ft_split_path(&split_path, &path, &tmp, &i))	
+// }
+
+// char	*get_cmd_path(t_config *config, char *cmd)
+// {
+// 	char	*cmd_path;
+
+// 	cmd_path = ft_getenv(config->env, "PATH");
+// 	if (!cmd_path)
+// 		return (ft_strdup(cmd));
+// 	else
+// 		cmd_path = ft_find_path(cmd, cmd_path);
+// }
+
+// void	execute_cmd(t_config *config, t_parse *cmd)
+// {
+// 	char *cmd_path;
+// 	char	**args;
+	
+// 	args = cmd->args;
+// 	cmd_path = get_cmd_path(config, args[0]);
+// }

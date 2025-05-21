@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:59:18 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/13 20:17:19 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/21 15:10:30 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,10 @@ static int	goto_home_dir(char **env)
 
 	env_value = ft_getenv(env, "HOME");
 	if (!env_value)
-	{
-		ft_putstr_fd("cd: HOME not set\n", 2);
-		return (1);
-	}
+		return (ft_putstr_fd("cd: HOME not set\n", 2), 1);
 	res = chdir(env_value);
 	if (res < 0)
-	{
-		print_cd_error();
-		return (1);
-	}
+		return (print_cd_error(), 1);
 	return (0);
 }
 
@@ -59,7 +53,7 @@ static int	goto_prev_dir(char **env)
 	return (0);
 }
 
-int	ft_cd(char *path, char **env)
+int	ft_cd(char *path, char **env, int *cd_broken)
 {
 	char	*cwd;
 	int		cd_rtrn;
@@ -67,8 +61,10 @@ int	ft_cd(char *path, char **env)
 	if (!path)
 		return (goto_home_dir(env));
 	cwd = getcwd(NULL, 0);
-	if (!cwd && ft_strcmp(path, ".."))
-		return (-1);
+	if (!cwd && !ft_strcmp(path, "..") && !(*cd_broken))
+		return (write(2, "minishell : cd: ..: No such file or directory\n", 47), *cd_broken = 1, 1);
+	if (!cwd && !ft_strcmp(path, "..") && (*cd_broken))
+		return (cd_rtrn = chdir(path), -1);
 	if (ft_strcmp(path, "-") == 0)
 		cd_rtrn = goto_prev_dir(env);
 	else
@@ -84,15 +80,3 @@ int	ft_cd(char *path, char **env)
 	free(cwd);
 	return (0);
 }
-
-// int main()
-// {
-// 	char *str;
-// 	char cwd[100];
-
-// 	str = "..";
-// 	printf("%s\n", getcwd(cwd, 100));
-// 	ft_cd(str);
-// 	printf("%s\n", getcwd(cwd, 100));
-
-// }

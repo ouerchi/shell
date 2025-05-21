@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:20 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/20 21:28:12 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:49:01 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ int	ft_continue(char *rl)
 	state = ft_handle_error(rl);
 	if (state == ERR_UNCLOSED_QUOTES)
 	{
-		printf("minishell: Syntax error: Unclosed quotes\n");
+		ft_putstr_fd("minishell: Syntax error: Unclosed quotes\n", 2);
+		exit_status(2, 0);
 		return (0);
 	}
 	return (1);
@@ -66,13 +67,15 @@ void	minishell_loop(char **env)
 	t_config	config;
 	t_token		*token;
 
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, sig_int_handle);
 	init_env(&config, env);
 	while (1)
-	{
+	{	
 		rl = readline("minishell-$ ✗ ");
 		if (!rl)
 		{
-			printf("minishell-$ exit\n");
+			printf("exit\n");
 			break ;
 		}
 		add_history(rl);
