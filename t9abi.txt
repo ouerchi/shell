@@ -35,32 +35,13 @@ $>
 		$> sleep 3 | sleep 3 | sleep 3 (faire Ctlr-\ une seconde apres)	^\Quit (core dumped)
 $>
           =====================
--> minishell-$ ✗ export HOLA=' hola et $HOLA'
-minishell: export: `$HOLA' : not a valid identifier
--> export tt="ls -al"
-export ttt=$tt
-          =====================
 -> 400 --> 458 | cd mt9oba zaml boha makhdama fiha ta 9lwa (tankteb hadchi w tandhek bohdi ki chi 7m9 jonon l minishell)
-          =====================
--> exit hola que tal				bash: exit: hola: numeric argument required | matexitich azbi rah khas tl3 numeric argument required
-          =====================
--> exit hola 666 | ta hadi azbi bhal khtha li fogha
-          =====================
-->  exit hola 666 666 | waaaaaaaaaa zbii ta had l9lwa
           =====================
 -> exit 9223372036854775808 | zbiiii tl3 had error bash: exit: 9223372036854775808: numeric argument required
           =====================
 -> exit -9223372036854775808
 	exit
 	minishell: exit: -9223372036854775808: numeric argument required | 9lbtihom azbi hadi m3a li fogha
-          =====================
-->  ls | exit (ha ach tatl3 3ndna)--> exit / (3ndhom)--> [walo]  | mt9ob azbi hadchi 3yt anmchi nt9wd handli azbi chi 9lwa rah bina npushiw
-          =====================
-->  exit | ls | --> exit zaml boha tatktbha finma aji ktbha f khrzti hsn
-          =====================
-->  mhm azbi rah herdoc echo parsing syntax error exit status pwd "binary files" kolhom homa hadok dial
-	hadak lfile li tantestiw mno export (fiha t9iba whda) w unset khasha hir error msg "env howa hadak" 
-	"expanding howa hadak" mhm b9i lik testi files, pipes, signals w dakchi lakhor kolo mt9ob !
 \-------------------------------------------------/
 
 

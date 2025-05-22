@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:55:42 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/10 16:12:52 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/22 18:12:33 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,28 +67,26 @@ char	*ft_itoa(int n)
 	return (ascii);
 }
 
-static long	calc_result(long tmp, long result, char c, int sign)
+static int	check_sign(int sign, bool *flag)
 {
-	tmp = (result * 10) + (c - 48);
-	if (tmp < result && sign == 1)
-		return (-1);
-	else if (tmp < result && sign == -1)
+	*flag = true;
+	if (sign < 0)
 		return (0);
-	return (tmp);
+	else
+		return (-1);
 }
 
-int	ft_atoi(const char *str)
+long long	ft_atoi(const char *str, bool *flag)
 {
-	int		i;
-	int		sign;
-	long	result;
-	long	tmp;
+	long long	result;
+	long long	old_result;
+	int			sign;
+	int			i;
 
-	i = 0;
-	sign = 1;
 	result = 0;
-	tmp = 0;
-	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+	sign = 1;
+	i = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 	{
@@ -96,10 +94,13 @@ int	ft_atoi(const char *str)
 			sign *= -1;
 		i++;
 	}
-	while (str[i] && str[i] >= '0' && str[i] <= '9')
+	while (ft_isdigit(str[i]))
 	{
-		result = calc_result(tmp, result, str[i], sign);
+		old_result = result;
+		result = result * 10 + (sign * (str[i] - '0'));
+		if ((result / 10) != old_result)
+			return (check_sign(sign, flag));
 		i++;
 	}
-	return (sign * result);
+	return (result);
 }

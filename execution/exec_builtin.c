@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 21:29:51 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/21 19:13:21 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/22 14:53:57 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	run_builtins(t_config *config, t_parse *cmd)
 	return (status);
 }
 
-int	ft_update_pwd(t_config **config)
+int	ft_update_pwd(t_config *config)
 {
 	char	*old_pwd;
 	char	*cwd;
@@ -71,14 +71,32 @@ int	ft_update_pwd(t_config **config)
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 		return(1);
-	old_pwd = ft_getenv((*config)->env, "PWD");
+	old_pwd = ft_getenv(config->env, "PWD");
 	if (old_pwd)
-		ft_setenv(*config, "OLDPWD", ft_strdup(old_pwd));
+		ft_setenv(config, "OLDPWD", ft_strdup(old_pwd));
 	else
-		ft_setenv(*config, "OLDPWD", NULL);
-	ft_setenv(*config, "PWD", ft_strdup(cwd));
-	update_env_array(*config);
+		ft_setenv(config, "OLDPWD", NULL);
+	ft_setenv(config, "PWD", ft_strdup(cwd));
+	update_env_array(config);
 	return (0);
+}
+
+void	ft_update_pwd_fail(t_config *config, char	*arg)
+{
+	char	*old_pwd;
+	char	*updated_pwd;
+
+	old_pwd = ft_getenv(config->env, "PWD");
+	write(2, "cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 108);
+	if (old_pwd)
+	{
+		updated_pwd = ft_strjoin(old_pwd, "/");
+		updated_pwd = ft_strjoin(updated_pwd, arg);
+		ft_setenv(config, "PWD", updated_pwd);
+		ft_setenv(config, "OLDPWD", old_pwd);
+		update_env_array(config);
+	}
+	
 }
 
 int	run_builtins_rest(t_config *config, t_parse *cmd)
@@ -89,7 +107,6 @@ int	run_builtins_rest(t_config *config, t_parse *cmd)
 
 	cwd = NULL;
 	status = 0;
-	cd_broken = 0;
 	if (check_cmd_name(cmd->cmd_name) == 7)
 	{
 		status = ft_unset(config, cmd->args);
@@ -116,10 +133,28 @@ int	run_builtins_rest(t_config *config, t_parse *cmd)
 		status = ft_cd(cmd->args[1], (config)->env, &cd_broken);
 		cwd = getcwd(NULL, 0);
 		if (status == -1 && !cwd)
-			// ft_update_pwd();
-			;
+			return (ft_update_pwd_fail(config, cmd->args[1]), 1);
 		else
-			ft_update_pwd(&config);
+			ft_update_pwd(config);
 	}
 	return (status);
 }
+
+
+/*
+a/b/c/d
+rm -rf a
+
+~/Desktop/a/b/c/d
+1 : cd ..
+cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+~/Desktop/a/b/c/d/..
+2 : cd ..
+cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+~/Desktop/a/b/c/d/../..
+3 : cd ..
+cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+~/Desktop/a/b/c/d/../../..
+4 : cd ..
+~/Desktop
+*/

@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:26 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/21 23:24:11 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:09:47 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,7 +242,7 @@ void			free_lst(t_env **lst);
 void			free_env_lst(t_env *env);
 char			**ft_split_var(char *variable);
 char			*ft_itoa(int n);
-int				ft_atoi(const char *str);
+long long		ft_atoi(const char *str, bool *flag);
 char			*ft_search_lst(t_config *config, char *buff);
 int				is_numeric_char(char *str, int i);
 int				is_alpha_char(char *str, int i);

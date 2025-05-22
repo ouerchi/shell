@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:59:18 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/21 15:10:30 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:01:26 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,14 @@ int	ft_cd(char *path, char **env, int *cd_broken)
 		return (goto_home_dir(env));
 	cwd = getcwd(NULL, 0);
 	if (!cwd && !ft_strcmp(path, "..") && !(*cd_broken))
-		return (write(2, "minishell : cd: ..: No such file or directory\n", 47), *cd_broken = 1, 1);
-	if (!cwd && !ft_strcmp(path, "..") && (*cd_broken))
+	{
+		write(2, "minishell : cd: ..: No such file or directory\n", 47);
+		(*cd_broken) = 1;
+		return (1);
+	}
+	if (!cwd && !ft_strcmp(path, "..") && (*cd_broken) == 1)
 		return (cd_rtrn = chdir(path), -1);
-	if (ft_strcmp(path, "-") == 0)
+	if (!ft_strcmp(path, "-"))
 		cd_rtrn = goto_prev_dir(env);
 	else
 	{
