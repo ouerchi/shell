@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 21:29:51 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/22 14:53:57 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/22 22:33:21 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int	ft_update_pwd(t_config *config)
 		ft_setenv(config, "OLDPWD", NULL);
 	ft_setenv(config, "PWD", ft_strdup(cwd));
 	update_env_array(config);
+	free(cwd);
 	return (0);
 }
 
@@ -137,7 +138,7 @@ int	run_builtins_rest(t_config *config, t_parse *cmd)
 		else
 			ft_update_pwd(config);
 	}
-	return (status);
+	return (free(cwd), status);
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:26 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/22 18:09:47 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/23 14:06:09 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ typedef struct s_h_w
 {
 	int		j;
 	int		q;
-	int		s;
 	int		flag;
 	int		flag_2;
 	char	*buff;
@@ -80,6 +79,7 @@ typedef struct s_h_w
 typedef enum e_token
 {
 	T_WORD,
+	T_RED,
 	T_PIPE,
 	T_REDIR_IN,
 	T_REDIR_OUT,
@@ -185,6 +185,7 @@ typedef struct s_config
 	int		std_in;
 	int		std_out;
 	int		child_flag;
+	int		isexpanded;
 }	t_config;
 
 int				is_numeric(char *str);
@@ -206,8 +207,6 @@ t_token			*ft_token_new(t_token_type type, \
 	void *content, void *content_2);
 void			ft_lstadd_back_token(t_token **lst, t_token *new);
 t_token			*ft_lstlast_token(t_token *lst);
-void			sig_ign_handler(void);
-void			sig_int_handle(int sig);
 t_parse			*ft_parsing(t_token **token, t_config *config);
 t_parse			*ft_parse_new(void);
 char			*ft_strdup(char *s);
@@ -269,7 +268,6 @@ void			check_env(t_config *config);
 void			update_env_array(t_config *config);
 void			free_array(char **arr);
 char			**lst_to_array(t_env *env_lst);
-int				ft_cd(char *path, char **env, int *cd_broken);
 int				ft_exit(char **arg, int child_flag);
 int				ft_unset(t_config *config, char **args);
 int				ft_pwd(t_config *config);
@@ -328,7 +326,6 @@ int				func_4(t_token *token, int *flag);
 int				func_5(t_token *token);
 int				func_6(char *buff, t_q *q, t_exp *exp);
 int				func_7(char *buff, t_q *q, t_exp *exp);
-int				has_single(char *buff);
 int				is_valid_char(char c);
 int				valid_var_name(char *name, char *full);
 int				split_var(char *arg, char **name, char **value);
@@ -348,5 +345,13 @@ void			apply_redir(t_parse *cmd);
 int				handel_her(t_parse *cmd, int fd);
 int				func_6_her(char *buff, t_exp *exp);
 void			init_her(t_exp *exp);
+void			sig_int_handle(int sig);
+int				ft_cd(char *path, char **env, int *cd_broken);
+void			minishell_loop(t_config config);
 
+
+void			free_env_node(t_env *env);
+void			free_env_lst(t_env *env);
+void			free_lst(t_env **lst);
+void			free_files(t_files *files);
 #endif

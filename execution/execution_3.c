@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:34:07 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/20 21:37:15 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/22 22:16:26 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,8 @@ int	spawn_child_process(t_config *config, t_parse *cmd)
 		return (perror("fork"), 2);
 	if (pid == 0)
 		run_child_process(config, cmd);
-	if (cmd->outfile != -1)
-		close(cmd->outfile);
-	close(config->saved_fd);
+	ft_close(cmd->outfile);
+	ft_close(config->saved_fd);
 	if (cmd->next)
 	{
 		config->saved_fd = dup(config->pipe[0]);
@@ -69,8 +68,8 @@ int	spawn_child_process(t_config *config, t_parse *cmd)
 	}
 	if (cmd->next)
 	{
-		close(config->pipe[1]);
-		close(config->pipe[0]);
+		ft_close(config->pipe[1]);
+		ft_close(config->pipe[0]);
 	}
 	return (0);
 }

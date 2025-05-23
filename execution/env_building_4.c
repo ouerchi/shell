@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:23:26 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/21 16:19:58 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/22 22:51:48 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,6 @@ char	**lst_to_array(t_env *env_lst)
 	return (env);
 }
 
-void	free_array(char **arr)
-{
-	int	i;
-
-	i = 0;
-	if (!arr)
-		return ;
-	while (arr[i])
-		free(arr[i++]);
-	free(arr);
-}
-
 void	update_env_array(t_config *config)
 {
 	char	**new_env;
@@ -77,12 +65,12 @@ static int	update_env_value(t_env **env, char *name, char *value)
 				return (1);
 			free((*env)->value);
 			free((*env)->variable);
-			// value = trim_free(value);
 			(*env)->value = ft_strdup(value);
 			variable = ft_strdup(name);
 			variable = ft_strjoin(variable, "=");
 			variable = ft_strjoin(variable, value);
 			(*env)->variable = ft_strdup(variable);
+			free(variable);
 			free(value);
 			return (1);
 		}
@@ -117,7 +105,6 @@ void	append_var_value(t_config *config, char *name_var, char *value)
 void	ft_setenv(t_config *config, char *name, char *value)
 {
 	char	*variable;
-	char	*tmp;
 
 	if (!name)
 		return ;
@@ -126,15 +113,10 @@ void	ft_setenv(t_config *config, char *name, char *value)
 	if (update_env_value(&(config->env_lst), name, value) == 1)
 		return ;
 	variable = ft_strdup(name);
-	// value = trim_free(value);
 	if (value)
 	{
-		tmp = variable;
 		variable = ft_strjoin(variable, "=");
-		free(tmp);
-		tmp = variable;
 		variable = ft_strjoin(variable, value);
-		free(tmp);
 		free(value);
 	}
 	append_env_lst(&(config->env_lst), variable);

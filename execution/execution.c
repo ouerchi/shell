@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 20:05:13 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/21 23:54:19 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/22 22:18:31 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,28 @@ void	redirect_io(t_config *config, t_parse *cmd)
 {
 	if (cmd->next)
 	{
-		close(config->pipe[0]);
+		ft_close(config->pipe[0]);
 		if (dup2(config->pipe[1], STDOUT_FILENO) == -1)
 			perror("dup2");
-		close(config->pipe[1]);
+		ft_close(config->pipe[1]);
 	}
 	if (config->saved_fd != -1)
 	{
 		if (dup2(config->saved_fd, STDIN_FILENO) == -1)
 			perror("dup2");
-		close(config->saved_fd);
+		ft_close(config->saved_fd);
 	}
 	if (cmd->infile != -1 && cmd->infile != STDIN_FILENO)
 	{
 		if (dup2(cmd->infile, STDIN_FILENO) == -1)
 			perror("dup2");
-		close(cmd->infile);
+		ft_close(cmd->infile);
 	}
 	if (cmd->outfile != -1 && cmd->outfile != STDOUT_FILENO)
 	{
 		if (dup2(cmd->outfile, STDOUT_FILENO) == -1)
 			perror("dup2");
-		close(cmd->outfile);
+		ft_close(cmd->outfile);
 	}
 }
 
@@ -113,7 +113,7 @@ void	parent(t_config *config)
 {
 	int	status;
 
-	close(config->saved_fd);
+	(void)config;
 	while (waitpid(-1, &status, 0) != -1)
 	{
 		if (WIFEXITED(status))

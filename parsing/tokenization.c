@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 21:43:49 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/20 22:37:06 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/23 14:06:51 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,19 @@ void	ft_handle_word_2(t_token **lst, t_config *config, t_h_w *h_w)
 		config->amb = h_w->j;
 		config->exp = 0;
 	}
-	else
+	else if (!has_q_in_doll(h_w->buff) && h_w->temp[0] == '\0' && config->isexpanded)
 	{
 		ft_lstadd_back_token(lst, ft_token_new(T_WORD, h_w->temp, h_w->buff));
 		free(h_w->temp);
 		h_w->temp = NULL;
 		config->flag_2 = 1;
+		config->isexpanded = 0;
+	}
+	else
+	{
+		ft_lstadd_back_token(lst, ft_token_new(T_RED, h_w->temp, h_w->buff));
+		free(h_w->temp);
+		h_w->temp = NULL;
 	}
 }
 
@@ -41,11 +48,10 @@ void	ft_handle_word(char *rl, int *i, t_token **lst, t_config *config)
 	h_w.flag_2 = 0;
 	h_w.buff = ft_handle_buff(rl, i);
 	h_w.q = has_q_in_doll(h_w.buff);
-	h_w.s = has_single(h_w.buff);
 	h_w.temp = ft_word(h_w.buff, config, &h_w.flag);
 	if (h_w.temp)
 	{
-		if (h_w.flag == 1 && h_w.q == 1 && h_w.s == 1)
+		if (h_w.flag == 1 && h_w.q == 1)
 			ft_handle_word_2(lst, config, &h_w);
 		else
 		{
@@ -54,6 +60,7 @@ void	ft_handle_word(char *rl, int *i, t_token **lst, t_config *config)
 			h_w.temp = NULL;
 		}
 	}
+	free(h_w.buff);
 }
 
 void	ft_handle_redir_in(char *rl, int *i, t_token **lst)

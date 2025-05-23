@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:07:25 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/14 09:08:00 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/22 23:39:37 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ void ft_free_token_list(t_token *lst)
         tmp = lst;
         lst = lst->next;
         free(tmp->value);
+        free(tmp->exp);
         free(tmp);
     }
+    free(lst);
 }
 
 void free_parse(t_parse *cmd)
@@ -52,4 +54,5 @@ void free_parse(t_parse *cmd)
         }
         free(tmp);
     }
+    free(cmd);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:11:21 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/21 23:23:46 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:07:57 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,36 +27,28 @@ int	func_6_her(char *buff, t_exp *exp)
 	return (0);
 }
 
-int	has_single(char *buff)
-{
-	int	i;
-
-	i = 0;
-	while (buff[i])
-	{
-		if (buff[i] == '\'')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 int	has_q_in_doll(char *buff)
 {
 	int	i;
 	int	d_q;
+	int	s_q;
 
 	i = 0;
 	d_q = 0;
+	s_q = 0;
 	while (buff[i] && buff[i] != '$')
 	{
 		if (buff[i] == '"' && d_q == 1)
 			d_q = 0;
-		else if (buff[i] == '"' && d_q == 0)
+		else if (buff[i] == '"' && d_q == 0 && s_q == 0)
 			d_q = 1;
+		else if (buff[i] == '\'' && s_q == 1)
+			s_q = 0;
+		else if (buff[i] == '\'' && s_q == 0 && d_q == 0)
+			s_q = 1;
 		i++;
 	}
-	if (d_q == 0)
+	if (d_q == 0 && s_q == 0)
 		return (1);
 	return (0);
 }

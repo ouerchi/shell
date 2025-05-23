@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 23:48:41 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/21 22:15:06 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/22 20:33:58 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ char	*ft_word(char *buff, t_config *config, int *flag)
 		(*flag) = 1;
 		init_queen(&exp, &quotes);
 		dup = ft_queen(buff, config, exp, quotes);
+		config->isexpanded = 1;
 	}
 	else
 		dup = ft_handle_words(buff, 0);

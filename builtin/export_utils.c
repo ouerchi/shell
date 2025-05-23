@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 20:53:32 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/20 20:57:30 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/22 19:34:27 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,16 @@ int	valid_var_name(char *name, char *full)
 	int i;
 
 	if (!name[0] || (!ft_isalpha(name[0])&& name[0] != '_'))
-		return (msg_error("minishell: export: `", full, "' : not a valid identifier\n"), 1);
+		return (msg_error("minishell: export: `", full, "' : not a valid identifier\n"), exit_status(1, 0), 1);
 	i = 0;
 	while (name[i] && name[i] != '+')
 	{
 		if (!is_valid_char(name[i]))
-			return (msg_error("minishell: export: `", full, "' : not a valid identifier\n"), 1);
+			return (msg_error("minishell: export: `", full, "' : not a valid identifier\n"), exit_status(1, 0), 1);
 		i++;
 	}
 	if (name[i] == '+' && name[i + 1] != '\0')
-		return (msg_error("minishell: export: `", full, "' : not a valid identifier\n"), 1);
+		return (msg_error("minishell: export: `", full, "' : not a valid identifier\n"), exit_status(1, 0), 1);
 	return (0);
 }
 

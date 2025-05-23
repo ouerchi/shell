@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 18:34:50 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/21 18:53:25 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/22 19:40:21 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,18 +130,22 @@ int	ft_export(t_config *config, char **args)
 {
 	char	**env;
 	char	*name;
+	int		flag;
 	int		i;
 
 	name = NULL;
+	flag = 0;
 	env = config->env;
 	if (!args[1])
 		return (if_no_args(args, env));
 	i = 1;
 	while (args[i])
 	{
-		export_args(config, ft_strdup(args[i]), name);
+		if (export_args(config, ft_strdup(args[i]), name) == 1)
+			flag = 1;
 			// return (1);
 		i++;
 	}
-	return (0);
+	exit_status(flag, 1);
+	return (exit_status(flag, 0));
 }

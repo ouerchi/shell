@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_building.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 15:38:47 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/22 17:48:08 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/22 20:35:18 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	init_env(t_config *config, char **env)
 {
 	// config->env = env;
 	config->amb = 0;
+	config->isexpanded = 0;
 	config->env = get_env(env);
 	config->env_lst = NULL;
 	config->env_lst = get_env_lst(config);

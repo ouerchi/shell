@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:30:37 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/21 23:54:17 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/23 13:55:35 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ void	execute_cmd(t_config *config, t_parse *cmd)
 	get_path(config, cmd);
 	if (execve(config->path, cmd->args, config->env) == -1)
 		error_handling(0, cmd->cmd_name, ": command not found", 127);
+	free(config->path);
+	free_parse(config->cmd);
+	free_files(config->cmd->file);
 	exit_status(127, 0);
 	exit(errno);
 }

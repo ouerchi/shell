@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:22:18 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/16 15:53:27 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/22 22:40:21 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,29 +38,6 @@ char	**ft_split_var(char *variable)
 	if (!splited_var[1])
 		return (free(splited_var[0]), free(splited_var), NULL);
 	return (splited_var);
-}
-
-void	free_env_lst(t_env *env)
-{
-	t_env	*tmp;
-
-	if (!env)
-		return ;
-	while (env)
-	{
-		tmp = env->next;
-		free(env->variable);
-		free(env->name);
-		free(env->value);
-		free(env);
-		env = tmp;
-	}
-}
-
-void	free_lst(t_env **lst)
-{
-	free_env_lst(*lst);
-	*lst = NULL;
 }
 
 void	append_env_lst(t_env **lst, char *variable)

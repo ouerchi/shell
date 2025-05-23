@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_handle.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 23:23:31 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/18 22:21:21 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/23 13:42:28 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int	handle_char(t_dec *dec, char *rl, int *i)
 	dec->temp = ft_strjoin_char(dec->buff, rl[(*i)++]);
 	if (!dec->temp)
 		return (0);
-	free(dec->buff);
 	dec->buff = dec->temp;
 	return (1);
 }

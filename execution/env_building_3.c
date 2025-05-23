@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:22:00 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/21 15:59:33 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/22 21:44:13 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	*ft_getenv(char **env, char *env_name)
 	{
 		if (strncmp(env[i], env_name, env_len) == 0
 			&& env[i][env_len] == '=')
-			return (ft_strdup(env[i] + env_len + 1));
+			return (env[i] + env_len + 1);
 		i++;
 	}
 	return (NULL);

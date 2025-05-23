@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc_3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 19:26:19 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/19 22:26:00 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/22 23:19:01 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*ft_gen_name_file(void)
 	if (fd < 0)
 		return (perror("failed to open"), NULL);
 	num = 0;
-	name = malloc(102);
+	name = (char *)malloc(102);
 	if (!name)
 		return (close(fd), NULL);
 	while (num < 101)
