@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:07:25 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/23 20:16:05 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/23 23:38:56 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void ft_free_token_list(t_token *lst)
 
 void free_parse(t_parse *cmd)
 {
-    t_files *next_file;
     t_parse *tmp;
     int i;
 
@@ -42,14 +41,6 @@ void free_parse(t_parse *cmd)
             for (i = 0; tmp->args[i]; ++i)
                 free(tmp->args[i]);
             free(tmp->args);
-        }
-        while (tmp->file)
-        {
-            next_file = tmp->file->next;
-            free(tmp->file->name);
-            free(tmp->file->type);
-            free(tmp->file);
-            tmp->file = next_file;
         }
         free(tmp);
     }

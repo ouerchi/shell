@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:20 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/23 19:48:45 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/23 23:02:54 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_break(t_token *token, t_config *config)
 		if (ft_ambi(token, config, 0, 0) == 1)
 			return (1);
 		if (ft_state_loop(token, config) == BREAK)
-			return (free_parse(config->cmd), 0);
+			return (0);
 		if (val == -1)
 			return (0);
 	}
@@ -66,7 +66,6 @@ void	minishell_loop(t_config config)
 	char		*rl;
 	t_token		*token;
 
-	rl_catch_signals = 0;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sig_int_handle);
 	while (1)
@@ -82,9 +81,12 @@ void	minishell_loop(t_config config)
 			continue ;
 		token = ft_add_cmd(rl, &config);
 		if (ft_break(token, &config) == 0)
+		{
+			free_parse(config.cmd);
 			break ;
-		ft_free_token_list(token);
+		}
 		free_parse(config.cmd);
+		ft_free_token_list(token);
 		free(rl);
 	}
 	free_env_lst(config.env_lst);

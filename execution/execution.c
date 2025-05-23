@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 20:05:13 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/23 21:08:22 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/23 23:42:14 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ void	parent(t_config *config)
 	{
 		if (WIFEXITED(status))
 			exit_status(WEXITSTATUS(status), 0);
-		if (WIFSIGNALED(status))
-			exit_status(WTERMSIG(status) + 128, 0);
 	}
 }
 
