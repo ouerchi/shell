@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:34:07 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/22 22:16:26 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/23 21:04:50 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,6 @@ int	spawn_child_process(t_config *config, t_parse *cmd)
 		config->saved_fd = dup(config->pipe[0]);
 		if (config->saved_fd == -1)
 			perror("dup pipe[0]");
-	}
-	if (cmd->next)
-	{
 		ft_close(config->pipe[1]);
 		ft_close(config->pipe[0]);
 	}

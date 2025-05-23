@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:35:50 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/23 13:45:20 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/23 20:18:26 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	open_files_utils(t_name **her_name, t_parse *cmd, t_files *file)
 {
+	t_name	*tmp;
+
 	while (file)
 	{
 		if (file->name && f_strcmp(file->type, "REDIR_IN") == 0)
@@ -34,7 +36,9 @@ int	open_files_utils(t_name **her_name, t_parse *cmd, t_files *file)
 		else if (*her_name && f_strcmp(file->type, "HERDOC") == 0)
 		{
 			handel_her(cmd, (*her_name)->name);
-			*her_name = (*her_name)->next;
+			tmp = (*her_name)->next;
+			free(*her_name);
+			*her_name = tmp;
 		}
 		file = file->next;
 	}
@@ -52,7 +56,7 @@ int	open_files(t_name *her_name, t_parse *head_cmd)
 		cmd->infile = -1;
 		cmd->outfile = -1;
 		file = cmd->file;
-		if (open_files_utils(&her_name, cmd, file) == -1)
+		if (open_files_utils(&her_name, cmd, file) == -1 && free_files(cmd->file))
 			return (-1);
 		cmd = cmd->next;
 	}

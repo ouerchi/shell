@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 20:05:13 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/22 22:18:31 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/23 21:08:22 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,30 +52,11 @@ void	run_child_process(t_config *config, t_parse *cmd)
 	{
 		config->child_flag = 1;
 		exit_status(run_builtins(config, cmd), 0);
-		exit(0);
+		exit(exit_status(1, 1));
 	}
 	execute_cmd(config, cmd);
 }
 
-
-
-// static int	open_files(t_name *her_name, t_parse *head_cmd)
-// {
-// 	t_parse	*cmd;
-// 	t_files	*file;
-
-// 	cmd = head_cmd;
-// 	while (cmd)
-// 	{
-// 		cmd->infile = -1;
-// 		cmd->outfile = -1;
-// 		file = cmd->file;
-// 		if (open_files_utils(&her_name, cmd, file) == -1)
-// 			return (-1);
-// 		cmd = cmd->next;
-// 	}
-// 	return (0);
-// }
 
 int	run_single_cmd(t_config *config)
 {

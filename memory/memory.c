@@ -6,18 +6,18 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 22:36:44 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/23 13:54:10 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/23 20:38:15 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	free_files(t_files *files)
+int	free_files(t_files *files)
 {
 	t_files	*tmp;
 
 	if (!files)
-		return ;
+		return (0);
 	while (files)
 	{
 		tmp = files->next;
@@ -26,6 +26,7 @@ void	free_files(t_files *files)
 		free(files);
 		files = tmp;		
 	}
+	return (0);
 }
 
 void	free_env_node(t_env *env)
@@ -64,7 +65,7 @@ void	free_array(char **arr)
 	int	i;
 
 	i = 0;
-	if (!arr)
+	if (!arr || !(*arr))
 		return ;
 	while (arr[i])
 		free(arr[i++]);

@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:47:03 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/23 13:51:07 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/23 20:29:03 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,16 @@ int	ft_herdoc_2(t_token *token, t_her *her, t_config *config)
 		her->temp = ft_handle_words_her(token->next->exp);
 		if (ft_strcmp_her(her->rl_her, her->temp) == INT_MIN
 			|| !ft_strcmp_her(her->rl_her, her->temp))
+		{
+			free(her->temp);				
 			break ;
+		}
 		her->check = ft_expanding_her(her, config, exp);
 		write(her->fd, her->check, ft_strlen(her->check));
 		free(her->check);
 		free(her->temp);
 		her->rl_her = readline("> ");
 	}
-	free(her->temp);
 	her->flag = 0;
 	return (1);
 }
@@ -102,6 +104,7 @@ int	ft_herdoc(t_config *config, t_token *token, int *flag)
 	(*flag) = 1;
 	while (token && token->next)
 	{
+		
 		if (ft_herdoc_3(token, config, &her, &name) == -1)
 			return (-1);
 		token = token->next;
@@ -114,7 +117,8 @@ int	ft_herdoc_3(t_token *token, t_config *config, t_her *her, t_name **name)
 	t_name	*name_new;
 
 	if (token->next && token->type == T_HERDOC
-		&& token->next->type == T_WORD && (her->count_per > 0))
+		&& (token->next->type == T_WORD || token->next->type == T_RED)
+		&& (her->count_per > 0))
 	{
 		if (her->fd != -1)
 			close(her->fd);
@@ -122,7 +126,6 @@ int	ft_herdoc_3(t_token *token, t_config *config, t_her *her, t_name **name)
 			return (ft_free_name_list(*name), -1);
 		name_new = ft_name_new(her->fd_beg);
 		ft_lstadd_back_name(name, name_new);
-		free(name_new);
 		her->count_per--;
 	}
 	return (1);

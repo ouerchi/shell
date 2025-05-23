@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 21:29:51 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/22 22:33:21 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/23 22:48:20 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,26 @@ int	check_option(char **args)
 
 int	check_cmd_name(char *name)
 {
-	if ((ft_strlen(name) == ft_strlen("exit")) && (!ft_strncmp(name, "exit", ft_strlen(name))))
+	if ((ft_strlen(name) == ft_strlen("exit"))
+		&& (!ft_strncmp(name, "exit", ft_strlen(name))))
 		return (1);
-	else if ((ft_strlen(name) == ft_strlen("echo")) && (!ft_strncmp(name, "echo", ft_strlen(name))))
+	else if ((ft_strlen(name) == ft_strlen("echo"))
+		&& (!ft_strncmp(name, "echo", ft_strlen(name))))
 		return (2);
-	else if ((ft_strlen(name) == ft_strlen("export")) && (!ft_strncmp(name, "export", ft_strlen(name))))
+	else if ((ft_strlen(name) == ft_strlen("export"))
+		&& (!ft_strncmp(name, "export", ft_strlen(name))))
 		return (3);
-	else if ((ft_strlen(name) == ft_strlen("cd")) && (!ft_strncmp(name, "cd", ft_strlen(name))))
+	else if ((ft_strlen(name) == ft_strlen("cd"))
+		&& (!ft_strncmp(name, "cd", ft_strlen(name))))
 		return (4);
-	else if ((ft_strlen(name) == ft_strlen("env")) && (!ft_strncmp(name, "env", ft_strlen(name))))
+	else if ((ft_strlen(name) == ft_strlen("env"))
+		&& (!ft_strncmp(name, "env", ft_strlen(name))))
 		return (5);
-	else if ((ft_strlen(name) == ft_strlen("pwd")) && (!ft_strncmp(name, "pwd", ft_strlen(name))))
+	else if ((ft_strlen(name) == ft_strlen("pwd"))
+		&& (!ft_strncmp(name, "pwd", ft_strlen(name))))
 		return (6);
-	else if ((ft_strlen(name) == ft_strlen("unset")) && (!ft_strncmp(name, "unset", ft_strlen(name))))
+	else if ((ft_strlen(name) == ft_strlen("unset"))
+		&& (!ft_strncmp(name, "unset", ft_strlen(name))))
 		return (7);
 	return (0);
 }

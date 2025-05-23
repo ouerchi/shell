@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils_3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:23:34 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/23 14:19:18 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/23 15:34:23 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ near unexpected token `|'\n", 2), exit_status(2, 0), 0);
 int	func_4(t_token *token, int *flag)
 {
 	if (token->next && token->type == T_HERDOC
-		&& token->next->type == T_WORD && token->next->type == T_RED
+		&& (token->next->type == T_WORD || token->next->type == T_RED)
 		&& (*flag) == 0)
 		return (1);
 	return (0);

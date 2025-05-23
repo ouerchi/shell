@@ -6,7 +6,7 @@
 /*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 16:12:15 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/22 20:34:53 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/23 14:55:40 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	ft_ambi(t_token *token, t_config *config, int count, int count_2)
 		if (token->next
 			&& (token->type == T_REDIR_IN || token->type == T_REDIR_OUT
 				|| token->type == T_APPEND)
-			&& token->next->type == T_WORD)
+			&& (token->next->type == T_WORD || token->next->type == T_RED))
 		{
 			if (config->amb > 1 || config->flag_2 == 1)
 			{

@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 21:43:49 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/23 14:06:51 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/23 20:24:13 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,14 @@ void	ft_handle_word_2(t_token **lst, t_config *config, t_h_w *h_w)
 				ft_token_new(T_WORD, h_w->temp_2[h_w->j++], h_w->buff));
 		config->amb = h_w->j;
 		config->exp = 0;
+		free_array(h_w->temp_2);
+		free(h_w->temp);
 	}
 	else if (!has_q_in_doll(h_w->buff) && h_w->temp[0] == '\0' && config->isexpanded)
 	{
 		ft_lstadd_back_token(lst, ft_token_new(T_WORD, h_w->temp, h_w->buff));
 		free(h_w->temp);
 		h_w->temp = NULL;
-		config->flag_2 = 1;
 		config->isexpanded = 0;
 	}
 	else
@@ -36,6 +37,7 @@ void	ft_handle_word_2(t_token **lst, t_config *config, t_h_w *h_w)
 		ft_lstadd_back_token(lst, ft_token_new(T_RED, h_w->temp, h_w->buff));
 		free(h_w->temp);
 		h_w->temp = NULL;
+		config->flag_2 = 1;
 	}
 }
 

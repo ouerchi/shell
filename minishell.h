@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:26 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/23 14:06:09 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/23 20:18:07 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <sys/wait.h>
 # include <limits.h>
 # include <sys/stat.h>
+# include <sys/ioctl.h>
 # define _POSIX_C_SOURCE 200809L
 # define _XOPEN_SOURCE 700
 # define CD_HOME 0
@@ -348,10 +349,9 @@ void			init_her(t_exp *exp);
 void			sig_int_handle(int sig);
 int				ft_cd(char *path, char **env, int *cd_broken);
 void			minishell_loop(t_config config);
-
-
 void			free_env_node(t_env *env);
 void			free_env_lst(t_env *env);
 void			free_lst(t_env **lst);
-void			free_files(t_files *files);
+int				free_files(t_files *files);
+
 #endif
