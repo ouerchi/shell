@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 20:05:13 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/23 23:56:04 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/24 20:32:36 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	run_child_process(t_config *config, t_parse *cmd)
 	if (!cmd->cmd_name)
 		exit(0);
 	redirect_io(config, cmd);
+	if (cmd->file_fail)
+		exit(1);
 	if (cmd->builtins == 1)
 	{
 		config->child_flag = 1;
@@ -93,13 +95,21 @@ int	exit_status(int status, int flag)
 void	parent(t_config *config)
 {
 	int	status;
+	t_pid	*pid;
 
-	(void)config;
-	while (waitpid(-1, &status, 0) != -1)
+	pid = config->pids;
+	while (pid)
 	{
-		if (WIFEXITED(status))
-			exit_status(WEXITSTATUS(status), 0);
+		if (waitpid(pid->pid, &status, 0) == -1)
+			perror(strerror(errno));
+		else
+		{
+			if (WIFEXITED(status))
+				exit_status(WEXITSTATUS(status), 0);
+		}	
+		pid = pid->next;
 	}
+	free_pids(&config->pids);
 }
 
 int	execution(t_config *config)
@@ -109,9 +119,8 @@ int	execution(t_config *config)
 
 	init_process(config);
 	cmd_nmbr = ft_cmd_nmbr(config->cmd);
-	if (open_files(config->her_name, config->cmd) == -1)
-		return (exit_status(1, 0), 1);
-	if (cmd_nmbr == 1)
+	open_files(config->her_name, config->cmd);
+	if (cmd_nmbr == 1 && !config->cmd->file_fail)
 		return (run_single_cmd(config));
 	current_cmd = config->cmd;
 	while (current_cmd && config->cmd_idx < cmd_nmbr)

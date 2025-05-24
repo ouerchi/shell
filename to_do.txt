@@ -32,3 +32,9 @@ cd ~
 == Syscall param execve(filename) points to unaddressable byte(s)
 ==828559==    at 0x49AF08B: execve (syscall-template.S:120)
 ==828559==    by 0x4057D9: execute_cmd (in /home/azaimi/Desktop/minishell/minikill)
+
+
+
+< a < b < c cat
+bash: a: No such file or directory
+

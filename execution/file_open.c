@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:35:50 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/24 00:07:28 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/24 17:21:44 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,14 @@ int	open_files(t_name *her_name, t_parse *head_cmd)
 	cmd = head_cmd;
 	while (cmd)
 	{
+		cmd->file_fail = 0;
 		cmd->infile = -1;
 		cmd->outfile = -1;
 		file = cmd->file;
 		if (open_files_utils(&her_name, cmd, file) == -1)
-		{
-			free_files(file);
-			return (-1);
-		}
+			cmd->file_fail = 1;
+		free_files(file);
 		cmd = cmd->next;
 	}
-	free_files(file);
 	return (0);
 }

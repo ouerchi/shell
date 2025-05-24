@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:23:26 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/23 23:00:55 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/24 17:30:09 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ void	append_var_value(t_config *config, char *name_var, char *value)
 	if (!old_value)
 		old_value = ft_strdup("");
 	new_value = ft_strjoin(old_value, value);
-	free(old_value);
 	if (!new_value)
 		return (free(name));
 	ft_setenv(config, name, ft_strdup(new_value));

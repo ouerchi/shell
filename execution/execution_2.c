@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:34:33 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/23 13:45:39 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/24 20:10:20 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	init_process(t_config *config)
 {
+	config->pids = NULL;
 	config->cmd_idx = 0;
 	config->saved_fd = -1;
 }
@@ -42,7 +43,14 @@ int	redir_in(t_parse *cmd, char *file_name)
 	safe_close(&cmd->infile);
 	cmd->infile = open(file_name, O_RDONLY);
 	if (cmd->infile == -1)
-		return (perror(file_name), -1);
+	{
+		write(2, "minishell: ", 11);
+		write(2, file_name, ft_strlen(file_name));
+		write(2, ": ", 2);
+		write(2, strerror(errno), ft_strlen(strerror(errno)));
+		write(2, "\n", 1);
+		return (-1);
+	}
 	return (0);
 }
 
@@ -53,6 +61,11 @@ int	redir_out(t_parse *cmd, char *file_name)
 	safe_close(&cmd->outfile);
 	cmd->outfile = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (cmd->outfile == -1)
-		return (perror(file_name), -1);
+	{
+		write(2, "minishell: : ", 13);
+		write(2, strerror(errno), ft_strlen(strerror(errno)));
+		write(2, "\n", 1);
+		return (-1);
+	}
 	return (0);
 }

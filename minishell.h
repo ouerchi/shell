@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:26 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/23 23:59:59 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/24 20:22:20 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,12 @@ typedef struct s_q
 	int	double_q;
 }	t_q;
 
+typedef	struct s_pid
+{
+	pid_t			pid;
+	struct s_pid	*next;
+}	t_pid;
+
 typedef struct s_name
 {
 	int				name;
@@ -157,6 +163,7 @@ typedef struct s_parse
 	int				builtins;
 	int				infile;
 	int				outfile;
+	int				file_fail;
 	struct s_parse	*next;
 }	t_parse;
 
@@ -173,6 +180,7 @@ typedef struct s_config
 	t_parse	*cmd;
 	t_env	*env_lst;
 	t_name	*her_name;
+	t_pid	*pids;
 	int		exp;
 	int		flag_2;
 	char	**env;
@@ -196,7 +204,7 @@ void			ft_handle_redir_in(char *rl, int *i, t_token **lst);
 void			ft_handle_word(char *rl, int *i, t_token **lst, \
 	t_config *config);
 char			*ft_strjoin(char *s1, char *s2);
-void			free_parse(t_parse *cmd);
+void			free_parse(t_parse **cmd);
 void			ft_free_token_list(t_token *lst);
 int				count_words_before_pipe(t_token *token);
 char			*ft_strjoin_char(char *s1, char c);
@@ -354,4 +362,8 @@ void			free_env_lst(t_env *env);
 void			free_lst(t_env **lst);
 int				free_files(t_files *files);
 
+
+void			*pid_new(pid_t pid);
+void			lst_add_back_pid(t_pid **head, pid_t pid);
+void			free_pids(t_pid **head);
 #endif

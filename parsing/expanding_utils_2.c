@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_utils_2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 23:57:18 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/20 23:54:28 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/24 16:05:25 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*ft_strjoin_free(char *s1, char *s2)
 		return (ft_strdup(s1));
 	len1 = ft_strlen(s1);
 	len2 = ft_strlen(s2);
-	new_str = malloc(len1 + len2 + 1);
+	new_str = (char *)malloc(len1 + len2 + 1);
 	if (!new_str)
 		return (NULL);
 	ft_memcpy(new_str, s1, len1);

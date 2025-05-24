@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:30:37 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/23 23:42:59 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/24 19:41:48 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,18 @@ int	check_cmd(t_config *config, char *cmd)
 
 void	get_path(t_config *config, t_parse *cmd)
 {
-	if (is_path(cmd->cmd_name))
+	if (ft_strchr(cmd->cmd_name, '/'))
 	{
-		if (!ft_strncmp(cmd->cmd_name, ".", ft_strlen(cmd->cmd_name)))
-			return ;
-		if (is_directory(cmd->cmd_name) && f_strcmp(cmd->cmd_name, ".."))
+		if (is_directory(cmd->cmd_name))
 			return (exit_status(126, 0), error_handling(1, cmd->cmd_name, ": Is a directory", 126));
-		if (ft_strncmp(cmd->cmd_name, "...", ft_strlen("...")) && !check_cmd(config, cmd->cmd_name))
-			return ;
+		check_cmd(config, cmd->cmd_name);
 	}
+	if (ft_strchr(cmd->cmd_name, '.') && !check_cmd(config, cmd->cmd_name))
+		return ;
 	config->path = find_path(cmd->cmd_name, config->env);
 	if (config->path)
 		return ;
 	if (is_file(cmd->cmd_name) && !check_cmd(config, cmd->cmd_name))
-		return ;
-	if (is_directory(cmd->cmd_name))
-		return (error_handling(1, cmd->cmd_name, ": Is a directory", 126));
-	if (!check_cmd(config, cmd->cmd_name))
 		return ;
 }
 

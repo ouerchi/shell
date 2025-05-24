@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_struct.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 16:12:15 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/23 14:55:40 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/24 17:19:55 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_parse	*ft_parsing(t_token **token, t_config *config)
 	arg = ft_check_parse(token, &config, &i);
 	if (!arg)
 	{
-		free(parse);
+		free_parse(&parse);
 		return (NULL);
 	}
 	parse->args = arg;
@@ -89,7 +89,7 @@ t_parse	*parse_piped_commands(t_token **token_p, t_config *config)
 
 	cmd = ft_parsing(token_p, config);
 	if (!cmd)
-		return (NULL);
+		return (free_array(cmd->args), NULL);
 	token = *token_p;
 	if (token && token->type == T_PIPE)
 	{

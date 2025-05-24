@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 18:34:50 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/23 20:47:26 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/24 17:30:15 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,11 @@ int	if_no_args(char **args, char **env)
 			if (var_array[0][0] == '_')
 			{
 				i++;
+				free_array(var_array);
 				continue;
 			}
 			printf("declare -x %s=\"%s\"\n", var_array[0], var_array[1]);
+			free_array(var_array);
 		}
 		else
 			printf("declare -x %s\n", sorted_env[i]);

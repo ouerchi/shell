@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:22:18 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/22 22:40:21 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:50:50 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	**ft_split_var(char *variable)
 
 	if (!variable)
 		return (NULL);
-	splited_var = (char **)malloc(sizeof(char *) * 2);
+	splited_var = (char **)malloc(sizeof(char *) * 3);
 	if (!splited_var)
 		return (NULL);
 	i = 0;
@@ -37,6 +37,7 @@ char	**ft_split_var(char *variable)
 		splited_var[1] = ft_substr(variable, i, ft_strlen(variable));
 	if (!splited_var[1])
 		return (free(splited_var[0]), free(splited_var), NULL);
+	splited_var[2] = NULL;
 	return (splited_var);
 }
 

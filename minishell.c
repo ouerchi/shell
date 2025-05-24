@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:20 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/23 23:02:54 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/24 16:09:14 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@ t_state_loop	ft_state_loop(t_token *token, t_config *config)
 {
 	config->cmd = parse_piped_commands(&token, config);
 	if (!config->cmd)
-		return (free_parse(config->cmd), CONTINUE);
+		return (CONTINUE);
 	else
 	{
 		// ft_print_list(config->cmd);
 		execution(config);
+		free_parse(&config->cmd);
 		return (CONTINUE);
 	}
 }
@@ -34,10 +35,9 @@ int	ft_break(t_token *token, t_config *config)
 	{
 		if (ft_ambi(token, config, 0, 0) == 1)
 			return (1);
-		if (ft_state_loop(token, config) == BREAK)
-			return (0);
 		if (val == -1)
 			return (0);
+		ft_state_loop(token, config);
 	}
 	else
 	{
@@ -82,13 +82,17 @@ void	minishell_loop(t_config config)
 		token = ft_add_cmd(rl, &config);
 		if (ft_break(token, &config) == 0)
 		{
-			free_parse(config.cmd);
+			ft_free_token_list(token);
+			free_parse(&config.cmd);
+			free(rl);
 			break ;
 		}
-		free_parse(config.cmd);
-		ft_free_token_list(token);
 		free(rl);
+		ft_free_token_list(token);
+		// free_parse(config.cmd);
 	}
+	if (config.cmd)
+		free_parse(&config.cmd);
 	free_env_lst(config.env_lst);
 	free_array(config.env);
 }

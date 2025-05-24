@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:34:07 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/23 21:04:50 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/24 20:22:08 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	spawn_child_process(t_config *config, t_parse *cmd)
 		return (perror("fork"), 2);
 	if (pid == 0)
 		run_child_process(config, cmd);
+	lst_add_back_pid(&config->pids, pid);
 	ft_close(cmd->outfile);
 	ft_close(config->saved_fd);
 	if (cmd->next)
@@ -78,6 +79,11 @@ int	redir_append(t_parse *cmd, char *file_name)
 	safe_close(&cmd->outfile);
 	cmd->outfile = open(file_name, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (cmd->outfile == -1)
-		return (perror(file_name), -1);
+	{
+		write(2, "minishell: : ", 13);
+		write(2, strerror(errno), ft_strlen(strerror(errno)));
+		write(2, "\n", 1);
+		return (-1);
+	}
 	return (0);
 }

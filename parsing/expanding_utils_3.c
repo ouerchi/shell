@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 00:24:18 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/23 19:42:36 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:05:00 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ char	*third(char *buff, t_config *config, t_exp exp, int *j)
 	exp.temp_val = ft_search_lst(config, exp.temp_var);
 	exp.res = ft_strjoin_free(exp.res, exp.temp_val);
 	free(exp.temp_var);
-	free(exp.temp_val);
 	return (exp.res);
 }
 
