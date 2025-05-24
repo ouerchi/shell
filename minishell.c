@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:20 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/24 16:09:14 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/24 22:43:11 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ void	minishell_loop(t_config config)
 	char		*rl;
 	t_token		*token;
 
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, sig_int_handle);
 	while (1)
 	{
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, sig_int_handle);
 		rl = readline("minishell-$ ✗ ");
 		if (!rl)
 		{

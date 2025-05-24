@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 20:05:13 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/24 20:32:36 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/24 22:41:22 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	parent(t_config *config)
 	int	status;
 	t_pid	*pid;
 
+	signal(SIGINT, sig_parent_handler);
 	pid = config->pids;
 	while (pid)
 	{

@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:26 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/24 20:22:20 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/24 22:27:35 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -361,9 +361,10 @@ void			free_env_node(t_env *env);
 void			free_env_lst(t_env *env);
 void			free_lst(t_env **lst);
 int				free_files(t_files *files);
-
-
 void			*pid_new(pid_t pid);
 void			lst_add_back_pid(t_pid **head, pid_t pid);
 void			free_pids(t_pid **head);
+
+
+void			sig_parent_handler(int sig);
 #endif

@@ -41,3 +41,26 @@ Indirect leak of 1 byte(s) in 1 object(s) allocated from:
     #11 0x7f2933d23d8f in __libc_start_call_main csu/../sysdeps/nptl/libc_start_call_main.h:58:16
 
 SUMMARY: AddressSanitizer: 35 byte(s) leaked in 3 allocation(s).
+
+
+
+
+        modified:   Makefile
+        modified:   builtin/export.c
+        modified:   execution/env_building_2.c
+        modified:   execution/env_building_4.c
+        modified:   execution/exec.c
+        modified:   execution/execution.c
+        modified:   execution/execution_2.c
+        modified:   execution/execution_3.c
+        modified:   execution/file_open.c
+        modified:   memory/free.c
+        modified:   minishell
+        modified:   minishell.c
+        modified:   minishell.h
+        modified:   parsing/expanding_utils_2.c
+        modified:   parsing/expanding_utils_3.c
+        modified:   parsing/parsing_struct.c
+        new file:   stdout
+        modified:   to_do.txt
+        new file:   utils/utils_1.c
