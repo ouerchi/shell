@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 15:38:47 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/24 22:45:50 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 20:30:44 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,20 @@
 void	check_env(t_config *config)
 {
 	char	*tmp;
-	// int		shell_level;
+	int		shell_level;
 
 	if (!ft_getenv(config->env, "PATH"))
 		ft_setenv(config, "PATH", \
 			ft_strdup("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."));
 	if (!ft_getenv(config->env, "SHLVL"))
 		ft_setenv(config, "SHLVL", ft_strdup("1"));
-	// else
-	// {
-	// 	tmp = ft_getenv(config->env, "SHLVL");
-	// 	shell_level = ft_atoi(tmp) + 1;
-	// 	tmp = ft_itoa(shell_level);
-	// 	ft_setenv(config, "SHLVL", tmp);
-	// }
+	else
+	{
+		tmp = ft_getenv(config->env, "SHLVL");
+		shell_level = ft_atoi(tmp, false) + 1;
+		tmp = ft_itoa(shell_level);
+		ft_setenv(config, "SHLVL", tmp);
+	}
 	if (!ft_getenv(config->env, "_"))
 		ft_setenv(config, "_", ft_strdup("/usr/bin/env"));
 	if (!ft_getenv(config->env, "PWD"))
@@ -40,10 +40,59 @@ void	check_env(t_config *config)
 	update_env_array(config);
 }
 
+t_env	*get_env_lst(t_config *config)
+{
+	char	**env;
+	int		i;
+	t_env	*lst;
+
+	if (config->env_lst)
+		return (free_env_lst(config->env_lst), NULL);
+	env = config->env;
+	if (!env)
+		return (NULL);
+	lst = NULL;
+	i = 0;
+	while (env[i])
+	{
+		append_env_lst(&lst, env[i]);
+		if (!lst)
+			return (NULL);
+		i++;
+	}
+	return (lst);
+}
+
+char	**get_env(char **real_env)
+{
+	char	**env;
+	int		i;
+	int		count;
+
+	if (!real_env || !(*real_env))
+		return (NULL);
+	count = 0;
+	while (real_env[count])
+		count++;
+	env = (char **)malloc(sizeof(char *) * (count + 1));
+	if (!env)
+		return (NULL);
+	i = 0;
+	while (i < count)
+	{
+		env[i] = ft_strdup(real_env[i]);
+		if (!fail_check(&env, i))
+			return (NULL);
+		i++;
+	}
+	env[count] = NULL;
+	return (env);
+}
+
 void	init_env(t_config *config, char **env)
 {
-	// config->env = env;
 	config->amb = 0;
+	config->flag_c = 0;
 	config->isexpanded = 0;
 	config->cmd = NULL;
 	config->env = get_env(env);

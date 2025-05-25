@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:23:26 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/24 17:30:09 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 21:41:33 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	**lst_to_array(t_env *env_lst)
 void	update_env_array(t_config *config)
 {
 	char	**new_env;
-	
+
 	new_env = lst_to_array(config->env_lst);
 	if (!new_env)
 		return ;
@@ -66,6 +66,7 @@ static int	update_env_value(t_env **env, char *name, char *value)
 			free((*env)->value);
 			free((*env)->variable);
 			(*env)->value = ft_strdup(value);
+			variable = NULL;
 			variable = ft_strdup(name);
 			variable = ft_strjoin(variable, "=");
 			variable = ft_strjoin(variable, value);
@@ -85,20 +86,19 @@ void	append_var_value(t_config *config, char *name_var, char *value)
 	char	*name;
 	char	*old_value;
 	char	*new_value;
-	// t_env	*env;
-	
+
 	name = NULL;
 	name = ft_substr(name_var, 0, ft_strlen(name_var) - 1);
 	if (!name)
 		return ;
-	// env = config->env_lst;
 	old_value = ft_strdup(ft_getenv(config->env, name));
 	if (!old_value)
 		old_value = ft_strdup("");
 	new_value = ft_strjoin(old_value, value);
 	if (!new_value)
 		return (free(name));
-	ft_setenv(config, name, ft_strdup(new_value));
+	ft_setenv(config, name, new_value);
+	free(name);
 }
 
 void	ft_setenv(t_config *config, char *name, char *value)

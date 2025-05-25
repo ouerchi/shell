@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_struct.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 16:12:15 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/24 17:19:55 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 01:26:33 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,29 +101,31 @@ t_parse	*parse_piped_commands(t_token **token_p, t_config *config)
 	return (cmd);
 }
 
-int	ft_ambi(t_token *token, t_config *config, int count, int count_2)
+int	validate_pipes(t_token *token, t_config *config, int flag, int exp_command)
 {
-	t_token	*tok;
+	int		val;
 
-	while (token && token->next)
+	while (token)
 	{
-		if (token->next
-			&& (token->type == T_REDIR_IN || token->type == T_REDIR_OUT
-				|| token->type == T_APPEND)
-			&& (token->next->type == T_WORD || token->next->type == T_RED))
+		if (func_4(token, &flag) == 1)
 		{
-			if (config->amb > 1 || config->flag_2 == 1)
-			{
-				tok = token->next;
-				count = 1;
-			}
+			val = func_1(token, config, &flag);
+			if (val == -1 || val == -2)
+				return (val);
 		}
-		while (token && token->next && token->type != T_PIPE)
-			token = token->next;
-		print_amb(tok, &count, &count_2);
+		if (func_5(token) == 1)
+		{
+			if (func_2(token) == 0)
+				return (0);
+		}
+		else if (token->type == T_PIPE)
+		{
+			if (func_3(token, &exp_command) == 0)
+				return (0);
+		}
+		else
+			exp_command = 0;
 		token = token->next;
 	}
-	config->amb = 0;
-	config->flag_2 = 0;
-	return (count_2);
+	return (1);
 }

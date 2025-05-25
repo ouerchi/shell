@@ -6,11 +6,18 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:34:07 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/24 22:41:32 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 20:26:12 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	init_process(t_config *config)
+{
+	config->pids = NULL;
+	config->cmd_idx = 0;
+	config->saved_fd = -1;
+}
 
 int	ft_cmd_nmbr(t_parse *cmd_lst)
 {
@@ -44,46 +51,34 @@ char	*array_join(char **str)
 	return (rtrn);
 }
 
-int	spawn_child_process(t_config *config, t_parse *cmd)
+void	parent(t_config *config)
 {
-	pid_t	pid;
+	int		status;
+	t_pid	*pid;
 
-	if (cmd->next)
+	signal(SIGINT, sig_parent_handler);
+	pid = config->pids;
+	while (pid)
 	{
-		if (pipe(config->pipe) == -1)
-			perror("pipe cmd");
+		if (waitpid(pid->pid, &status, 0) == -1)
+			perror(strerror(errno));
+		else
+		{
+			if (WIFEXITED(status))
+				exit_status(WEXITSTATUS(status), 0);
+			if (WIFSIGNALED(status))
+				exit_status(WTERMSIG(status) + 128, 0);
+		}	
+		pid = pid->next;
 	}
-	pid = fork();
-	if (pid == -1)
-		return (perror("fork"), 2);
-	if (pid == 0)
-		run_child_process(config, cmd);
-	lst_add_back_pid(&config->pids, pid);
-	ft_close(cmd->outfile);
-	ft_close(config->saved_fd);
-	if (cmd->next)
-	{
-		config->saved_fd = dup(config->pipe[0]);
-		if (config->saved_fd == -1)
-			perror("dup pipe[0]");
-		ft_close(config->pipe[1]);
-		ft_close(config->pipe[0]);
-	}
-	return (0);
+	free_pids(&config->pids);
 }
 
-int	redir_append(t_parse *cmd, char *file_name)
+int	exit_status(int status, int flag)
 {
-	if (is_directory(file_name))
-		return (msg_error("minishell: ", file_name, ": Is a directory"), 1);
-	safe_close(&cmd->outfile);
-	cmd->outfile = open(file_name, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	if (cmd->outfile == -1)
-	{
-		write(2, "minishell: : ", 13);
-		write(2, strerror(errno), ft_strlen(strerror(errno)));
-		write(2, "\n", 1);
-		return (-1);
-	}
-	return (0);
+	static int	exit_status;
+
+	if (flag != 1)
+		exit_status = status;
+	return (exit_status);
 }

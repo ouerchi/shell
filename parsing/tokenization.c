@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 21:43:49 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/23 20:24:13 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 17:02:37 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,16 @@ void	ft_handle_word_2(t_token **lst, t_config *config, t_h_w *h_w)
 	if (h_w->temp[0] != '\0')
 	{
 		h_w->temp_2 = ft_split(h_w->temp, " ");
+		free(h_w->temp);
 		while (h_w->temp_2[h_w->j])
 			ft_lstadd_back_token(lst, \
 				ft_token_new(T_WORD, h_w->temp_2[h_w->j++], h_w->buff));
 		config->amb = h_w->j;
 		config->exp = 0;
 		free_array(h_w->temp_2);
-		free(h_w->temp);
 	}
-	else if (!has_q_in_doll(h_w->buff) && h_w->temp[0] == '\0' && config->isexpanded)
+	else if (!has_q_in_doll(h_w->buff) && h_w->temp[0] == '\0'
+		&& config->isexpanded)
 	{
 		ft_lstadd_back_token(lst, ft_token_new(T_WORD, h_w->temp, h_w->buff));
 		free(h_w->temp);
@@ -37,7 +38,6 @@ void	ft_handle_word_2(t_token **lst, t_config *config, t_h_w *h_w)
 		ft_lstadd_back_token(lst, ft_token_new(T_RED, h_w->temp, h_w->buff));
 		free(h_w->temp);
 		h_w->temp = NULL;
-		config->flag_2 = 1;
 	}
 }
 
@@ -47,7 +47,6 @@ void	ft_handle_word(char *rl, int *i, t_token **lst, t_config *config)
 
 	h_w.j = 0;
 	h_w.flag = 0;
-	h_w.flag_2 = 0;
 	h_w.buff = ft_handle_buff(rl, i);
 	h_w.q = has_q_in_doll(h_w.buff);
 	h_w.temp = ft_word(h_w.buff, config, &h_w.flag);

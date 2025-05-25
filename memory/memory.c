@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 22:36:44 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/23 23:59:40 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 22:06:45 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	free_files(t_files *files)
 		free(files->name);
 		free(files->type);
 		free(files);
-		files = tmp;		
+		files = tmp;
 	}
 	return (0);
 }

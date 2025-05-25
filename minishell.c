@@ -6,23 +6,22 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:20 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/24 22:43:11 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 21:54:02 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_state_loop	ft_state_loop(t_token *token, t_config *config)
+void	ft_state_loop(t_token *token, t_config *config)
 {
 	config->cmd = parse_piped_commands(&token, config);
 	if (!config->cmd)
-		return (CONTINUE);
+		return ;
 	else
 	{
-		// ft_print_list(config->cmd);
 		execution(config);
 		free_parse(&config->cmd);
-		return (CONTINUE);
+		return ;
 	}
 }
 
@@ -31,19 +30,12 @@ int	ft_break(t_token *token, t_config *config)
 	int	val;
 
 	val = validate_pipes(token, config, 0, 1);
-	if (val == 1 || val == -1)
-	{
-		if (ft_ambi(token, config, 0, 0) == 1)
-			return (1);
-		if (val == -1)
-			return (0);
+	if (val == -1)
+		return (0);
+	if (val == -2)
+		return (1);
+	else if (val == 1)
 		ft_state_loop(token, config);
-	}
-	else
-	{
-		config->flag_2 = 0;
-		config->amb = 0;
-	}
 	return (1);
 }
 
@@ -61,20 +53,21 @@ int	ft_continue(char *rl)
 	return (1);
 }
 
-void	minishell_loop(t_config config)
+void	minishell_loop(t_config config, t_token *token, char *rl)
 {
-	char		*rl;
-	t_token		*token;
-
 	while (1)
 	{
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, sig_int_handle);
+		ft_signal();
 		rl = readline("minishell-$ ✗ ");
 		if (!rl)
 		{
 			printf("exit\n");
 			break ;
+		}
+		if (!ft_strlen(rl))
+		{
+			free(rl);
+			continue ;
 		}
 		add_history(rl);
 		if (ft_continue(rl) == 0)
@@ -82,25 +75,21 @@ void	minishell_loop(t_config config)
 		token = ft_add_cmd(rl, &config);
 		if (ft_break(token, &config) == 0)
 		{
-			ft_free_token_list(token);
-			free_parse(&config.cmd);
-			free(rl);
+			ft_free_utils_2(config, token, rl);
 			break ;
 		}
-		free(rl);
-		ft_free_token_list(token);
-		// free_parse(config.cmd);
+		ft_free_utils_3(token, rl);
 	}
-	if (config.cmd)
-		free_parse(&config.cmd);
-	free_env_lst(config.env_lst);
-	free_array(config.env);
 }
 
 int	main(int argc, char **argv, char **env)
 {
+	char		*rl;
+	t_token		*token;
 	t_config	config;
 
+	rl = NULL;
+	token = NULL;
 	if (!isatty(0) || !isatty(1) || !isatty(2))
 	{
 		printf("not runnig...\n");
@@ -110,7 +99,8 @@ int	main(int argc, char **argv, char **env)
 	if (argc == 1)
 	{
 		init_env(&config, env);
-		minishell_loop(config);
+		minishell_loop(config, token, rl);
+		free_utils(config);
 	}
 	else
 		return (printf("minishell: %s: No such file \

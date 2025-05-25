@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 23:57:18 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/24 16:05:25 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 20:47:26 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ char	*ft_handle_name_her(char *buff, int *i)
 	return (temp);
 }
 
-char	*ft_strjoin_free(char *s1, char *s2)
+char	*ft_strjoin_2(char *s1, char *s2)
 {
-	char	*new_str;
-	size_t	len1;
-	size_t	len2;
+	size_t	len_s1;
+	size_t	len_s2;
+	char	*dst;
 
 	if (!s1 && !s2)
 		return (NULL);
@@ -51,33 +51,29 @@ char	*ft_strjoin_free(char *s1, char *s2)
 		return (ft_strdup(s2));
 	if (!s2)
 		return (ft_strdup(s1));
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	new_str = (char *)malloc(len1 + len2 + 1);
-	if (!new_str)
+	len_s1 = ft_strlen(s1);
+	len_s2 = ft_strlen(s2);
+	dst = (char *)malloc((len_s1 + len_s2 + 1) * sizeof(char));
+	if (!dst)
 		return (NULL);
-	ft_memcpy(new_str, s1, len1);
-	ft_memcpy(new_str + len1, s2, len2);
-	new_str[len1 + len2] = '\0';
+	ft_strcpy_join(dst, s1, s2);
+	return (dst);
+}
+
+char	*ft_strjoin_free(char *s1, char *s2)
+{
+	char	*new_str;
+
+	if (!s1 && !s2)
+		return (NULL);
+	if (!s1)
+		return (s2);
+	if (!s2)
+		return (s1);
+	new_str = ft_strjoin_2(s1, s2);
 	free(s1);
 	free(s2);
 	return (new_str);
-}
-
-void	*ft_memcpy(void *dest, const void *src, size_t n)
-{
-	unsigned char		*d;
-	const unsigned char	*s;
-
-	d = (unsigned char *)dest;
-	s = (const unsigned char *)src;
-	if (!dest && !src)
-		return (NULL);
-	if (dest == src)
-		return (dest);
-	while (n--)
-		*d++ = *s++;
-	return (dest);
 }
 
 int	has_doll(char *str)

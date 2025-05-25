@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:22:52 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/22 22:48:58 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 20:22:22 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,8 @@ void	restore_redir(t_config *config)
 {
 	ft_dup(config->std_in, STDIN_FILENO);
 	ft_dup(config->std_out, STDOUT_FILENO);
-	// dup2(config->std_in, STDIN_FILENO);
-	// dup2(config->std_out, STDOUT_FILENO);
 	ft_close(config->std_in);
 	ft_close(config->std_out);
-	// close(config->std_in);
-	// close(config->std_out);
 }
 
 void	apply_redir(t_parse *cmd)
@@ -47,16 +43,10 @@ void	apply_redir(t_parse *cmd)
 	{
 		ft_dup(cmd->outfile, STDOUT_FILENO);
 		ft_close(cmd->outfile);
-		// if (dup2(cmd->outfile, STDOUT_FILENO) == -1)
-		// 	perror("dup2");
-		// close(cmd->outfile);
 	}
 	if (cmd->infile != -1)
 	{
 		ft_dup(cmd->infile, STDOUT_FILENO);
 		ft_close(cmd->infile);
-		// if (dup2(cmd->infile, STDOUT_FILENO) == -1)
-		// 	perror("dup2");
-		// close(cmd->infile);
 	}
 }

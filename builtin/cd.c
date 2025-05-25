@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 17:59:18 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/23 18:50:21 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 21:58:23 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,15 @@ static int	goto_prev_dir(char **env)
 	return (0);
 }
 
+static int	ft_cd_utils(int cd_rtrn)
+{
+	if (cd_rtrn < 0)
+	{
+		print_cd_error();
+		return (1);
+	}
+}
+
 int	ft_cd(char *path, char **env, int *cd_broken)
 {
 	char	*cwd;
@@ -74,12 +83,8 @@ int	ft_cd(char *path, char **env, int *cd_broken)
 	else
 	{
 		cd_rtrn = chdir(path);
-		if (cd_rtrn < 0)
-		{
-			free(cwd);
-			print_cd_error();
-			return (1);
-		}
+		if (ft_cd_utils(cd_rtrn))
+			return (free(cwd), 1);
 	}
 	free(cwd);
 	return (0);

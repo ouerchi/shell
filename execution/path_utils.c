@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:10:12 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/22 23:11:44 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 20:21:47 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@ int	is_path(char *str)
 {
 	if (!str)
 		return (0);
-	return (str[0] == '/' || (str[0] == '.' && (str[1] == '/' || str[1] == '.')) || (str[0] == '.' && str[1] == '\0'));
+	return (str[0] == '/' || (str[0] == '.' && (str[1] == '/'
+				|| str[1] == '.')) || (str[0] == '.' && str[1] == '\0'));
 }
 
 int	is_directory(char *str)
 {
-	struct stat st;
+	struct stat	st;
 
 	if (!str)
 		return (0);
@@ -32,7 +33,7 @@ int	is_directory(char *str)
 
 int	is_file(char *str)
 {
-	struct stat st;
+	struct stat	st;
 
 	if (!str)
 		return (0);

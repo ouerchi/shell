@@ -6,34 +6,11 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:22:00 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/22 21:44:13 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 21:44:25 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-t_env	*get_env_lst(t_config *config)
-{
-	char	**env;
-	int		i;
-	t_env	*lst;
-
-	if (config->env_lst)
-		return (free_env_lst(config->env_lst), NULL);
-	env = config->env;
-	if (!env)
-		return (NULL);
-	lst = NULL;
-	i = 0;
-	while (env[i])
-	{
-		append_env_lst(&lst, env[i]);
-		if (!lst)
-			return (NULL);
-		i++;
-	}
-	return (lst);
-}
 
 int	fail_check(char ***env, int i)
 {
@@ -48,32 +25,6 @@ int	fail_check(char ***env, int i)
 		return (0);
 	}
 	return (1);
-}
-
-char	**get_env(char **real_env)
-{
-	char	**env;
-	int		i;
-	int		count;
-
-	if (!real_env || !(*real_env))
-		return (NULL);
-	count = 0;
-	while (real_env[count])
-		count++;
-	env = (char **)malloc(sizeof(char *) * (count + 1));
-	if (!env)
-		return (NULL);
-	i = 0;
-	while (i < count)
-	{
-		env[i] = ft_strdup(real_env[i]);
-		if (!fail_check(&env, i))
-			return (NULL);
-		i++;
-	}
-	env[count] = NULL;
-	return (env);
 }
 
 char	*ft_getenv(char **env, char *env_name)
@@ -95,14 +46,53 @@ char	*ft_getenv(char **env, char *env_name)
 	return (NULL);
 }
 
-char	*trim_free(char *str)
+char	**ft_split_var(char *variable)
 {
-	char	*tmp;
+	char	**splited_var;
+	int		i;
 
-	if (!str)
+	if (!variable)
 		return (NULL);
-	tmp = str;
-	str = ft_strtrim(str, " \t");
-	free(tmp);
-	return (str);
+	splited_var = (char **)malloc(sizeof(char *) * 3);
+	if (!splited_var)
+		return (NULL);
+	i = 0;
+	while (variable[i] && variable[i] != '=')
+		i++;
+	if (!variable[i])
+		return (free(splited_var), NULL);
+	splited_var[0] = ft_substr(variable, 0, i);
+	if (!splited_var[0])
+		return (free(splited_var), NULL);
+	i++;
+	if (!variable[i])
+		splited_var[1] = ft_strdup("");
+	else
+		splited_var[1] = ft_substr(variable, i, ft_strlen(variable));
+	if (!splited_var[1])
+		return (free(splited_var[0]), free(splited_var), NULL);
+	splited_var[2] = NULL;
+	return (splited_var);
+}
+
+void	ft_update_pwd_fail(t_config *config, char *arg)
+{
+	char	*old_pwd;
+	char	*tmp;
+	char	*updated_pwd;
+
+	old_pwd = ft_getenv(config->env, "PWD");
+	if (old_pwd)
+	{
+		write(2, "cd: error retrieving current directory: getcwd: cannot access \
+parent directories: No such file or directory\n", 108);
+		tmp = ft_strdup(old_pwd);
+		updated_pwd = ft_strjoin(tmp, "/");
+		updated_pwd = ft_strjoin(updated_pwd, arg);
+		ft_setenv(config, "PWD", updated_pwd);
+		ft_setenv(config, "OLDPWD", ft_strdup(old_pwd));
+		update_env_array(config);
+	}
+	else
+		return ;
 }

@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:26 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/24 22:27:35 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 22:09:52 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@
 # include <limits.h>
 # include <sys/stat.h>
 # include <sys/ioctl.h>
-# define _POSIX_C_SOURCE 200809L
-# define _XOPEN_SOURCE 700
-# define CD_HOME 0
+
+extern int	g_global_her;
 
 typedef struct s_her
 {
@@ -71,7 +70,6 @@ typedef struct s_h_w
 	int		j;
 	int		q;
 	int		flag;
-	int		flag_2;
 	char	*buff;
 	char	*temp;
 	char	**temp_2;
@@ -128,7 +126,7 @@ typedef struct s_q
 	int	double_q;
 }	t_q;
 
-typedef	struct s_pid
+typedef struct s_pid
 {
 	pid_t			pid;
 	struct s_pid	*next;
@@ -182,9 +180,9 @@ typedef struct s_config
 	t_name	*her_name;
 	t_pid	*pids;
 	int		exp;
-	int		flag_2;
 	char	**env;
 	bool	fail;
+	int		flag_c;
 	bool	env_exist;
 	int		saved_fd;
 	int		pipe[2];
@@ -204,7 +202,6 @@ void			ft_handle_redir_in(char *rl, int *i, t_token **lst);
 void			ft_handle_word(char *rl, int *i, t_token **lst, \
 	t_config *config);
 char			*ft_strjoin(char *s1, char *s2);
-void			free_parse(t_parse **cmd);
 void			ft_free_token_list(t_token *lst);
 int				count_words_before_pipe(t_token *token);
 char			*ft_strjoin_char(char *s1, char c);
@@ -307,10 +304,7 @@ void			run_child_process(t_config *config, t_parse *cmd);
 int				check_toprint(char *str, int *i);
 void			safe_close(int *fd);
 int				extra_her(t_token *token, t_her *her);
-int				ft_ambi(t_token *token, t_config *config, \
-	int count, int count_2);
 void			ft_handle_word_2(t_token **lst, t_config *config, t_h_w *h_w);
-void			print_amb(t_token *tok, int *count, int *count_2);
 int				ft_strcmp_her(const char *s1, const char *s2);
 void			msg_error(char *msg1, char *full, char *msg2);
 int				is_directory(char *str);
@@ -356,15 +350,26 @@ int				func_6_her(char *buff, t_exp *exp);
 void			init_her(t_exp *exp);
 void			sig_int_handle(int sig);
 int				ft_cd(char *path, char **env, int *cd_broken);
-void			minishell_loop(t_config config);
+void			minishell_loop(t_config config, t_token *token, char *rl);
 void			free_env_node(t_env *env);
 void			free_env_lst(t_env *env);
 void			free_lst(t_env **lst);
 int				free_files(t_files *files);
+char			*ft_handle_words_her(char *rl);
+void			free_utils(t_config config);
 void			*pid_new(pid_t pid);
 void			lst_add_back_pid(t_pid **head, pid_t pid);
 void			free_pids(t_pid **head);
-
-
+void			free_parse(t_parse **cmd);
 void			sig_parent_handler(int sig);
+void			sig_handler_her(int sig);
+void			ft_strcpy_join(char *dst, char *s1, char *s2);
+
+int				check_option(char **args);
+void			option_error(char *cmd, char *option);
+int				run_builtins_rest_2(t_config *config, t_parse *cmd);
+int				ft_update_pwd(t_config *config);
+void			ft_update_pwd_fail(t_config *config, char *arg);
+void			env_error_arg(char *cmd, char *arg);
+
 #endif

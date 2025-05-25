@@ -6,11 +6,13 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:47:03 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/23 20:29:03 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 22:09:00 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	g_global_her = 0;
 
 static char	*ft_expanding_her(t_her *her, t_config *config, t_exp exp)
 {
@@ -39,20 +41,33 @@ static char	*ft_expanding_her(t_her *her, t_config *config, t_exp exp)
 	return (ft_strjoin_char(exp.res, '\n'));
 }
 
-static char	*ft_handle_words_her(char *rl)
+void	ft_herdoc_4(t_token *token, t_her *her, t_config *config, t_exp *exp)
 {
-	int		i;
-	t_dec	dec;
-
-	i = 0;
-	dec.quote = 0;
-	dec.buff = NULL;
-	while (rl[i])
+	signal(SIGINT, sig_handler_her);
+	her->rl_her = readline("> ");
+	while (her->rl_her)
 	{
-		if (!handle_char(&dec, rl, &i))
+		if (g_global_her == 1)
+		{
+			ft_re_init_her(config);
 			break ;
+		}
+		if (has_q(token->next->exp) == 0)
+			her->flag = 1;
+		her->temp = ft_handle_words_her(token->next->exp);
+		if (ft_strcmp_her(her->rl_her, her->temp) == INT_MIN
+			|| !ft_strcmp_her(her->rl_her, her->temp))
+		{
+			free(her->temp);
+			break ;
+		}
+		her->check = ft_expanding_her(her, config, *exp);
+		write(her->fd, her->check, ft_strlen(her->check));
+		free(her->check);
+		free(her->temp);
+		her->rl_her = readline("> ");
 	}
-	return (dec.buff);
+	signal(SIGINT, sig_int_handle);
 }
 
 int	ft_herdoc_2(t_token *token, t_her *her, t_config *config)
@@ -67,24 +82,7 @@ int	ft_herdoc_2(t_token *token, t_her *her, t_config *config)
 	her->fd_beg = open(her->name, O_RDWR);
 	unlink(her->name);
 	free(her->name);
-	her->rl_her = readline("> ");
-	while (her->rl_her)
-	{
-		if (has_q(token->next->exp) == 0)
-			her->flag = 1;
-		her->temp = ft_handle_words_her(token->next->exp);
-		if (ft_strcmp_her(her->rl_her, her->temp) == INT_MIN
-			|| !ft_strcmp_her(her->rl_her, her->temp))
-		{
-			free(her->temp);				
-			break ;
-		}
-		her->check = ft_expanding_her(her, config, exp);
-		write(her->fd, her->check, ft_strlen(her->check));
-		free(her->check);
-		free(her->temp);
-		her->rl_her = readline("> ");
-	}
+	ft_herdoc_4(token, her, config, &exp);
 	her->flag = 0;
 	return (1);
 }
@@ -104,7 +102,6 @@ int	ft_herdoc(t_config *config, t_token *token, int *flag)
 	(*flag) = 1;
 	while (token && token->next)
 	{
-		
 		if (ft_herdoc_3(token, config, &her, &name) == -1)
 			return (-1);
 		token = token->next;
@@ -124,6 +121,8 @@ int	ft_herdoc_3(t_token *token, t_config *config, t_her *her, t_name **name)
 			close(her->fd);
 		if (ft_herdoc_2(token, her, config) == -1)
 			return (ft_free_name_list(*name), -1);
+		if (config->flag_c == -101)
+			return (ft_free_name_list(*name), config->flag_c = 0, -1);
 		name_new = ft_name_new(her->fd_beg);
 		ft_lstadd_back_name(name, name_new);
 		her->count_per--;

@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 20:05:13 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/24 22:41:22 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 14:29:41 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	run_child_process(t_config *config, t_parse *cmd)
 	execute_cmd(config, cmd);
 }
 
-
 int	run_single_cmd(t_config *config)
 {
 	int		status;
@@ -83,34 +82,32 @@ int	run_single_cmd(t_config *config)
 	return (status);
 }
 
-int	exit_status(int status, int flag)
+int	spawn_child_process(t_config *config, t_parse *cmd)
 {
-	static int	exit_status;
+	pid_t	pid;
 
-	if (flag != 1)
-		exit_status = status;
-	return (exit_status);
-}
-
-void	parent(t_config *config)
-{
-	int	status;
-	t_pid	*pid;
-
-	signal(SIGINT, sig_parent_handler);
-	pid = config->pids;
-	while (pid)
+	if (cmd->next)
 	{
-		if (waitpid(pid->pid, &status, 0) == -1)
-			perror(strerror(errno));
-		else
-		{
-			if (WIFEXITED(status))
-				exit_status(WEXITSTATUS(status), 0);
-		}	
-		pid = pid->next;
+		if (pipe(config->pipe) == -1)
+			perror("pipe cmd");
 	}
-	free_pids(&config->pids);
+	pid = fork();
+	if (pid == -1)
+		return (perror("fork"), 2);
+	if (pid == 0)
+		run_child_process(config, cmd);
+	lst_add_back_pid(&config->pids, pid);
+	ft_close(cmd->outfile);
+	ft_close(config->saved_fd);
+	if (cmd->next)
+	{
+		config->saved_fd = dup(config->pipe[0]);
+		if (config->saved_fd == -1)
+			perror("dup pipe[0]");
+		ft_close(config->pipe[1]);
+		ft_close(config->pipe[0]);
+	}
+	return (0);
 }
 
 int	execution(t_config *config)

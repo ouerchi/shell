@@ -1,66 +1,7 @@
 /-------------------------------------------------\
           =====================
-	$> cat (faire Ctlr-C apres avoir fait plusieurs fois [ENTREE])
-
-^C
-$>	
-	$> cat | rev(faire Ctlr-C apres avoir fait plusieurs fois [ENTREE])
-
-
-^C
 	$> Ctlr-Z			$>	/	Ne fait rien
-
-$> sleep 3 | sleep 3 | sleep 3 (faire Ctlr-C une seconde apres)	^C
           =====================
-ls | hola
-hola: command not found  | exit status nt3 akhir commande
-minishell-$ ✗ echo $?
-141
-minishell-$ ✗  ls | ls | hola
-hola: command not found
-minishell-$ ✗ echo $?
-141
-minishell-$ ✗  ls | hola | ls
-bonjour    free.c  Makefile	minishell.h  README.md	utils
-builtin    hola    minishell	parsing      t9abi.txt
-execution  ls	   minishell.c	print_any.c  to_do.txt
-hola: command not found
-minishell-$ ✗ echo $?
-127
-minishell-$ ✗ cat Makefile | grep pr | head -n 5 | cd file_not_exist
-cd: No such file or directory
-minishell-$ ✗ echo $?
-141
-minishell-$ ✗ echo $?
-0
-minishell-$ ✗ cat Makefile | grep pr | head -n 5 | cd file_not_exist
-cd: No such file or directory
-minishell-$ ✗ echo $?
-0
-minishell-$ ✗ cat Makefile | grep pr | head -n 5 | cd file_not_exist
-cd: No such file or directory
-minishell-$ ✗ echo $?
-0
-minishell-$ ✗ echo $?
-0
-minishell-$ ✗ 
-minishell-$ ✗ cat Makefile | grep pr | head -n 5 | cd file_not_exist
-cd: No such file or directory
-minishell-$ ✗ echo $?
-0
-minishell-$ ✗ cat Makefile | grep pr | head -n 5 | hello
-hello: command not found
-minishell-$ ✗ echo $?
-141
-minishell-$ ✗ export | echo hola
-hola
-minishell-$ ✗ echo $?
-141
-minishell-$ ✗  echo hola > a
-minishell-$ ✗ >>b echo que tal
-minishell-$ ✗ cat a | <b cat | cat > c | cat
-minishell-$ ✗ echo $?
-141
 \-------------------------------------------------/
 
-<< "$HOME" cat | sleep 3 | ls -la | sleep 3 | wc | export
+<< "$HOME" cat | sleep 3 | ls -la | sleep 3 | wc | export //leaks

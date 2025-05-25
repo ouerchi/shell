@@ -6,7 +6,7 @@
 /*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:23:34 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/23 15:34:23 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/25 01:26:40 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	func_1(t_token *token, t_config *config, int *flag)
 	if (val == 0)
 		return (-1);
 	else if (val == -1)
-		return (0);
+		return (-2);
 	return (1);
 }
 

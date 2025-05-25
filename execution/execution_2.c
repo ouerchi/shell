@@ -6,18 +6,11 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:34:33 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/24 20:10:20 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 14:31:11 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	init_process(t_config *config)
-{
-	config->pids = NULL;
-	config->cmd_idx = 0;
-	config->saved_fd = -1;
-}
 
 int	handel_her(t_parse *cmd, int fd)
 {
@@ -60,6 +53,22 @@ int	redir_out(t_parse *cmd, char *file_name)
 		return (msg_error("minishell: ", file_name, ": Is a directory"), 1);
 	safe_close(&cmd->outfile);
 	cmd->outfile = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (cmd->outfile == -1)
+	{
+		write(2, "minishell: : ", 13);
+		write(2, strerror(errno), ft_strlen(strerror(errno)));
+		write(2, "\n", 1);
+		return (-1);
+	}
+	return (0);
+}
+
+int	redir_append(t_parse *cmd, char *file_name)
+{
+	if (is_directory(file_name))
+		return (msg_error("minishell: ", file_name, ": Is a directory"), 1);
+	safe_close(&cmd->outfile);
+	cmd->outfile = open(file_name, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (cmd->outfile == -1)
 	{
 		write(2, "minishell: : ", 13);

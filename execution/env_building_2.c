@@ -6,39 +6,32 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:22:18 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/24 15:50:50 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 21:44:00 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	**ft_split_var(char *variable)
+void	init_var(t_env **node, t_env ***lst, char *var, char ***split_var)
 {
-	char	**splited_var;
-	int		i;
+	*node = NULL;
+	*split_var = NULL;
+	*node = (t_env *)malloc(sizeof(t_env));
+	if (!*node)
+		return (free_lst(*lst));
+	*split_var = ft_split_var(var);
+}
 
-	if (!variable)
-		return (NULL);
-	splited_var = (char **)malloc(sizeof(char *) * 3);
-	if (!splited_var)
-		return (NULL);
-	i = 0;
-	while (variable[i] && variable[i] != '=')
-		i++;
-	if (!variable[i])
-		return (free(splited_var), NULL);
-	splited_var[0] = ft_substr(variable, 0, i);
-	if (!splited_var[0])
-		return (free(splited_var), NULL);
-	i++;
-	if (!variable[i])
-		splited_var[1] = ft_strdup("");
-	else
-		splited_var[1] = ft_substr(variable, i, ft_strlen(variable));
-	if (!splited_var[1])
-		return (free(splited_var[0]), free(splited_var), NULL);
-	splited_var[2] = NULL;
-	return (splited_var);
+void	succes_split(t_env **node, char ***split_var)
+{
+	(*node)->name = (*split_var)[0];
+	(*node)->value = (*split_var)[1];
+}
+
+void	fail_split(t_env **node, char *var)
+{
+	(*node)->name = var;
+	(*node)->value = NULL;
 }
 
 void	append_env_lst(t_env **lst, char *variable)
@@ -49,20 +42,11 @@ void	append_env_lst(t_env **lst, char *variable)
 
 	if (!lst || !variable)
 		return ;
-	node = (t_env *)malloc(sizeof(t_env));
-	if (!node)
-		return (free_lst(lst));
-	splited_var = ft_split_var(variable);
+	init_var(&node, &lst, variable, &splited_var);
 	if (splited_var)
-	{
-		node->name = splited_var[0];
-		node->value = splited_var[1];
-	}
+		succes_split(&node, &splited_var);
 	else
-	{
-		node->name = ft_strdup(variable);
-		node->value = NULL;
-	}
+		fail_split(&node, ft_strdup(variable));
 	node->variable = ft_strdup(variable);
 	node->next = NULL;
 	free(splited_var);
@@ -75,4 +59,23 @@ void	append_env_lst(t_env **lst, char *variable)
 	while (current->next)
 		current = current->next;
 	current->next = node;
+}
+
+int	ft_update_pwd(t_config *config)
+{
+	char	*old_pwd;
+	char	*cwd;
+
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		return (1);
+	old_pwd = ft_getenv(config->env, "PWD");
+	if (old_pwd)
+		ft_setenv(config, "OLDPWD", ft_strdup(old_pwd));
+	else
+		ft_setenv(config, "OLDPWD", NULL);
+	ft_setenv(config, "PWD", ft_strdup(cwd));
+	update_env_array(config);
+	free(cwd);
+	return (0);
 }

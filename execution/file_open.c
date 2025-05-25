@@ -6,11 +6,26 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:35:50 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/24 17:21:44 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 20:24:07 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static int	handel_outfile(t_parse *cmd, char *file_name, char *file_type)
+{
+	if (file_name && f_strcmp(file_type, "REDIR_OUT") == 0)
+	{
+		if (redir_out(cmd, file_name) == -1)
+			return (-1);
+	}
+	else if (file_name && f_strcmp(file_type, "APPEND") == 0)
+	{
+		if (redir_append(cmd, file_name) == -1)
+			return (-1);
+	}
+	return (0);
+}
 
 int	open_files_utils(t_name **her_name, t_parse *cmd, t_files *file)
 {
@@ -23,14 +38,10 @@ int	open_files_utils(t_name **her_name, t_parse *cmd, t_files *file)
 			if (redir_in(cmd, file->name) == -1)
 				return (-1);
 		}
-		else if (file->name && f_strcmp(file->type, "REDIR_OUT") == 0)
+		else if (file->name && (!f_strcmp(file->type, "REDIR_OUT")
+				|| !f_strcmp(file->type, "APPEND")))
 		{
-			if (redir_out(cmd, file->name) == -1)
-				return (-1);
-		}
-		else if (file->name && f_strcmp(file->type, "APPEND") == 0)
-		{
-			if (redir_append(cmd, file->name) == -1)
+			if (handel_outfile(cmd, file->name, file->type) == -1)
 				return (-1);
 		}
 		else if (*her_name && f_strcmp(file->type, "HERDOC") == 0)
