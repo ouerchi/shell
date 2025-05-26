@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:20 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/26 17:43:15 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:58:08 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,11 @@ void	ft_state_loop(t_token *token, t_config *config)
 {
 	config->cmd = parse_piped_commands(&token, config);
 	if (!config->cmd)
-		return (free_her(&config->her_name));
+	{
+		if (config->her_name)
+			free(config->her_name);
+		return ;
+	}
 	else
 	{
 		execution(config);

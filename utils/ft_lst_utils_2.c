@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lst_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 03:10:00 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/25 22:40:59 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/26 18:28:03 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	check_option(char **args)
 {
 	if (!args[1])
 		return (0);
-	if (args[1][0] != '-')
+	if (args[1][0] != '-' && args[1][1] != '\0')
 		return (0);
 	return (1);
 }

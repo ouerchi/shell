@@ -10,7 +10,7 @@ SRC = execution/env_building.c parsing/expanding_utils.c parsing/expanding_utils
 	parsing/herdoc_2.c execution/execution_2.c execution/execution_3.c execution/env_building_2.c execution/env_building_3.c \
 	execution/env_building_4.c parsing/parsing_utils_2.c execution/path_utils.c builtin/export.c parsing/herdoc_3.c \
 	parsing/parsing_utils_3.c builtin/export_utils.c execution/exec_builtin.c execution/file_redir.c execution/file_open.c \
-	parsing/siganl_handler.c memory/memory.c memory/free.c utils/utils_1.c builtin/export_utils_2.c memory/memory_2.c
+	parsing/siganl_handler.c memory/memory.c memory/free.c utils/utils_1.c builtin/export_utils_2.c
 
 OBJ = $(SRC:.c=.o)
 
