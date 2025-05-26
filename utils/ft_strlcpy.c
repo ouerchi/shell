@@ -1,34 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 11:27:07 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/11 17:41:18 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/25 22:40:34 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	ft_putstr_fd(char *s, int fd)
-{
-	int	i;
-
-	if (fd < 0 || !s)
-		return ;
-	i = 0;
-	while (s[i] != '\0')
-		ft_putchar_fd(s[i++], fd);
-}
-
-void	ft_putchar_fd(char c, int fd)
-{
-	if (fd < 0)
-		return ;
-	write(fd, &c, 1);
-}
 
 size_t	ft_strlcpy(char *dst, char *src, size_t dstsize)
 {
@@ -62,4 +44,50 @@ char	*ft_strchr_q(char *s, int c, int c_2)
 	if ((unsigned char)c == '\0' || (unsigned char)c_2 == '\0')
 		return ((char *)&s[i]);
 	return (NULL);
+}
+
+int	f_strcmp(const char *s1, const char *s2)
+{
+	size_t			i;
+	unsigned char	*p1;
+	unsigned char	*p2;
+
+	i = 0;
+	p1 = (unsigned char *)s1;
+	p2 = (unsigned char *)s2;
+	while ((p1[i] || p2[i]))
+	{
+		if (p1[i] != p2[i])
+		{
+			if (p1[i] > p2[i])
+				return (1);
+			else
+				return (-1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t			i;
+	unsigned char	*p1;
+	unsigned char	*p2;
+
+	i = 0;
+	p1 = (unsigned char *)s1;
+	p2 = (unsigned char *)s2;
+	while (i < n && (p1[i] || p2[i]))
+	{
+		if (p1[i] != p2[i])
+		{
+			if (p1[i] > p2[i])
+				return (1);
+			else
+				return (-1);
+		}
+		i++;
+	}
+	return (0);
 }

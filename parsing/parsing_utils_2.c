@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:11:21 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/25 22:10:50 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 16:52:32 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_re_init_her(t_config *config)
+{
+	config->flag_c = -101;
+	g_global_her = 0;
+}
 
 void	init_her(t_exp *exp)
 {
@@ -41,17 +47,4 @@ char	*ft_handle_words_her(char *rl)
 			break ;
 	}
 	return (dec.buff);
-}
-
-void	ft_free_utils_2(t_config config, t_token *token, char *rl)
-{
-	ft_free_token_list(token);
-	free_parse(&config.cmd);
-	free(rl);
-}
-
-void	ft_free_utils_3(t_token *token, char *rl)
-{
-	ft_free_token_list(token);
-	free(rl);
 }

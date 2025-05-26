@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:26 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/25 22:09:52 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:19:55 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,8 +233,6 @@ char			*ft_strcpy(char *dest, char *src);
 char			*ft_substr(char *s, unsigned int start, size_t len);
 void			handle_redirection(t_token **check, t_parse **p);
 void			process_char(char *rl, int *i, t_token **lst, t_config *config);
-void			ft_putchar_fd(char c, int fd);
-void			ft_putstr_fd(char *s, int fd);
 char			*ft_handle_buff(char *rl, int *i);
 void			init_env(t_config *config, char **env);
 char			*trim_free(char *str);
@@ -354,22 +352,31 @@ void			minishell_loop(t_config config, t_token *token, char *rl);
 void			free_env_node(t_env *env);
 void			free_env_lst(t_env *env);
 void			free_lst(t_env **lst);
-int				free_files(t_files *files);
+void			free_files(t_files *files);
 char			*ft_handle_words_her(char *rl);
-void			free_utils(t_config config);
+void			free_utils(t_config *config);
 void			*pid_new(pid_t pid);
 void			lst_add_back_pid(t_pid **head, pid_t pid);
 void			free_pids(t_pid **head);
 void			free_parse(t_parse **cmd);
 void			sig_parent_handler(int sig);
 void			sig_handler_her(int sig);
-void			ft_strcpy_join(char *dst, char *s1, char *s2);
-
+void			ft_re_init_her(t_config *config);
+char			*ft_strjoin_2(char *s1, char *s2);
 int				check_option(char **args);
 void			option_error(char *cmd, char *option);
 int				run_builtins_rest_2(t_config *config, t_parse *cmd);
 int				ft_update_pwd(t_config *config);
 void			ft_update_pwd_fail(t_config *config, char *arg);
 void			env_error_arg(char *cmd, char *arg);
+void			ft_signal(void);
+void			ft_free_utils_2(t_config config, t_token *token, char *rl);
+void			ft_free_utils_3(t_token *token, char *rl);
+void			do_split_var(char ***var_array, char *env);
+void			sort_env_2(char **sorted_env, int count);
+void			sort_env(char ***env, char ***sorted_env);
+int				empty_rl(char *rl);
+void			ft_strcpy_join(char *dst, char *s1, char *s2);
+int				ft_isspace(char *rl);
 
 #endif

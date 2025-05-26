@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:50:17 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/24 20:59:13 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/26 00:18:11 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,32 @@ void	free_pids(t_pid **head)
 		tmp = next;
 	}
 	*head = NULL;
+}
+
+char	*ft_strjoin_2(char *s1, char *s2)
+{
+	size_t	len_s1;
+	size_t	len_s2;
+	char	*dst;
+
+	if (!s1 && !s2)
+		return (NULL);
+	if (!s1)
+		return (ft_strdup(s2));
+	if (!s2)
+		return (ft_strdup(s1));
+	len_s1 = ft_strlen(s1);
+	len_s2 = ft_strlen(s2);
+	dst = (char *)malloc((len_s1 + len_s2 + 1) * sizeof(char));
+	if (!dst)
+		return (NULL);
+	ft_strcpy_join(dst, s1, s2);
+	return (dst);
+}
+
+int	empty_rl(char *rl)
+{
+	if (!ft_strlen(rl) || !ft_isspace(rl))
+		return (free(rl), 0);
+	return (1);
 }

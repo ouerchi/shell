@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 23:48:41 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/25 17:07:36 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 20:30:53 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	*ft_word(char *buff, t_config *config, int *flag)
 	t_exp	exp;
 	t_q		quotes;
 
+	dup = NULL;
 	if (has_doll(buff) == 0)
 	{
 		(*flag) = 1;
@@ -46,7 +47,5 @@ char	*ft_word(char *buff, t_config *config, int *flag)
 	}
 	else
 		dup = ft_handle_words(buff, 0);
-	if (dup == NULL)
-		dup = ft_strdup("");
 	return (dup);
 }

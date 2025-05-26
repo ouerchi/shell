@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 20:05:13 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/25 14:29:41 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:52:09 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ int	run_single_cmd(t_config *config)
 	t_parse	*cmd;
 
 	cmd = config->cmd;
-	if (!cmd->cmd_name)
-		return (0);
+	// if (!cmd->cmd_name)
+	// 	return (0);
 	if (cmd->builtins)
 	{
 		config->child_flag = 0;

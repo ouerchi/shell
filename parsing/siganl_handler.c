@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   siganl_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 00:26:42 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/25 22:10:59 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 22:42:14 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,4 @@ void	ft_signal(void)
 {
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sig_int_handle);
-}
-
-void	ft_re_init_her(t_config *config)
-{
-	config->flag_c = -101;
-	g_global_her = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:23:26 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/25 21:41:33 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 23:56:39 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	ft_setenv(t_config *config, char *name, char *value)
 	if (!name)
 		return ;
 	if (ft_strchr(name, '+'))
-		return (append_var_value(config, name, value));
+		return (append_var_value(config, name, value), free(value));
 	if (update_env_value(&(config->env_lst), name, value) == 1)
 		return ;
 	variable = ft_strdup(name);
@@ -117,6 +117,7 @@ void	ft_setenv(t_config *config, char *name, char *value)
 		variable = ft_strjoin(variable, "=");
 		variable = ft_strjoin(variable, value);
 		free(value);
+		value = NULL;
 	}
 	append_env_lst(&(config->env_lst), variable);
 	free(variable);

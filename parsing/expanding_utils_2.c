@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 23:57:18 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/25 20:47:26 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/26 00:18:43 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,27 +39,6 @@ char	*ft_handle_name_her(char *buff, int *i)
 	return (temp);
 }
 
-char	*ft_strjoin_2(char *s1, char *s2)
-{
-	size_t	len_s1;
-	size_t	len_s2;
-	char	*dst;
-
-	if (!s1 && !s2)
-		return (NULL);
-	if (!s1)
-		return (ft_strdup(s2));
-	if (!s2)
-		return (ft_strdup(s1));
-	len_s1 = ft_strlen(s1);
-	len_s2 = ft_strlen(s2);
-	dst = (char *)malloc((len_s1 + len_s2 + 1) * sizeof(char));
-	if (!dst)
-		return (NULL);
-	ft_strcpy_join(dst, s1, s2);
-	return (dst);
-}
-
 char	*ft_strjoin_free(char *s1, char *s2)
 {
 	char	*new_str;
@@ -87,5 +66,17 @@ int	has_doll(char *str)
 			return (0);
 		i++;
 	}
+	return (1);
+}
+
+int	ft_isspace(char *rl)
+{
+	int	i;
+
+	i = 0;
+	while (rl[i] && (rl[i] == ' ' || rl[i] == '\t'))
+		i++;
+	if (!rl[i])
+		return (0);
 	return (1);
 }

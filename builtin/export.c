@@ -6,17 +6,17 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 18:34:50 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/25 22:16:20 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 23:56:07 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_utils_no(char **args, char **env, char **sorted_env)
+int	ft_utils_no(char **args, char **env, char ***sorted_env)
 {
 	if (!args || !env)
 		return (1);
-	sort_env(&env, &sorted_env);
+	sort_env(&env, sorted_env);
 	return (0);
 }
 
@@ -25,7 +25,7 @@ int	if_no_args(char **args, char **env, int i)
 	char	**var_array;
 	char	**sorted_env;
 
-	if (ft_utils_no(args, env, sorted_env))
+	if (ft_utils_no(args, env, &sorted_env))
 		return (1);
 	while (sorted_env[i])
 	{
@@ -51,9 +51,9 @@ int	if_no_args(char **args, char **env, int i)
 
 void	msg_error(char *msg1, char *full, char *msg2)
 {
-	ft_putstr_fd(msg1, 2);
-	ft_putstr_fd(full, 2);
-	ft_putstr_fd(msg2, 2);
+	write(2, msg1, ft_strlen(msg1));
+	write(2, full, ft_strlen(full));
+	write(2, msg2, ft_strlen(msg2));
 }
 
 int	export_args(t_config *config, char *arg, char *name)
@@ -61,6 +61,7 @@ int	export_args(t_config *config, char *arg, char *name)
 	char	*value;
 	char	*full;
 	int		equal_sign;
+	char	*tmp;
 
 	(void)config;
 	full = ft_strdup(arg);
@@ -69,12 +70,13 @@ int	export_args(t_config *config, char *arg, char *name)
 	{
 		if (valid_var_name(name, full))
 			return (free(full), free(arg), 1);
-		ft_setenv(config, name, value);
+		tmp = ft_strdup(value);
+		ft_setenv(config, name, tmp);
 	}
 	if (!equal_sign && !valid_var_name(arg, full))
 		ft_setenv(config, arg, NULL);
 	else if (!equal_sign)
-		return (free(full), 1);
+		return (free(full), free(arg), 1);
 	free(arg);
 	free(full);
 	return (0);

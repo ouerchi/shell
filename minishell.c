@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:20 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/25 21:54:02 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/26 16:08:33 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_continue(char *rl)
 	state = ft_handle_error(rl);
 	if (state == ERR_UNCLOSED_QUOTES)
 	{
-		ft_putstr_fd("minishell: Syntax error: Unclosed quotes\n", 2);
+		write(2, "minishell: Syntax error: Unclosed quotes\n", 41);
 		exit_status(2, 0);
 		return (0);
 	}
@@ -64,11 +64,8 @@ void	minishell_loop(t_config config, t_token *token, char *rl)
 			printf("exit\n");
 			break ;
 		}
-		if (!ft_strlen(rl))
-		{
-			free(rl);
+		if (!empty_rl(rl))
 			continue ;
-		}
 		add_history(rl);
 		if (ft_continue(rl) == 0)
 			continue ;
@@ -80,6 +77,7 @@ void	minishell_loop(t_config config, t_token *token, char *rl)
 		}
 		ft_free_utils_3(token, rl);
 	}
+	free_utils(&config);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -100,7 +98,6 @@ int	main(int argc, char **argv, char **env)
 	{
 		init_env(&config, env);
 		minishell_loop(config, token, rl);
-		free_utils(config);
 	}
 	else
 		return (printf("minishell: %s: No such file \

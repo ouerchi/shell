@@ -9,4 +9,15 @@ cd builtins/ parsing/ -> bash: cd: too many arguments
 
 cd --- -> bash: cd: --: invalid option
 
-ctrl + \ -> 131
+/-------------------------------------------------\
+          =====================
+	$> Ctlr-Z			$>	/	Ne fait rien
+          =====================
+\-------------------------------------------------/
+
+<< "$HOME" cat | sleep 3 | ls -la | sleep 3 | wc | export //leaks
+
+sigquit $? -> 131
+
+char	**ft_check_parse(t_token **check, t_config **config, int *i)
+t_parse	*ft_parsing(t_token **token, t_config *config)

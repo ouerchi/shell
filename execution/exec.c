@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:30:37 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/25 20:27:42 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:21:35 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 void	error_handling(int flag, char *cmd, char *msg, int i)
 {
 	if (flag == 1)
-		ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(msg, 2);
-	ft_putstr_fd("\n", 2);
+		write(2, "minishell: ", 11);
+	write(2, cmd, ft_strlen(cmd));
+	write(2, msg, ft_strlen(msg));
+	write(2, "\n", 1);
 	exit(i);
 }
 
@@ -36,6 +36,7 @@ int	check_cmd(t_config *config, char *cmd)
 
 void	get_path(t_config *config, t_parse *cmd)
 {
+	config->path = NULL;
 	if (ft_strchr(cmd->cmd_name, '/'))
 	{
 		if (is_directory(cmd->cmd_name))
@@ -43,7 +44,7 @@ void	get_path(t_config *config, t_parse *cmd)
 				error_handling(1, cmd->cmd_name, ": Is a directory", 126));
 		check_cmd(config, cmd->cmd_name);
 	}
-	if (ft_strchr(cmd->cmd_name, '.') && !check_cmd(config, cmd->cmd_name))
+	if (ft_strchr(cmd->cmd_name, '.'))
 		return ;
 	config->path = find_path(cmd->cmd_name, config->env);
 	if (config->path)
@@ -59,7 +60,8 @@ void	execute_cmd(t_config *config, t_parse *cmd)
 	{
 		write(2, cmd->cmd_name, ft_strlen(cmd->cmd_name));
 		write(2, ": command not found\n", ft_strlen(": command not found\n"));
-		free(config->path);
+		if (config->path)
+			free(config->path);
 		exit_status(127, 0);
 	}
 	exit(127);

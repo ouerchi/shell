@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 21:43:49 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/25 17:02:37 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 20:37:19 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	ft_handle_word_2(t_token **lst, t_config *config, t_h_w *h_w)
 	if (h_w->temp[0] != '\0')
 	{
 		h_w->temp_2 = ft_split(h_w->temp, " ");
-		free(h_w->temp);
 		while (h_w->temp_2[h_w->j])
 			ft_lstadd_back_token(lst, \
 				ft_token_new(T_WORD, h_w->temp_2[h_w->j++], h_w->buff));
@@ -29,16 +28,10 @@ void	ft_handle_word_2(t_token **lst, t_config *config, t_h_w *h_w)
 		&& config->isexpanded)
 	{
 		ft_lstadd_back_token(lst, ft_token_new(T_WORD, h_w->temp, h_w->buff));
-		free(h_w->temp);
-		h_w->temp = NULL;
 		config->isexpanded = 0;
 	}
 	else
-	{
 		ft_lstadd_back_token(lst, ft_token_new(T_RED, h_w->temp, h_w->buff));
-		free(h_w->temp);
-		h_w->temp = NULL;
-	}
 }
 
 void	ft_handle_word(char *rl, int *i, t_token **lst, t_config *config)
@@ -50,17 +43,13 @@ void	ft_handle_word(char *rl, int *i, t_token **lst, t_config *config)
 	h_w.buff = ft_handle_buff(rl, i);
 	h_w.q = has_q_in_doll(h_w.buff);
 	h_w.temp = ft_word(h_w.buff, config, &h_w.flag);
-	if (h_w.temp)
-	{
-		if (h_w.flag == 1 && h_w.q == 1)
-			ft_handle_word_2(lst, config, &h_w);
-		else
-		{
-			ft_lstadd_back_token(lst, ft_token_new(T_WORD, h_w.temp, h_w.buff));
-			free(h_w.temp);
-			h_w.temp = NULL;
-		}
-	}
+	if (h_w.temp == NULL)
+		h_w.temp = ft_strdup("");
+	if (h_w.flag == 1 && h_w.q == 1)
+		ft_handle_word_2(lst, config, &h_w);
+	else
+		ft_lstadd_back_token(lst, ft_token_new(T_WORD, h_w.temp, h_w.buff));
+	free(h_w.temp);
 	free(h_w.buff);
 }
 

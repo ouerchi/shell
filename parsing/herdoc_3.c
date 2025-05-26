@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc_3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 19:26:19 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/22 23:19:01 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/25 22:53:49 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,14 @@ int	extra_her(t_token *token, t_her *her)
 {
 	her->val = validate_pipes_her(token, her);
 	if (her->val == 1 && ft_find_her(token) > 16)
-		return (printf("minishell: maximum here-document count exceeded\n"), 0);
+	{
+		write(2, "minishell: maximum here-document count exceeded\n", 48);
+		return (exit_status(2, 0), 0);
+	}
 	else if (her->val == 0 && her->count_per > 16)
-		return (printf("minishell: maximum here-document count exceeded\n"), 0);
+	{
+		write(2, "minishell: maximum here-document count exceeded\n", 48);
+		return (exit_status(2, 0), 0);
+	}
 	return (1);
 }

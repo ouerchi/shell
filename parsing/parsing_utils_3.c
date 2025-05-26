@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils_3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:23:34 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/25 01:26:40 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/26 00:23:26 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,26 +30,43 @@ int	func_2(t_token *token)
 
 	next_token = token->next;
 	if (!next_token)
-		return (ft_putstr_fd("minishell: syntax error near unexpected token 'new\
-line'\n", 2), exit_status(2, 0), 0);
+	{
+		write(2, "minishell: syntax error near unexpected token 'new\
+line'\n", 56);
+		return (exit_status(2, 0), 0);
+	}
 	else if (next_token->type == T_PIPE)
-		return (ft_putstr_fd("minishell: syntax error \
-near unexpected token `|'\n", 2), exit_status(2, 0), 0);
+	{
+		write(2, "minishell: syntax error \
+near unexpected token `|'\n", 50);
+		return (exit_status(2, 0), 0);
+	}
 	else if (next_token->type == T_REDIR_IN || next_token->type == T_REDIR_OUT \
 		|| next_token->type == T_APPEND || next_token->type == T_HERDOC)
-		return (printf("minishell: syntax error \
-near unexpected token '%s'\n", next_token->value), exit_status(2, 0), 0);
+	{
+		write(2, "minishell: syntax error near unexpected token ", 46);
+		write(2, "'", 1);
+		write(2, next_token->value, ft_strlen(next_token->value));
+		write(2, "'\n", 2);
+		return (exit_status(2, 0), 0);
+	}
 	return (1);
 }
 
 int	func_3(t_token *token, int *expect_command)
 {
 	if ((*expect_command))
-		return (ft_putstr_fd("minishell: syntax error \
-near unexpected token `|'\n", 2), exit_status(2, 0), 0);
+	{
+		write(2, "minishell: syntax error \
+near unexpected token `|'\n", 50);
+		return (exit_status(2, 0), 0);
+	}
 	else if (token->next == NULL)
-		return (ft_putstr_fd("minishell: syntax error \
-near unexpected token `|'\n", 2), exit_status(2, 0), 0);
+	{
+		write(2, "minishell: syntax error \
+near unexpected token `|'\n", 50);
+		return (exit_status(2, 0), 0);
+	}
 	(*expect_command) = 1;
 	return (1);
 }
