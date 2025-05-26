@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:26 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/26 15:19:55 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:47:44 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ typedef struct s_pid
 
 typedef struct s_name
 {
-	int				name;
+	int				fd;
 	struct s_name	*next;
 }	t_name;
 
@@ -378,5 +378,6 @@ void			sort_env(char ***env, char ***sorted_env);
 int				empty_rl(char *rl);
 void			ft_strcpy_join(char *dst, char *s1, char *s2);
 int				ft_isspace(char *rl);
+void			free_her(t_name **name);
 
 #endif

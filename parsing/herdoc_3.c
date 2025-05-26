@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc_3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 19:26:19 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/25 22:53:49 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/26 17:48:08 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_name	*ft_name_new(int fd)
 	her_name = (t_name *)malloc(sizeof(t_name));
 	if (!her_name)
 		return (NULL);
-	her_name->name = fd;
+	her_name->fd = fd;
 	her_name->next = NULL;
 	return (her_name);
 }

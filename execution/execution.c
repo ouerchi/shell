@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 20:05:13 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/26 15:52:09 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:10:23 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ int	run_single_cmd(t_config *config)
 	t_parse	*cmd;
 
 	cmd = config->cmd;
-	// if (!cmd->cmd_name)
-	// 	return (0);
+	if (!cmd->cmd_name)
+		return (0);
 	if (cmd->builtins)
 	{
 		config->child_flag = 0;
@@ -118,6 +118,8 @@ int	execution(t_config *config)
 	init_process(config);
 	cmd_nmbr = ft_cmd_nmbr(config->cmd);
 	open_files(config->her_name, config->cmd);
+	if (cmd_nmbr == 1 && !config->cmd->cmd_name)
+		return (0);
 	if (cmd_nmbr == 1 && !config->cmd->file_fail)
 		return (run_single_cmd(config));
 	current_cmd = config->cmd;

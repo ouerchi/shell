@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 22:36:44 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/26 15:19:37 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:19:50 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	free_array(char **arr)
 	int	i;
 
 	i = 0;
-	if (!arr || !(*arr))
+	if (!arr)
 		return ;
 	while (arr[i])
 	{

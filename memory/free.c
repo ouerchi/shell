@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:07:25 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/26 15:41:12 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:44:47 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	free_parse(t_parse **cmd)
 
 void	free_utils(t_config *config)
 {
-	if (config->cmd)
-		free_parse(&config->cmd);
+	// if (config->cmd)
+	// 	free_parse(&config->cmd);
 	free_env_lst(config->env_lst);
 	free_array(config->env);
 }
