@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 15:38:47 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/26 17:05:16 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/26 22:06:55 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	check_env(t_config *config)
 {
 	char	*tmp;
-	int		shell_level;
+	size_t	shell_level;
 
 	if (!ft_getenv(config->env, "PATH"))
 		ft_setenv(config, "PATH", \
@@ -26,6 +26,7 @@ void	check_env(t_config *config)
 	{
 		tmp = ft_getenv(config->env, "SHLVL");
 		shell_level = ft_atoi(tmp, false) + 1;
+		update_shlvl(&shell_level);
 		tmp = ft_itoa(shell_level);
 		ft_setenv(config, "SHLVL", tmp);
 	}

@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 16:12:15 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/26 17:14:26 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/27 00:24:33 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,7 @@ t_parse	*ft_parsing(t_token **token, t_config *config)
 char	**ft_check_parse(t_token **check, t_config **config, int *i)
 {
 	char	**arg;
-	
-	if (!count_words_before_pipe(*check))
-		return (NULL);
+
 	arg = (char **)malloc(sizeof(char *) * \
 	(count_words_before_pipe(*check) + 1));
 	if (!arg)

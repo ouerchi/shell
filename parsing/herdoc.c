@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:47:03 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/25 17:42:09 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/27 00:29:15 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,25 +106,23 @@ int	ft_herdoc(t_config *config, t_token *token, int *flag)
 			return (-1);
 		token = token->next;
 	}
-	return ((config->her_name = name), 1);
+	config->her_name = name;
+	return (1);
 }
 
 int	ft_herdoc_3(t_token *token, t_config *config, t_her *her, t_name **name)
 {
-	t_name	*name_new;
-
 	if (token->next && token->type == T_HERDOC
 		&& (token->next->type == T_WORD || token->next->type == T_RED)
 		&& (her->count_per > 0))
 	{
 		if (her->fd != -1)
-			close(her->fd);
+			ft_close(her->fd);
 		if (ft_herdoc_2(token, her, config) == -1)
 			return (ft_free_name_list(*name), -1);
 		if (config->flag_c == -101)
 			return (ft_free_name_list(*name), config->flag_c = 0, -1);
-		name_new = ft_name_new(her->fd_beg);
-		ft_lstadd_back_name(name, name_new);
+		ft_lstadd_back_name(name, ft_name_new(her->fd_beg));
 		her->count_per--;
 	}
 	return (1);
