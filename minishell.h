@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:26 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/26 22:07:06 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/27 16:30:08 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,7 +268,7 @@ void			execute_cmd(t_config *config, t_parse *cmd);
 int				spawn_child_process(t_config *config, t_parse *cmd);
 int				run_builtins(t_config *config, t_parse *cmd);
 int				run_builtins_rest(t_config *config, t_parse *cmd);
-void			check_env(t_config *config);
+void			check_env(t_config *config, char *tmp);
 void			update_env_array(t_config *config);
 void			free_array(char **arr);
 char			**lst_to_array(t_env *env_lst);

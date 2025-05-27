@@ -6,15 +6,14 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 15:38:47 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/26 22:06:55 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/27 16:28:54 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	check_env(t_config *config)
+void	check_env(t_config *config, char *tmp)
 {
-	char	*tmp;
 	size_t	shell_level;
 
 	if (!ft_getenv(config->env, "PATH"))
@@ -37,6 +36,7 @@ void	check_env(t_config *config)
 		tmp = NULL;
 		tmp = getcwd(tmp, 0);
 		ft_setenv(config, "PWD", ft_strdup(tmp));
+		free(tmp);
 	}
 	update_env_array(config);
 }
@@ -99,5 +99,5 @@ void	init_env(t_config *config, char **env)
 	config->env = get_env(env);
 	config->env_lst = NULL;
 	config->env_lst = get_env_lst(config);
-	check_env(config);
+	check_env(config, NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:30:37 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/26 21:41:59 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/27 17:06:05 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ void	error_handling(int flag, char *cmd, char *msg, int i)
 
 int	check_cmd(t_config *config, char *cmd)
 {
+	(void)config;
 	if (access(cmd, F_OK) != 0)
 		return (exit_status(127, 0),
 			error_handling(1, cmd, ": No such file or directory", 127), 1);
 	if (access(cmd, X_OK) != 0)
 		return (exit_status(127, 0),
 			error_handling(1, cmd, ": Permission denied", 126), 1);
-	config->path = ft_strdup(cmd);
 	return (0);
 }
 
@@ -44,13 +44,22 @@ void	get_path(t_config *config, t_parse *cmd)
 		if (is_directory(cmd->cmd_name))
 			return (exit_status(126, 0),
 				error_handling(1, cmd->cmd_name, ": Is a directory", 126));
-		check_cmd(config, cmd->cmd_name);
+	}
+	if (ft_strlen(cmd->cmd_name) && cmd->cmd_name[0] == '.')
+	{
+		if (!check_cmd(config, cmd->cmd_name))
+			execve(cmd->cmd_name, cmd->args, config->env);
+		exit_status(0, 0);
+		exit(exit_status(-1, 1));
 	}
 	config->path = find_path(cmd->cmd_name, config->env);
 	if (config->path)
 		return ;
 	if (!check_cmd(config, cmd->cmd_name))
+	{
+		config->path = ft_strdup(cmd->cmd_name);
 		return ;
+	}
 }
 
 

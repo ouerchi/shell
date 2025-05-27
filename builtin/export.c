@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 18:34:50 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/25 23:56:07 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/27 15:45:29 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	if_no_args(char **args, char **env, int i)
 		if (ft_strchr(sorted_env[i], '='))
 		{
 			do_split_var(&var_array, sorted_env[i]);
-			if (var_array[0][0] == '_')
+			if (!ft_strcmp(var_array[0], "_"))
 			{
 				i++;
 				free_array(var_array);

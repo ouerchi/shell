@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 20:53:32 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/25 22:12:02 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/27 17:31:51 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ not a valid identifier\n"), exit_status(1, 0), 1);
 	if (name[i] == '+' && name[i + 1] != '\0')
 		return (msg_error("minishell: export: `", full, "' : \
 not a valid identifier\n"), exit_status(1, 0), 1);
+	while (full[i])
+	{
+		if (full[i] == '+' && full[i + 1] == '\0')
+			return (msg_error("minishell: export: `", full, "' : \
+not a valid identifier\n"), exit_status(1, 0), 1);
+		i++;
+	}
 	return (0);
 }
 
