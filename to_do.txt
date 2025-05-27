@@ -1,4 +1,0 @@
-if fork() fail, close the pipe's fds
-
-export a+
-

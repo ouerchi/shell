@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:26 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/27 19:34:19 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/27 19:45:42 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -379,5 +379,6 @@ int				empty_rl(char *rl);
 void			ft_strcpy_join(char *dst, char *s1, char *s2);
 int				ft_isspace(char *rl);
 void			update_shlvl(size_t *shlvl);
+int				err_1(int f, char *c, char *m, int i);
 
 #endif

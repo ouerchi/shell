@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:30:37 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/27 19:31:55 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/27 19:45:28 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,17 @@ void	error_handling(int flag, char *cmd, char *msg, int i)
 	write(2, msg, ft_strlen(msg));
 	write(2, "\n", 1);
 	exit(i);
+}
+
+int	err_1(int f, char *c, char *m, int i)
+{
+	if (f == 1)
+		write(2, "minishell: ", 11);
+	write(2, c, ft_strlen(c));
+	write(2, m, ft_strlen(m));
+	write(2, "\n", 1);
+	exit_status(1, 0);
+	return (i);
 }
 
 int	check_cmd(t_config *config, char *cmd)
