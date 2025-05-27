@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:30:37 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/27 17:06:05 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/27 19:31:55 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	get_path(t_config *config, t_parse *cmd)
 {
 	if (ft_strlen(cmd->cmd_name) == 1 && cmd->cmd_name[0] == '.')
 		return (exit_status(2, 0),
-			error_handling(1, cmd->cmd_name, ": filename argument required", 2));
+			error_handling(1, cmd->cmd_name, \
+				": filename argument required", 2));
 	if (ft_strchr(cmd->cmd_name, '/'))
 	{
 		if (is_directory(cmd->cmd_name))
@@ -61,7 +62,6 @@ void	get_path(t_config *config, t_parse *cmd)
 		return ;
 	}
 }
-
 
 void	execute_cmd(t_config *config, t_parse *cmd)
 {

@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 21:29:51 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/26 19:03:25 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/27 19:33:54 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,12 @@ int	run_builtins(t_config *config, t_parse *cmd)
 	return (status);
 }
 
-int	run_builtins_rest_2(t_config *config, t_parse *cmd)
+int	run_builtins_rest_2(t_config *config, t_parse *cmd, int status)
 {
-	int			status;
 	static int	cd_broken;
 	char		*cwd;
 
 	cwd = NULL;
-	status = 0;
 	if (check_cmd_name(cmd->cmd_name) == 5)
 	{
 		if (check_option(cmd->args))
@@ -83,6 +81,8 @@ int	run_builtins_rest_2(t_config *config, t_parse *cmd)
 	}
 	else if (check_cmd_name(cmd->cmd_name) == 4)
 	{
+		if (check_option(cmd->args))
+			return (option_error(cmd->cmd_name, cmd->args[1]), 2);
 		status = ft_cd(cmd->args[1], (config)->env, &cd_broken);
 		cwd = getcwd(NULL, 0);
 		if (status == -1 && !cwd)
@@ -112,6 +112,6 @@ int	run_builtins_rest(t_config *config, t_parse *cmd)
 		status = ft_pwd(config);
 	}
 	else
-		status = run_builtins_rest_2(config, cmd);
+		status = run_builtins_rest_2(config, cmd, 0);
 	return (status);
 }

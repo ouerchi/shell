@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:34:33 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/27 16:22:42 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/27 19:32:29 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ int	redir_in(t_parse *cmd, char *file_name)
 int	redir_out(t_parse *cmd, char *file_name)
 {
 	if (is_directory(file_name))
-		return (exit_status(1, 0), msg_error("minishell: ", file_name, ": Is a directory\n"), 1);
+		return (exit_status(1, 0), \
+			msg_error("minishell: ", file_name, ": Is a directory\n"), 1);
 	safe_close(&cmd->outfile);
 	cmd->outfile = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (cmd->outfile == -1)

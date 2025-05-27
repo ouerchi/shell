@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:26 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/27 16:30:08 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/27 19:34:19 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -365,7 +365,7 @@ void			ft_re_init_her(t_config *config);
 char			*ft_strjoin_2(char *s1, char *s2);
 int				check_option(char **args);
 void			option_error(char *cmd, char *option);
-int				run_builtins_rest_2(t_config *config, t_parse *cmd);
+int				run_builtins_rest_2(t_config *config, t_parse *cmd, int status);
 int				ft_update_pwd(t_config *config);
 void			ft_update_pwd_fail(t_config *config, char *arg);
 void			env_error_arg(char *cmd, char *arg);
