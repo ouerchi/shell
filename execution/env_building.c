@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/26 15:38:47 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/27 16:28:54 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/28 19:49:10 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void	init_env(t_config *config, char **env)
 	config->flag_c = 0;
 	config->isexpanded = 0;
 	config->cmd = NULL;
+	config->her_name = NULL;
 	config->env = get_env(env);
 	config->env_lst = NULL;
 	config->env_lst = get_env_lst(config);

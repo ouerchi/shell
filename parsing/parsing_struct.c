@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 16:12:15 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/27 00:24:33 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:30:05 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ t_parse	*parse_piped_commands(t_token **token_p, t_config *config)
 
 int	validate_pipes(t_token *token, t_config *config, int flag, int exp_command)
 {
-	int		val;
+	int	val;
 
 	while (token)
 	{
