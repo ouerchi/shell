@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 18:44:00 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/17 20:14:16 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/28 08:09:08 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int	has_q(char *del)
 
 int	ft_if_2(t_token *token, t_her *her)
 {
-	if (token->type == T_HERDOC)
+	if (token->type == T_HERDOC
+		&& (token->next->type == T_WORD || token->next->type == T_RED))
 		her->count_per++;
 	if (ft_if(token) == 0)
 		return (0);

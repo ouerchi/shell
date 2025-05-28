@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:47:03 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/27 00:29:15 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/27 21:41:35 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ void	ft_herdoc_4(t_token *token, t_her *her, t_config *config, t_exp *exp)
 		}
 		her->check = ft_expanding_her(her, config, *exp);
 		write(her->fd, her->check, ft_strlen(her->check));
-		free(her->check);
-		free(her->temp);
+		ft_free(her);
 		her->rl_her = readline("> ");
 	}
+	free(her->rl_her);
 	signal(SIGINT, sig_int_handle);
 }
 
@@ -84,6 +84,7 @@ int	ft_herdoc_2(t_token *token, t_her *her, t_config *config)
 	free(her->name);
 	ft_herdoc_4(token, her, config, &exp);
 	her->flag = 0;
+	ft_close(her->fd);
 	return (1);
 }
 
@@ -116,12 +117,11 @@ int	ft_herdoc_3(t_token *token, t_config *config, t_her *her, t_name **name)
 		&& (token->next->type == T_WORD || token->next->type == T_RED)
 		&& (her->count_per > 0))
 	{
-		if (her->fd != -1)
-			ft_close(her->fd);
 		if (ft_herdoc_2(token, her, config) == -1)
 			return (ft_free_name_list(*name), -1);
 		if (config->flag_c == -101)
-			return (ft_free_name_list(*name), config->flag_c = 0, -1);
+			return (ft_close(her->fd_beg), \
+				ft_free_name_list(*name), config->flag_c = 0, -1);
 		ft_lstadd_back_name(name, ft_name_new(her->fd_beg));
 		her->count_per--;
 	}

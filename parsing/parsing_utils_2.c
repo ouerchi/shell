@@ -6,7 +6,7 @@
 /*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:11:21 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/25 16:52:32 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/27 21:42:02 by azaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,11 @@ char	*ft_handle_words_her(char *rl)
 			break ;
 	}
 	return (dec.buff);
+}
+
+void	ft_free(t_her *her)
+{
+	free(her->check);
+	free(her->temp);
+	free(her->rl_her);
 }

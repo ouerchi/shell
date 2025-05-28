@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lst_utils_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 01:18:57 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/17 19:59:35 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/27 22:39:28 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,4 @@ t_token	*ft_lstlast_token(t_token *lst)
 	while (lst->next != NULL)
 		lst = lst->next;
 	return (lst);
-}
-
-int	ft_lstsize_token(t_token *token)
-{
-	int		count;
-	t_token	*head;
-
-	head = token;
-	count = 1;
-	if (!token)
-		return (0);
-	while (head != NULL && head->type == T_WORD)
-	{
-		count++;
-		head = head->next;
-	}
-	return (count);
 }

@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 21:29:51 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/27 19:43:27 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/28 13:39:16 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,15 @@ int	run_builtins(t_config *config, t_parse *cmd)
 	return (status);
 }
 
+static int	ft_check_cd_args(t_parse *cmd)
+{
+	if (check_option(cmd->args))
+		return (option_error(cmd->cmd_name, cmd->args[1]), 2);
+	if (cmd->args[1] && cmd->args[2])
+		return (err_1(1, cmd->cmd_name, ": too many arguments", 1), 1);
+	return (0);
+}
+
 int	run_builtins_rest_2(t_config *config, t_parse *cmd, int status)
 {
 	static int	cd_broken;
@@ -81,10 +90,9 @@ int	run_builtins_rest_2(t_config *config, t_parse *cmd, int status)
 	}
 	else if (check_cmd_name(cmd->cmd_name) == 4)
 	{
-		if (check_option(cmd->args))
-			return (option_error(cmd->cmd_name, cmd->args[1]), 2);
-		if (cmd->args[0] && cmd->args[1])
-			return (err_1(1, cmd->cmd_name, ": too many arguments", 1), 1);
+		status = ft_check_cd_args(cmd);
+		if (status != 0)
+			return (status);
 		status = ft_cd(cmd->args[1], (config)->env, &cd_broken);
 		cwd = getcwd(NULL, 0);
 		if (status == -1 && !cwd)

@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:30:37 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/27 19:45:28 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:34:00 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,34 +37,32 @@ int	check_cmd(t_config *config, char *cmd)
 {
 	(void)config;
 	if (access(cmd, F_OK) != 0)
-		return (exit_status(127, 0),
+		return (exit_status(1, 0),
 			error_handling(1, cmd, ": No such file or directory", 127), 1);
 	if (access(cmd, X_OK) != 0)
-		return (exit_status(127, 0),
+		return (exit_status(1, 0),
 			error_handling(1, cmd, ": Permission denied", 126), 1);
 	return (0);
 }
 
 void	get_path(t_config *config, t_parse *cmd)
 {
-	if (ft_strlen(cmd->cmd_name) == 1 && cmd->cmd_name[0] == '.')
-		return (exit_status(2, 0),
-			error_handling(1, cmd->cmd_name, \
-				": filename argument required", 2));
 	if (ft_strchr(cmd->cmd_name, '/'))
 	{
 		if (is_directory(cmd->cmd_name))
 			return (exit_status(126, 0),
 				error_handling(1, cmd->cmd_name, ": Is a directory", 126));
 	}
-	if (ft_strlen(cmd->cmd_name) && cmd->cmd_name[0] == '.')
+	if (!ft_check_points(config, cmd->cmd_name))
+		return ;
+	config->path = find_path(cmd->cmd_name, config->env);
+	if ((ft_strlen(cmd->cmd_name) && cmd->cmd_name[0] == '.') || !config->path)
 	{
 		if (!check_cmd(config, cmd->cmd_name))
 			execve(cmd->cmd_name, cmd->args, config->env);
 		exit_status(0, 0);
 		exit(exit_status(-1, 1));
 	}
-	config->path = find_path(cmd->cmd_name, config->env);
 	if (config->path)
 		return ;
 	if (!check_cmd(config, cmd->cmd_name))
@@ -78,7 +76,7 @@ void	execute_cmd(t_config *config, t_parse *cmd)
 {
 	get_path(config, cmd);
 	execve(config->path, cmd->args, config->env);
-	error_handling(1, cmd->cmd_name, ": command not found", 2);
+	error_handling(1, cmd->cmd_name, ": command not found", 127);
 	if (config->path)
 		free(config->path);
 	exit_status(127, 0);

@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:20 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/27 19:31:15 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/28 15:35:08 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	minishell_loop(t_config config, t_token *token, char *rl)
 		}
 		ft_free_utils_3(token, rl);
 	}
+	rl_clear_history();
 	free_utils(&config);
 }
 

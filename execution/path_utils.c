@@ -6,19 +6,11 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:10:12 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/26 21:28:44 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/28 15:17:33 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	is_path(char *str)
-{
-	if (!str)
-		return (0);
-	return (str[0] == '/' || (str[0] == '.' && (str[1] == '/'
-				|| str[1] == '.')) || (str[0] == '.' && str[1] == '\0'));
-}
 
 int	is_directory(char *str)
 {
@@ -29,17 +21,6 @@ int	is_directory(char *str)
 	if (stat(str, &st) == -1)
 		return (0);
 	return (S_ISDIR(st.st_mode));
-}
-
-int	is_file(char *str)
-{
-	struct stat	st;
-
-	if (!str)
-		return (0);
-	if (stat(str, &st) == -1)
-		return (0);
-	return (S_ISREG(st.st_mode));
 }
 
 char	*find_path(char *cmd_name, char **env)
@@ -67,4 +48,24 @@ char	*find_path(char *cmd_name, char **env)
 		i++;
 	}
 	return (free_array(paths), cmd_name);
+}
+
+void	ft_ft_close(int out, int in, int save)
+{
+	ft_close(out);
+	ft_close(in);
+	ft_close(save);
+}
+
+int	ft_check_points(t_config *config, char *cmd)
+{
+	if (ft_strlen(cmd) == 1 && cmd[0] == '.')
+		return (exit_status(2, 0),
+			error_handling(1, cmd, \
+				": filename argument required", 2), 2);
+	else if (!ft_strncmp(cmd, "..", 2) && ft_strchr(cmd, '/'))
+		return (check_cmd(config, cmd));
+	else if (!ft_strncmp(cmd, "..", 2))
+		return (0);
+	return (1);
 }

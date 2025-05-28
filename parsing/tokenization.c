@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 21:43:49 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/26 17:04:41 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/28 13:41:03 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_handle_word_2(t_token **lst, t_config *config, t_h_w *h_w)
 {
 	if (h_w->temp[0] != '\0')
 	{
-		h_w->temp_2 = ft_split(h_w->temp, " ");
+		h_w->temp_2 = ft_split(h_w->temp, " \t");
 		while (h_w->temp_2[h_w->j])
 			ft_lstadd_back_token(lst, \
 				ft_token_new(T_WORD, h_w->temp_2[h_w->j++], h_w->buff));

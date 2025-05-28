@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 20:05:13 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/27 19:32:17 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/28 15:38:16 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	redirect_io(t_config *config, t_parse *cmd)
 			perror("dup2");
 		ft_close(cmd->infile);
 	}
-	if (cmd->outfile != -1 && cmd->outfile != STDOUT_FILENO)
+	if (cmd->outfile != -1 && !isatty(cmd->outfile))
 	{
 		if (dup2(cmd->outfile, STDOUT_FILENO) == -1)
 			perror("dup2");
@@ -46,7 +46,7 @@ void	run_child_process(t_config *config, t_parse *cmd)
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (!cmd->cmd_name)
-		exit(0);
+		exit(exit_status(1, 1));
 	redirect_io(config, cmd);
 	if (cmd->file_fail)
 		exit(1);
@@ -66,7 +66,8 @@ int	run_single_cmd(t_config *config)
 
 	cmd = config->cmd;
 	if (!cmd->cmd_name)
-		return (0);
+		return (ft_ft_close(cmd->outfile, cmd->infile, \
+				config->saved_fd), exit_status(1, 1));
 	if (cmd->builtins)
 	{
 		config->child_flag = 0;
@@ -93,13 +94,11 @@ int	spawn_child_process(t_config *config, t_parse *cmd)
 	}
 	pid = fork();
 	if (pid == -1)
-		return (ft_close(config->pipe[1]), \
-			ft_close(config->pipe[0]), perror("fork"), 2);
+		return (perror(""), 101);
 	if (pid == 0)
 		run_child_process(config, cmd);
 	lst_add_back_pid(&config->pids, pid);
-	ft_close(cmd->outfile);
-	ft_close(config->saved_fd);
+	ft_ft_close(cmd->outfile, cmd->infile, config->saved_fd);
 	if (cmd->next)
 	{
 		config->saved_fd = dup(config->pipe[0]);
@@ -119,17 +118,16 @@ int	execution(t_config *config)
 	init_process(config);
 	cmd_nmbr = ft_cmd_nmbr(config->cmd);
 	open_files(config->her_name, config->cmd);
-	if (cmd_nmbr == 1 && !config->cmd->cmd_name)
-		return (0);
 	if (cmd_nmbr == 1 && !config->cmd->file_fail)
 		return (run_single_cmd(config));
 	current_cmd = config->cmd;
 	while (current_cmd && config->cmd_idx < cmd_nmbr)
 	{
-		spawn_child_process(config, current_cmd);
+		if (spawn_child_process(config, current_cmd) == 101)
+			return (free_pids(&config->pids), 2);
 		current_cmd = current_cmd->next;
 		config->cmd_idx++;
 	}
 	parent(config);
-	return (0);
+	return (exit_status(1, 1));
 }

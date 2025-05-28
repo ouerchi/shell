@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 11:27:07 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/25 22:40:34 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/27 22:41:10 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,6 @@ size_t	ft_strlcpy(char *dst, char *src, size_t dstsize)
 	}
 	dst[i] = '\0';
 	return (src_len);
-}
-
-char	*ft_strchr_q(char *s, int c, int c_2)
-{
-	int	i;
-
-	i = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] == (unsigned char)c || s[i] == (unsigned char)c_2)
-			return ((char *)&s[i]);
-		i++;
-	}
-	if ((unsigned char)c == '\0' || (unsigned char)c_2 == '\0')
-		return ((char *)&s[i]);
-	return (NULL);
 }
 
 int	f_strcmp(const char *s1, const char *s2)
