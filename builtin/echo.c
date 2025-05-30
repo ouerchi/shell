@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 08:38:03 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/25 23:10:16 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/29 17:13:52 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,17 @@ int	check_toprint(char *str, int *i)
 static	void	print(char *str, int *i, int *newline)
 {
 	if (!*newline)
-		write(1, str + (*i), ft_strlen(str + (*i)));
+		printf("%s", str + (*i));
 	else
-	{
-		write(1, str + (*i), ft_strlen(str + (*i)));
-		write(1, "\n", 1);
-	}
+		printf("%s\n", str + (*i));
 }
 
 static	void	no_print(int *newline)
 {
 	if (!*newline)
-		write(1, "", 0);
+		printf("%c", '\0');
 	else
-		write(1, "\n", 1);
+		printf("\n");
 }
 
 int	ft_echo(char *str)

@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:26 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/28 18:33:51 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/30 20:20:05 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,7 +309,7 @@ int				check_cmd_name(char *name);
 void			ft_dup(int fd, int redir);
 void			ft_close(int fd);
 void			restore_redir(t_config *config);
-int				open_files(t_name *her_name, t_parse *head_cmd);
+int				open_files(t_name **her_name, t_parse *head_cmd);
 int				open_files_utils(t_name **her_name, t_parse *cmd, \
 	t_files *file);
 void			apply_redir(t_parse *cmd);
@@ -350,9 +350,11 @@ void			ft_strcpy_join(char *dst, char *s1, char *s2);
 int				ft_isspace(char *rl);
 void			update_shlvl(size_t *shlvl);
 int				err_1(int f, char *c, char *m, int i);
-void			ft_free(t_her *her);
+void			ft_free(t_her **her);
 void			ft_ft_close(int out, int in, int save);
 int				ft_check_points(t_config *config, char *cmd);
 int				check_cmd(t_config *config, char *cmd);
+void			close_her(t_name *name);
+char			*handel_one_path(char **path, char *cmd_name);
 
 #endif

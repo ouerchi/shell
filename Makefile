@@ -1,7 +1,7 @@
 CC = cc
 NAME = minishell
 RDF = -lreadline
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -fsanitize=address
 SRC = execution/env_building.c parsing/expanding_utils.c parsing/expanding_utils_2.c \
 	parsing/expanding.c parsing/parsing_struct.c parsing/parsing_utils.c parsing/quotes_handle.c parsing/tokenization.c \
 	utils/ft_char.c utils/ft_itoa.c utils/ft_lst_utils_1.c utils/ft_lst_utils_2.c utils/ft_strlcpy.c utils/ft_strcmp.c \

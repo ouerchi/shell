@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 22:35:50 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/26 17:50:28 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/30 21:15:13 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ int	open_files_utils(t_name **her_name, t_parse *cmd, t_files *file)
 		}
 		else if (*her_name && f_strcmp(file->type, "HERDOC") == 0)
 		{
-			handel_her(cmd, (*her_name)->fd);
 			tmp = (*her_name)->next;
+			handel_her(cmd, (*her_name)->fd);
 			free(*her_name);
 			*her_name = tmp;
 		}
@@ -56,7 +56,7 @@ int	open_files_utils(t_name **her_name, t_parse *cmd, t_files *file)
 	return (0);
 }
 
-int	open_files(t_name *her_name, t_parse *head_cmd)
+int	open_files(t_name **her_name, t_parse *head_cmd)
 {
 	t_parse	*cmd;
 	t_files	*file;
@@ -68,10 +68,41 @@ int	open_files(t_name *her_name, t_parse *head_cmd)
 		cmd->infile = -1;
 		cmd->outfile = -1;
 		file = cmd->file;
-		if (open_files_utils(&her_name, cmd, file) == -1)
+		if (open_files_utils(her_name, cmd, file) == -1)
 			cmd->file_fail = 1;
 		free_files(file);
 		cmd = cmd->next;
 	}
+	*her_name = NULL;
 	return (0);
+}
+
+void	close_her(t_name *name)
+{
+	t_name	*tmp;
+
+	if (!name)
+		return ;
+	while (name)
+	{
+		tmp = name->next;
+		ft_close(name->fd);
+		name = tmp;
+	}
+	name = NULL;
+}
+
+char	*handel_one_path(char **path, char *cmd_name)
+{
+	char	*tmp;
+	char	*cmnd;
+
+	tmp = NULL;
+	cmnd = NULL;
+	tmp = ft_strjoin_2(path[0], "/");
+	cmnd = ft_strjoin(tmp, cmd_name);
+	free(path[0]);
+	free(path); 
+	check_cmd(NULL, cmnd);
+	return (cmnd);
 }

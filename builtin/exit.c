@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 10:27:46 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/25 22:02:50 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/29 17:04:14 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,14 @@ int	ft_exit_utils(char *arg, int child_flag)
 
 int	ft_exit(char **arg, int child_flag)
 {
-	int		exit_status;
+	int		exit_stat;
 	bool	flag;
 
 	if (!arg[1])
 	{
 		if (child_flag == 0)
 			write(2, "exit\n", 5);
-		exit(0);
+		exit(exit_status(-1, 1));
 	}
 	if (ft_exit_utils(arg[1], child_flag) == 2)
 		exit(2);
@@ -71,9 +71,9 @@ int	ft_exit(char **arg, int child_flag)
 			ft_strlen("minishell: exit: too many arguments\n"));
 		return (1);
 	}
-	exit_status = ft_atoi(arg[1], &flag);
-	exit_status %= 256;
+	exit_stat = ft_atoi(arg[1], &flag);
+	exit_stat %= 256;
 	if (child_flag == 0)
 		write(2, "exit\n", 5);
-	exit(exit_status);
+	exit(exit_stat);
 }

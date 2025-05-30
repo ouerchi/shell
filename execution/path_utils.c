@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 17:10:12 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/28 15:17:33 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/30 20:23:14 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,16 @@ char	*find_path(char *cmd_name, char **env)
 	paths = ft_split(path, ":");
 	if (!paths || !*paths)
 		return (NULL);
-	i = 0;
-	while (paths[i])
+	if (!paths[1])
+		return (handel_one_path(paths, cmd_name));
+	i = -1;
+	while (paths[++i])
 	{
 		dir = ft_strjoin_2(paths[i], "/");
 		cmd_path = ft_strjoin(dir, cmd_name);
 		if (!access(cmd_path, F_OK | X_OK))
 			return (free_array(paths), cmd_path);
 		free(cmd_path);
-		i++;
 	}
 	return (free_array(paths), cmd_name);
 }

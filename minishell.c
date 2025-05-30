@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:55:20 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/28 18:35:08 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:49:42 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,11 @@ int	ft_break(t_token *token, t_config *config)
 	else if (val == 1)
 		ft_state_loop(token, config);
 	else if (val == 0 && config->her_name)
+	{
+		close_her(config->her_name);
 		ft_free_name_list(config->her_name);
+		config->her_name = NULL;
+	}
 	return (1);
 }
 
@@ -50,7 +54,7 @@ int	ft_continue(char *rl)
 	{
 		write(2, "minishell: Syntax error: Unclosed quotes\n", 41);
 		exit_status(2, 0);
-		return (0);
+		return (free(rl), 0);
 	}
 	return (1);
 }

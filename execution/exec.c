@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 20:30:37 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/28 16:34:00 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/30 21:17:07 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	check_cmd(t_config *config, char *cmd)
 	(void)config;
 	if (access(cmd, F_OK) != 0)
 		return (exit_status(1, 0),
-			error_handling(1, cmd, ": No such file or directory", 127), 1);
+			error_handling(1, cmd, ": No such file or directory", 2), 1);
 	if (access(cmd, X_OK) != 0)
 		return (exit_status(1, 0),
 			error_handling(1, cmd, ": Permission denied", 126), 1);

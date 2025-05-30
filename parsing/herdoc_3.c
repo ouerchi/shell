@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 19:26:19 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/26 17:48:08 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/30 19:48:21 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,15 @@ void	ft_free_name_list(t_name *name)
 {
 	t_name	*tmp;
 
+	if (!name)
+		return ;
 	while (name)
 	{
-		tmp = name;
-		name = name->next;
-		free(tmp);
+		tmp = name->next;
+		free(name);
+		name = tmp;
 	}
+	name = NULL;
 }
 
 int	extra_her(t_token *token, t_her *her)

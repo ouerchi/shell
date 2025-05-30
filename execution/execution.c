@@ -6,7 +6,7 @@
 /*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 20:05:13 by mouerchi          #+#    #+#             */
-/*   Updated: 2025/05/28 19:49:28 by mouerchi         ###   ########.fr       */
+/*   Updated: 2025/05/30 19:07:38 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ void	run_child_process(t_config *config, t_parse *cmd)
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (!cmd->cmd_name)
+	{
+		ft_ft_close(cmd->outfile, cmd->infile, config->saved_fd);
 		exit(exit_status(1, 1));
+	}
 	redirect_io(config, cmd);
 	if (cmd->file_fail)
 		exit(1);
@@ -118,7 +121,7 @@ int	execution(t_config *config)
 
 	init_process(config);
 	cmd_nmbr = ft_cmd_nmbr(config->cmd);
-	open_files(config->her_name, config->cmd);
+	open_files(&config->her_name, config->cmd);
 	if (cmd_nmbr == 1 && !config->cmd->file_fail)
 		return (run_single_cmd(config));
 	current_cmd = config->cmd;

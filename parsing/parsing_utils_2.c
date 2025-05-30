@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaimi <azaimi@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mouerchi <mouerchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:11:21 by azaimi            #+#    #+#             */
-/*   Updated: 2025/05/27 21:42:02 by azaimi           ###   ########.fr       */
+/*   Updated: 2025/05/30 19:46:02 by mouerchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ char	*ft_handle_words_her(char *rl)
 	return (dec.buff);
 }
 
-void	ft_free(t_her *her)
+void	ft_free(t_her **her)
 {
-	free(her->check);
-	free(her->temp);
-	free(her->rl_her);
+	free((*her)->check);
+	free((*her)->temp);
+	free((*her)->rl_her);
 }
