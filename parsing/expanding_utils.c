@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-char	*ft_queen(char *buff, t_config *config, t_exp exp, t_q q)
+char	*expand_variables(char *buff, t_config *config, t_exp exp, t_q q)
 {
 	exp.count = ft_calc_dol(buff, 0) % 2;
 	if (has_q(buff) == 1 && exp.count == 1 && !has_doll_2(buff))
@@ -29,11 +29,11 @@ char	*ft_queen(char *buff, t_config *config, t_exp exp, t_q q)
 			exp.j += 2;
 			exp.res = ft_strjoin_free(exp.res, ft_itoa(exit_status(-1, 1)));
 		}
-		else if (func_7(buff, &q, &exp))
+		else if (is_dollar_before_quote(buff, &q, &exp))
 			exp.j++;
 		else if (buff[exp.j] == '$' && buff[exp.j + 1] == '\0')
 			exp.res = ft_strjoin_char(exp.res, buff[exp.j++]);
-		else if (func_6(buff, &q, &exp))
+		else if (can_expand_variable(buff, &q, &exp))
 			exp.res = third(buff, config, exp, &exp.j);
 		else
 			exp.res = ft_strjoin_char(exp.res, buff[exp.j++]);

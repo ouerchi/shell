@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	func_1(t_token *token, t_config *config, int *flag)
+int	validate_heredoc(t_token *token, t_config *config, int *flag)
 {
 	int	val;
 
@@ -24,7 +24,7 @@ int	func_1(t_token *token, t_config *config, int *flag)
 	return (1);
 }
 
-int	func_2(t_token *token)
+int	check_next_token_validity(t_token *token)
 {
 	t_token	*next_token;
 
@@ -53,7 +53,7 @@ near unexpected token `|'\n", 50);
 	return (1);
 }
 
-int	func_3(t_token *token, int *expect_command)
+int	check_pipe_position(t_token *token, int *expect_command)
 {
 	if ((*expect_command))
 	{
@@ -71,7 +71,7 @@ near unexpected token `|'\n", 50);
 	return (1);
 }
 
-int	func_4(t_token *token, int *flag)
+int	is_heredoc_sequence(t_token *token, int *flag)
 {
 	if (token->next && token->type == T_HERDOC
 		&& (token->next->type == T_WORD || token->next->type == T_RED)
@@ -80,7 +80,7 @@ int	func_4(t_token *token, int *flag)
 	return (0);
 }
 
-int	func_5(t_token *token)
+int	is_redirection(t_token *token)
 {
 	if (token->type == T_REDIR_IN || token->type == T_REDIR_OUT
 		|| token->type == T_APPEND || token->type == T_HERDOC)

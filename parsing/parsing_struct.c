@@ -107,20 +107,20 @@ int	validate_pipes(t_token *token, t_config *config, int flag, int exp_command)
 
 	while (token)
 	{
-		if (func_4(token, &flag) == 1)
+		if (is_heredoc_sequence(token, &flag) == 1)
 		{
-			val = func_1(token, config, &flag);
+			val = validate_heredoc(token, config, &flag);
 			if (val == -1 || val == -2)
 				return (val);
 		}
-		if (func_5(token) == 1)
+		if (is_redirection(token) == 1)
 		{
-			if (func_2(token) == 0)
+			if (check_next_token_validity(token) == 0)
 				return (0);
 		}
 		else if (token->type == T_PIPE)
 		{
-			if (func_3(token, &exp_command) == 0)
+			if (check_pipe_position(token, &exp_command) == 0)
 				return (0);
 		}
 		else

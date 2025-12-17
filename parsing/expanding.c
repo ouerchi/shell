@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	func_6(char *buff, t_q *q, t_exp *exp)
+int	can_expand_variable(char *buff, t_q *q, t_exp *exp)
 {
 	if (buff[exp->j] == '$' && buff[exp->j + 1] != '\''
 		&& buff[exp->j + 1] != '"' && q->single_q == 0
@@ -22,7 +22,7 @@ int	func_6(char *buff, t_q *q, t_exp *exp)
 	return (0);
 }
 
-int	func_7(char *buff, t_q *q, t_exp *exp)
+int	is_dollar_before_quote(char *buff, t_q *q, t_exp *exp)
 {
 	if (buff[exp->j] == '$' && (buff[exp->j + 1] == '\''
 			|| buff[exp->j + 1] == '"') && q->single_q == 0
@@ -42,7 +42,7 @@ char	*ft_word(char *buff, t_config *config, int *flag)
 	{
 		(*flag) = 1;
 		init_queen(&exp, &quotes);
-		dup = ft_queen(buff, config, exp, quotes);
+		dup = expand_variables(buff, config, exp, quotes);
 		config->isexpanded = 1;
 	}
 	else
